@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace DMTP.REST.Controllers
@@ -15,29 +17,25 @@ namespace DMTP.REST.Controllers
         [HttpGet]
         public Jobs GetWork(string hostName)
         {
-            var jobs = Database.GetJobs().Where(a => !a.Completed).ToList();
+            var job = Database.GetJobs()
+                .FirstOrDefault(a => !a.Completed && (a.AssignedHost == hostName || a.AssignedHost == Constants.UNASSIGNED_JOB));
 
-            var assignedJob = jobs.FirstOrDefault(a => a.AssignedHost == hostName);
-
-            if (assignedJob != null)
+            if (job != null && job.AssignedHost == hostName)
             {
-                return assignedJob;
+                return job;
             }
 
-            var unassignedJob = jobs.FirstOrDefault(a => a.AssignedHost == Constants.UNASSIGNED_JOB);
-
-            // No jobs available
-            if (unassignedJob == null)
+            if (job == null || job.AssignedHost != Constants.UNASSIGNED_JOB)
             {
                 return null;
             }
 
             // Assign the first unassigned job to the hostName
-            unassignedJob.AssignedHost = hostName;
+            job.AssignedHost = hostName;
 
-            Database.UpdateJob(unassignedJob);
+            Database.UpdateJob(job);
 
-            return unassignedJob;
+            return job;
         }
 
         [HttpPost]

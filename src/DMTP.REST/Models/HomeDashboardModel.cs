@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+
 using DMTP.lib.Databases.Tables;
+
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DMTP.REST.Models

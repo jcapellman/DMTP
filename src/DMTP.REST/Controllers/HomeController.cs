@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
+
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Enums;
+
 using DMTP.REST.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
