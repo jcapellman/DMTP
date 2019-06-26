@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.ML.Base;
+
 using LiteDB;
+
 using Newtonsoft.Json;
 
 namespace DMTP.lib.Databases
@@ -115,6 +120,55 @@ namespace DMTP.lib.Databases
             using (var db = new LiteDatabase(DbFilename))
             {
                 db.GetCollection<PendingSubmissions>().Delete(a => a.ID == id);
+            }
+        }
+
+        public List<string> GetUploadedAssembliesList()
+        {
+            using (var db = new LiteDatabase(DbFilename))
+            {
+                return db.GetCollection<Assemblies>().FindAll().Select(a => a.Name).ToList();
+            }
+        }
+
+        public bool UploadAssembly(byte[] assemblyBytes)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var assembly = Assembly.Load(assemblyBytes);
+
+                    if (assembly == null)
+                    {
+                        return false;
+                    }
+
+                    var baseExtractorType = assembly.DefinedTypes.FirstOrDefault(a => a.BaseType == typeof(BasePrediction));
+
+                    if (baseExtractorType == null)
+                    {
+                        return false;
+                    }
+
+                    var baseExtractor = (BasePrediction)Activator.CreateInstance(baseExtractorType);
+
+                    var item = new Assemblies
+                    {
+                        Name = baseExtractor.MODEL_NAME,
+                        Data = assemblyBytes
+                    };
+
+                    db.GetCollection<Assemblies>().Insert(item);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO Log
+
+                return false;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using DMTP.lib.Databases.Tables;
 
 namespace DMTP.lib.Databases.Base
@@ -27,5 +28,9 @@ namespace DMTP.lib.Databases.Base
         void AddOfflineSubmission(Jobs jobs);
 
         void RemoveOfflineSubmission(Guid id);
+
+        List<string> GetUploadedAssembliesList();
+
+        bool UploadAssembly(byte[] assemblyBytes);
     }
 }
