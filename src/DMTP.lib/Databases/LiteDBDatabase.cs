@@ -10,11 +10,14 @@ using DMTP.lib.ML.Base;
 using LiteDB;
 
 using Newtonsoft.Json;
+using Logger = NLog.Logger;
 
 namespace DMTP.lib.Databases
 {
     public class LiteDBDatabase : IDatabase
     {
+        private Logger Log = NLog.LogManager.GetCurrentClassLogger();
+
         private const string DbFilename = "data.db";
 
         public bool DeleteJob(Guid id)
@@ -137,18 +140,23 @@ namespace DMTP.lib.Databases
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
+                    if (assemblyBytes == null)
+                    {
+                        throw new ArgumentNullException(nameof(assemblyBytes));
+                    }
+
                     var assembly = Assembly.Load(assemblyBytes);
 
                     if (assembly == null)
                     {
-                        return false;
+                        throw new ArgumentException("File uploaded is not a valid DLL");
                     }
 
                     var baseExtractorType = assembly.DefinedTypes.FirstOrDefault(a => a.BaseType == typeof(BasePrediction));
 
                     if (baseExtractorType == null)
                     {
-                        return false;
+                        throw new ArgumentException("File was a valid DLL, but was not compiled properly");
                     }
 
                     var baseExtractor = (BasePrediction)Activator.CreateInstance(baseExtractorType);
@@ -166,7 +174,7 @@ namespace DMTP.lib.Databases
             }
             catch (Exception ex)
             {
-                // TODO Log
+                Log.Error(ex, $"Failure to upload assembly {ex.StackTrace}");
 
                 return false;
             }
