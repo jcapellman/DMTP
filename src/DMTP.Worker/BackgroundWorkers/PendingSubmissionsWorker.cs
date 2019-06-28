@@ -1,11 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+
 using DMTP.lib.Databases;
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Handlers;
+
 using DMTP.Worker.Common;
+
 using Newtonsoft.Json;
+
 using NLog;
 
 namespace DMTP.Worker.BackgroundWorkers

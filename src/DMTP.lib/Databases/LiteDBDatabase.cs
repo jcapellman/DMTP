@@ -22,9 +22,18 @@ namespace DMTP.lib.Databases
 
         public bool DeleteJob(Guid id)
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                return db.GetCollection<Jobs>().Delete(a => a.ID == id) > 0;
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Jobs>().Delete(a => a.ID == id) > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to Delete Job ({id})");
+
+                return false;
             }
         }
 

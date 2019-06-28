@@ -1,14 +1,17 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Handlers;
 using DMTP.Worker.Common;
 
+using NLog;
+
 namespace DMTP.Worker.BackgroundWorkers
 {
     public class CheckinWorker
     {
+        private readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         private BackgroundWorker _bwCheckin;
 
         private Hosts _host;
@@ -18,6 +21,7 @@ namespace DMTP.Worker.BackgroundWorkers
         public CheckinWorker()
         {
             _bwCheckin = new BackgroundWorker();
+
             _bwCheckin.DoWork += BwCheckin_DoWork;
             _bwCheckin.RunWorkerCompleted += BwCheckin_RunWorkerCompleted;            
         }
@@ -44,12 +48,14 @@ namespace DMTP.Worker.BackgroundWorkers
             // Call to checkin with the server
             var checkinResult = await hostHandler.AddUpdateHostAsync(_host);
 
-            if (!checkinResult)
+            if (checkinResult)
             {
-                Console.WriteLine($"Failed to check in with {_serverURL}");
-
-                System.Threading.Thread.Sleep(Constants.LOOP_ERROR_INTERVAL_MS);
+                return;
             }
+
+            Log.Error($"Failed to check in with {_serverURL}");;
+
+            System.Threading.Thread.Sleep(Constants.LOOP_ERROR_INTERVAL_MS);
         }
     }
 }
