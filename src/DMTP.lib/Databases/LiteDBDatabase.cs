@@ -31,7 +31,7 @@ namespace DMTP.lib.Databases
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to Delete Job ({id})");
+                Log.Error($"Failed to Delete Job ({id}) due to {ex}");
 
                 return false;
             }
@@ -39,17 +39,35 @@ namespace DMTP.lib.Databases
 
         public bool AddJob(Jobs item)
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                return db.GetCollection<Jobs>().Insert(item) != null;
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Jobs>().Insert(item) != null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to Add Job ({item}) due to {ex}");
+
+                return false;
             }
         }
 
         public bool UpdateJob(Jobs item)
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                return db.GetCollection<Jobs>().Update(item);
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Jobs>().Update(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to Update Job ({item}) due to {ex}");
+
+                return false;
             }
         }
 
@@ -91,25 +109,50 @@ namespace DMTP.lib.Databases
 
         public void DeleteHost(Guid id)
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                db.GetCollection<Hosts>().Delete(a => a.ID == id);
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    db.GetCollection<Hosts>().Delete(a => a.ID == id);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to Delete Host {id} due to {ex}");
             }
         }
 
         public List<Hosts> GetHosts()
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                return db.GetCollection<Hosts>().FindAll().ToList();
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Hosts>().FindAll().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to Get Hosts due to {ex}");
+
+                return null;
             }
         }
 
         public List<PendingSubmissions> GetPendingSubmissions()
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                return db.GetCollection<PendingSubmissions>().FindAll().ToList();
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<PendingSubmissions>().FindAll().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to Get Pending Submissions due to {ex}");
+
+                return null;
             }
         }
 
