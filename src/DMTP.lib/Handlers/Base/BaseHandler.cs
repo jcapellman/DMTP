@@ -2,12 +2,17 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+
 using Newtonsoft.Json;
+
+using NLog;
 
 namespace DMTP.lib.Handlers.Base
 {
     public class BaseHandler
     {
+        private readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         private readonly string _rootURL;
 
         protected BaseHandler(string rootURL)
@@ -27,12 +32,14 @@ namespace DMTP.lib.Handlers.Base
 
                     var responseBody = await response.Content.ReadAsStringAsync();
 
+                    Log.Debug($"Url: {url} | Response: {responseBody}");
+
                     return response.IsSuccessStatusCode ? JsonConvert.DeserializeObject<T>(responseBody) : default;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Log.Error(ex, $"Failed to get {url} due to {ex}");
 
                 return default;
             }
@@ -54,12 +61,14 @@ namespace DMTP.lib.Handlers.Base
 
                     var responseBody = await response.Content.ReadAsStringAsync();
 
+                    Log.Debug($"Url: {url} | Response: {responseBody}");
+
                     return response.IsSuccessStatusCode;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Log.Error(ex, $"Failed to POST to {url} due to {ex}");
 
                 return false;
             }
