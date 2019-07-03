@@ -1,11 +1,11 @@
 ﻿using System;
 
+using DMTP.lib.Databases.Tables.Base;
+
 namespace DMTP.lib.Databases.Tables
 {
-    public class Jobs
+    public class Jobs : BaseTable
     {
-        public Guid ID { get; set; }
-
         public string AssignedHost { get; set; }
 
         public string Name { get; set; }

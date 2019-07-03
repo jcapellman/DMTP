@@ -1,11 +1,9 @@
-﻿using System;
+﻿using DMTP.lib.Databases.Tables.Base;
 
 namespace DMTP.lib.Databases.Tables
 {
-    public class PendingSubmissions
+    public class PendingSubmissions : BaseTable
     {
-        public Guid ID { get; set; }
-
         public string JobJSON { get; set; }
     }
 }

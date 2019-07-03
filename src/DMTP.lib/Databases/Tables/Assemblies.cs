@@ -1,8 +1,10 @@
 ﻿using System;
 
+using DMTP.lib.Databases.Tables.Base;
+
 namespace DMTP.lib.Databases.Tables
 {
-    public class Assemblies
+    public class Assemblies : BaseTable
     {
         public Guid ID { get; set; }
 

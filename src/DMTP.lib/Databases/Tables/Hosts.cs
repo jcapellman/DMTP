@@ -1,11 +1,11 @@
 ﻿using System;
 
+using DMTP.lib.Databases.Tables.Base;
+
 namespace DMTP.lib.Databases.Tables
 {
-    public class Hosts
+    public class Hosts : BaseTable
     {
-        public Guid ID { get; set; }
-
         public string Name { get; set; }
 
         public int NumCores { get; set; }
