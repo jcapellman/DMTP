@@ -17,6 +17,11 @@ namespace DMTP.lib.Handlers.Base
 
         protected BaseHandler(string rootURL)
         {
+            if (string.IsNullOrEmpty(rootURL))
+            {
+                throw new ArgumentNullException(nameof(rootURL));
+            }
+
             _rootURL = rootURL;
         }
 

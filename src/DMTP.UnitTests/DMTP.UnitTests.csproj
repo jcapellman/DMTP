@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DMTP.lib\DMTP.lib.csproj" />
+    <ProjectReference Include="..\DMTP.REST\DMTP.REST.csproj" />
+    <ProjectReference Include="..\DMTP.Uploader\DMTP.Uploader.csproj" />
+    <ProjectReference Include="..\DMTP.Worker\DMTP.Worker.csproj" />
+  </ItemGroup>
+
+</Project>

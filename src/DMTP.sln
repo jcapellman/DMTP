@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMTP.Uploader", "DMTP.Uploa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMTP.Worker", "DMTP.Worker\DMTP.Worker.csproj", "{99C8C282-0741-441F-A729-ABC3C737BF5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMTP.UnitTests", "DMTP.UnitTests\DMTP.UnitTests.csproj", "{FB0E0232-18B2-4980-94F2-9570AF34AF5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{99C8C282-0741-441F-A729-ABC3C737BF5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99C8C282-0741-441F-A729-ABC3C737BF5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99C8C282-0741-441F-A729-ABC3C737BF5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB0E0232-18B2-4980-94F2-9570AF34AF5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB0E0232-18B2-4980-94F2-9570AF34AF5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB0E0232-18B2-4980-94F2-9570AF34AF5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB0E0232-18B2-4980-94F2-9570AF34AF5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
