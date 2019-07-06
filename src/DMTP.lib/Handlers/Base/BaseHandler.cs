@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,13 @@ namespace DMTP.lib.Handlers.Base
             _rootURL = rootURL;
         }
 
+        private static HttpClientHandler GetHttpClientHandler() => new HttpClientHandler { DefaultProxyCredentials = CredentialCache.DefaultCredentials };
+
         protected async Task<T> GetAsync<T>(string url)
         {
             try
             {
-                using (var httpClient = new HttpClient())
+                using (var httpClient = new HttpClient(GetHttpClientHandler()))
                 {
                     httpClient.BaseAddress = new Uri(_rootURL);
 
@@ -59,7 +62,7 @@ namespace DMTP.lib.Handlers.Base
 
             try
             {
-                using (var httpClient = new HttpClient())
+                using (var httpClient = new HttpClient(GetHttpClientHandler()))
                 {
                     httpClient.BaseAddress = new Uri(_rootURL);
 

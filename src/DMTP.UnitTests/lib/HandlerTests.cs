@@ -10,6 +10,8 @@ namespace DMTP.UnitTests.lib
     [TestClass]
     public class HandlerTests
     {
+        private const string TEST_VALID_URL = "http://165.22.8.132/api/";
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void HostsHandler_Null()
@@ -28,7 +30,7 @@ namespace DMTP.UnitTests.lib
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task HostsHandler_NullAddUpdateHostAsync()
         {
-            var hHandler = new HostsHandler("none");
+            var hHandler = new HostsHandler(TEST_VALID_URL);
 
             await hHandler.AddUpdateHostAsync(null);
         }
@@ -36,7 +38,7 @@ namespace DMTP.UnitTests.lib
         [TestMethod]
         public async Task HostsHandler_DefaultAddUpdateHostAsync()
         {
-            var hHandler = new HostsHandler("none");
+            var hHandler = new HostsHandler(TEST_VALID_URL);
 
             await hHandler.AddUpdateHostAsync(new DMTP.lib.Databases.Tables.Hosts());
         }
