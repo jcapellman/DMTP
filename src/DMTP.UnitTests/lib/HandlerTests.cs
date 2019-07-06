@@ -45,14 +45,14 @@ namespace DMTP.UnitTests.lib
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public async Task JobHandler_Null()
+        public void JobHandler_Null()
         {
             var jHandler = new JobHandler(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public async Task WorkerHandler_Null()
+        public void WorkerHandler_Null()
         {
             var wHandler = new WorkerHandler(null);
         }
