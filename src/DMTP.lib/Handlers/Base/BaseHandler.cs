@@ -52,6 +52,11 @@ namespace DMTP.lib.Handlers.Base
 
         protected async Task<bool> PostAsync<T>(string url, T data)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             try
             {
                 using (var httpClient = new HttpClient())
