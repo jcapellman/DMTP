@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 using DMTP.lib.Databases.Tables.Base;
 
@@ -8,10 +9,13 @@ namespace DMTP.lib.Databases.Tables
     {
         public string AssignedHost { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string TrainingDataPath { get; set; }
 
+        [Required]
         public string ModelType { get; set; }
 
         public DateTime SubmissionTime { get; set; }
