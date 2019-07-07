@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
@@ -39,6 +40,16 @@ namespace DMTP.lib.Databases
 
         public bool AddJob(Jobs item)
         {
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
+            if (!item.IsValid())
+            {
+                throw new ValidationException("Not all required fields are set");
+            }
+
             try
             {
                 using (var db = new LiteDatabase(DbFilename))
@@ -56,6 +67,16 @@ namespace DMTP.lib.Databases
 
         public bool UpdateJob(Jobs item)
         {
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
+            if (!item.IsValid())
+            {
+                throw new ValidationException("Not all required fields are set");
+            }
+
             try
             {
                 using (var db = new LiteDatabase(DbFilename))
@@ -89,6 +110,16 @@ namespace DMTP.lib.Databases
 
         public void AddUpdateHost(Hosts host)
         {
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            if (!host.IsValid())
+            {
+                throw new ValidationException("Not all required fields are set");
+            }
+
             using (var db = new LiteDatabase(DbFilename))
             {
                 host.LastConnected = DateTime.Now;
