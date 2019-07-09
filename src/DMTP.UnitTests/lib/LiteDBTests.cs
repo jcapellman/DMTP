@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 using DMTP.lib.Databases;
 using DMTP.lib.Databases.Tables;
@@ -27,6 +28,21 @@ namespace DMTP.UnitTests.lib
             var liteDb = new LiteDBDatabase();
 
             liteDb.AddJob(new Jobs());
+        }
+
+        [TestMethod]
+        public void AddJob_Valid()
+        {
+            var liteDb = new LiteDBDatabase();
+
+            var job = new Jobs
+            {
+                Name = DateTime.Now.ToLongDateString(),
+                ModelType = "Testing",
+                TrainingDataPath = Path.GetRandomFileName()
+            };
+
+            liteDb.AddJob(job);
         }
 
         [TestMethod]
