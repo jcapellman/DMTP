@@ -85,9 +85,9 @@ namespace DMTP.lib.ML
 
         public ClassifierResponseItem(byte[] data, string fileName, bool useFileName = false)
         {
-            Data = data;
+            Data = data ?? throw new ArgumentNullException(nameof(data));
 
-            FileName = fileName;
+            FileName = fileName ?? throw new ArgumentNullException(nameof(FileName));
 
             SizeInBytes = data.Length;
 
