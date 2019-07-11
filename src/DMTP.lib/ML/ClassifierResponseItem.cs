@@ -89,6 +89,11 @@ namespace DMTP.lib.ML
 
             FileName = fileName ?? throw new ArgumentNullException(nameof(FileName));
 
+            if (Data.Length == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(data));
+            }
+
             SizeInBytes = data.Length;
 
             SHA1Hash = data.ToSHA1();

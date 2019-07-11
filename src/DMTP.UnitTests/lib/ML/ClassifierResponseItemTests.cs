@@ -15,5 +15,12 @@ namespace DMTP.UnitTests.lib.ML
         {
             var response = new ClassifierResponseItem(null, null);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void EmptyBytes()
+        {
+            var response = new ClassifierResponseItem(new byte[], "fakeness");
+        }
     }
 }
