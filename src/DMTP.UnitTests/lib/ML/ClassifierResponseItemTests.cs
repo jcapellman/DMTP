@@ -20,7 +20,7 @@ namespace DMTP.UnitTests.lib.ML
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void EmptyBytes()
         {
-            var response = new ClassifierResponseItem(new byte[], "fakeness");
+            var response = new ClassifierResponseItem(new byte[0], "fakeness");
         }
     }
 }

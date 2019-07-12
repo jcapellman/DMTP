@@ -94,17 +94,33 @@ namespace DMTP.lib.Databases
 
         public Jobs GetJob(Guid id)
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                return db.GetCollection<Jobs>().FindOne(a => a.ID == id);
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Jobs>().FindOne(a => a.ID == id);
+                }
+            } catch (Exception ex)
+            {
+                Log.Error($"Failed to obtain Job from {id} due to: {ex}");
+
+                return null;
             }
         }
 
         public List<Jobs> GetJobs()
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                return db.GetCollection<Jobs>().FindAll().ToList();
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Jobs>().FindAll().ToList();
+                }
+            } catch (Exception ex)
+            {
+                Log.Error($"Failed to obtain jobs due to {ex}");
+
+                return null;
             }
         }
 
@@ -120,21 +136,28 @@ namespace DMTP.lib.Databases
                 throw new ValidationException("Not all required fields are set");
             }
 
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                host.LastConnected = DateTime.Now;
-
-                var dbHost = db.GetCollection<Hosts>().FindOne(a => a.Name == host.Name);
-
-                if (dbHost == null)
+                using (var db = new LiteDatabase(DbFilename))
                 {
-                    db.GetCollection<Hosts>().Insert(host);
-                } else
-                {
-                    host.ID = dbHost.ID;
+                    host.LastConnected = DateTime.Now;
 
-                    db.GetCollection<Hosts>().Update(host);
+                    var dbHost = db.GetCollection<Hosts>().FindOne(a => a.Name == host.Name);
+
+                    if (dbHost == null)
+                    {
+                        db.GetCollection<Hosts>().Insert(host);
+                    }
+                    else
+                    {
+                        host.ID = dbHost.ID;
+
+                        db.GetCollection<Hosts>().Update(host);
+                    }
                 }
+            } catch (Exception ex)
+            {
+                Log.Error($"Failed to Add or Update Host {host} due to {ex}");
             }
         }
 
@@ -189,15 +212,21 @@ namespace DMTP.lib.Databases
 
         public void AddOfflineSubmission(Jobs job)
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                var pendingSubmission = new PendingSubmissions
+                using (var db = new LiteDatabase(DbFilename))
                 {
-                    ID = job.ID,
-                    JobJSON = JsonConvert.SerializeObject(job)
-                };
+                    var pendingSubmission = new PendingSubmissions
+                    {
+                        ID = job.ID,
+                        JobJSON = JsonConvert.SerializeObject(job)
+                    };
 
-                db.GetCollection<PendingSubmissions>().Insert(pendingSubmission);
+                    db.GetCollection<PendingSubmissions>().Insert(pendingSubmission);
+                }
+            } catch (Exception ex)
+            {
+                Log.Error($"Failed to Add Offline Submission {job} due to {ex}");
             }
         }
 
