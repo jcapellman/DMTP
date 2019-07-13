@@ -18,12 +18,17 @@ namespace DMTP.REST.Controllers
             Database = database;
         }
 
-        protected Guid SaveJob(Jobs job)
+        protected Guid? SaveJob(Jobs job)
         {
             job.ID = Guid.NewGuid();
             job.SubmissionTime = DateTime.Now;
 
             var hosts = Database.GetHosts();
+
+            if (hosts == null)
+            {
+                return null;
+            }
 
             if (hosts.Any())
             {
@@ -51,9 +56,12 @@ namespace DMTP.REST.Controllers
                 job.AssignedHost = Constants.UNASSIGNED_JOB;
             }
 
-            Database.AddJob(job);
+            if (Database.AddJob(job))
+            {
+                return job.ID;
+            }
 
-            return job.ID;
+            return null;
         }
     }
 }
