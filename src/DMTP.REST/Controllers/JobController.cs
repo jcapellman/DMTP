@@ -24,7 +24,7 @@ namespace DMTP.REST.Controllers
         public bool Put(Jobs item) => Database.UpdateJob(item);
 
         [HttpPost]
-        public Guid Post([FromBody]Jobs item) => SaveJob(item);
+        public Guid? Post([FromBody]Jobs item) => SaveJob(item);
 
         [HttpDelete("{id}")]
         public void Delete(Guid id)

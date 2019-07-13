@@ -1,12 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+
 using DMTP.lib.Databases;
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Enums;
 using DMTP.lib.Handlers;
+using DMTP.lib.ML.Base;
 using DMTP.lib.Options;
 using DMTP.Worker.Common;
+
 using NLog;
 
 namespace DMTP.Worker.BackgroundWorkers
@@ -17,21 +22,21 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private Hosts _host;
 
-        private string _serverURL;
+        private string _serverUrl;
 
-        public async Task<bool> Run(Hosts host, string serverURL)
+        public async Task<bool> Run(Hosts host, string serverUrl)
         {
             _host = host;
 
-            _serverURL = serverURL;
+            _serverUrl = serverUrl;
 
-            var workerHandler = new WorkerHandler(_serverURL);
+            var workerHandler = new WorkerHandler(_serverUrl);
 
             var work = await workerHandler.GetWorkAsync(_host.Name);
 
             if (work == null)
             {
-                Log.Debug($"No work or connection issues to {_serverURL}, waiting until next interval");
+                Log.Debug($"No work or connection issues to {_serverUrl}, waiting until next interval");
 
                 System.Threading.Thread.Sleep(Constants.LOOP_INTERVAL_MS);
 
@@ -72,19 +77,25 @@ namespace DMTP.Worker.BackgroundWorkers
                 LogLevel = LogLevels.DEBUG
             };
 
-            var (outputFile, metrics) = (string.Empty, string.Empty);
-            /*
-             TODO: Switch to a reflection based approach
-            switch (Enum.Parse<ModelType>(work.ModelType, true))
+            var featureExtractor = Assembly.Load(work.FeatureExtractorBytes);
+
+            if (featureExtractor == null)
             {
-                case ModelType.CLASSIFICATION:
-                    (outputFile, metrics) = new ClassificationEngine().TrainModel(options);
-                    break;
-                case ModelType.CLUSTERING:
-                    (outputFile, metrics) = new ClusteringEngine().TrainModel(options);
-                    break;
+                return false;
             }
-            */
+
+            var extractor = featureExtractor.GetTypes()
+                .Where(a => a.BaseType == typeof(BasePrediction) && !a.IsAbstract)
+                .Select(a => ((BasePrediction) Activator.CreateInstance(a)))
+                .FirstOrDefault(a => a.MODEL_NAME == work.ModelType);
+
+            if (extractor == null)
+            {
+                return false;
+            }
+
+            var (outputFile, metrics) = extractor.TrainModel(options);
+
             if (File.Exists(outputFile))
             {
                 work.Model = File.ReadAllBytes(outputFile);

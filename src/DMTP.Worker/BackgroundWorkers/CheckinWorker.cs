@@ -12,11 +12,11 @@ namespace DMTP.Worker.BackgroundWorkers
     {
         private readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        private BackgroundWorker _bwCheckin;
+        private readonly BackgroundWorker _bwCheckin;
 
         private Hosts _host;
 
-        private string _serverURL;
+        private string _serverUrl;
 
         public CheckinWorker()
         {
@@ -26,10 +26,10 @@ namespace DMTP.Worker.BackgroundWorkers
             _bwCheckin.RunWorkerCompleted += BwCheckin_RunWorkerCompleted;            
         }
 
-        public void Run(Hosts host, string serverURL)
+        public void Run(Hosts host, string serverUrl)
         {
             _host = host;
-            _serverURL = serverURL;
+            _serverUrl = serverUrl;
 
             _bwCheckin.RunWorkerAsync();
         }
@@ -43,7 +43,7 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private async void BwCheckin_DoWork(object sender, DoWorkEventArgs e)
         {
-            var hostHandler = new HostsHandler(_serverURL);
+            var hostHandler = new HostsHandler(_serverUrl);
 
             // Call to checkin with the server
             var checkinResult = await hostHandler.AddUpdateHostAsync(_host);
@@ -53,7 +53,7 @@ namespace DMTP.Worker.BackgroundWorkers
                 return;
             }
 
-            Log.Error($"Failed to check in with {_serverURL}");;
+            Log.Error($"Failed to check in with {_serverUrl}");;
 
             System.Threading.Thread.Sleep(Constants.LOOP_ERROR_INTERVAL_MS);
         }

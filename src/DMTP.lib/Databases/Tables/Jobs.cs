@@ -33,5 +33,7 @@ namespace DMTP.lib.Databases.Tables
         public string ModelEvaluationMetrics { get; set; }
 
         public string Debug { get; set; }
+
+        public byte[] FeatureExtractorBytes { get; set; }
     }
 }
