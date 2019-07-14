@@ -81,6 +81,8 @@ namespace DMTP.Worker.BackgroundWorkers
 
             if (featureExtractor == null)
             {
+                work.Debug = "Feature Extractor Assembly was not piped to the worker";
+
                 return false;
             }
 
@@ -91,6 +93,8 @@ namespace DMTP.Worker.BackgroundWorkers
 
             if (extractor == null)
             {
+                work.Debug = $"Failed to load {work.ModelType} from piped in assembly";
+
                 return false;
             }
 
