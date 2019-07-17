@@ -11,13 +11,12 @@ using DMTP.lib.ML.Base;
 using LiteDB;
 
 using Newtonsoft.Json;
-using Logger = NLog.Logger;
 
 namespace DMTP.lib.Databases
 {
     public class LiteDBDatabase : IDatabase
     {
-        private Logger Log = NLog.LogManager.GetCurrentClassLogger();
+        private readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
         private const string DbFilename = "data.db";
 
@@ -232,17 +231,31 @@ namespace DMTP.lib.Databases
 
         public void RemoveOfflineSubmission(Guid id)
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                db.GetCollection<PendingSubmissions>().Delete(a => a.ID == id);
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    db.GetCollection<PendingSubmissions>().Delete(a => a.ID == id);
+                }
+            } catch (Exception ex)
+            {
+                Log.Error($"Failed to remove {id} from the PendingSubmissions due to {ex}");
             }
         }
 
         public List<string> GetUploadedAssembliesList()
         {
-            using (var db = new LiteDatabase(DbFilename))
+            try
             {
-                return db.GetCollection<Assemblies>().FindAll().Select(a => a.Name).ToList();
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Assemblies>().FindAll().Select(a => a.Name).ToList();
+                }
+            } catch (Exception ex)
+            {
+                Log.Error($"Failed to get uploaded assemblies list due to {ex}");
+
+                return null;
             }
         }
 
