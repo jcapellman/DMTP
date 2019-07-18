@@ -17,17 +17,17 @@ namespace DMTP.lib.Databases.Base
 
         List<Jobs> GetJobs();
 
-        void AddUpdateHost(Hosts host);
+        bool AddUpdateHost(Hosts host);
 
-        void DeleteHost(Guid id);
+        bool DeleteHost(Guid id);
 
         List<Hosts> GetHosts();
 
         List<PendingSubmissions> GetPendingSubmissions();
 
-        void AddOfflineSubmission(Jobs jobs);
+        bool AddOfflineSubmission(Jobs jobs);
 
-        void RemoveOfflineSubmission(Guid id);
+        bool RemoveOfflineSubmission(Guid id);
 
         List<string> GetUploadedAssembliesList();
 

@@ -123,7 +123,7 @@ namespace DMTP.lib.Databases
             }
         }
 
-        public void AddUpdateHost(Hosts host)
+        public bool AddUpdateHost(Hosts host)
         {
             if (host == null)
             {
@@ -153,25 +153,33 @@ namespace DMTP.lib.Databases
 
                         db.GetCollection<Hosts>().Update(host);
                     }
+
+                    return true;
                 }
             } catch (Exception ex)
             {
                 Log.Error($"Failed to Add or Update Host {host} due to {ex}");
+
+                return false;
             }
         }
 
-        public void DeleteHost(Guid id)
+        public bool DeleteHost(Guid id)
         {
             try
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
                     db.GetCollection<Hosts>().Delete(a => a.ID == id);
+
+                    return true;
                 }
             }
             catch (Exception ex)
             {
                 Log.Error($"Failed to Delete Host {id} due to {ex}");
+
+                return false;
             }
         }
 
@@ -209,7 +217,7 @@ namespace DMTP.lib.Databases
             }
         }
 
-        public void AddOfflineSubmission(Jobs job)
+        public bool AddOfflineSubmission(Jobs job)
         {
             try
             {
@@ -222,24 +230,32 @@ namespace DMTP.lib.Databases
                     };
 
                     db.GetCollection<PendingSubmissions>().Insert(pendingSubmission);
+
+                    return true;
                 }
             } catch (Exception ex)
             {
                 Log.Error($"Failed to Add Offline Submission {job} due to {ex}");
+
+                return false;
             }
         }
 
-        public void RemoveOfflineSubmission(Guid id)
+        public bool RemoveOfflineSubmission(Guid id)
         {
             try
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
                     db.GetCollection<PendingSubmissions>().Delete(a => a.ID == id);
+
+                    return true;
                 }
             } catch (Exception ex)
             {
                 Log.Error($"Failed to remove {id} from the PendingSubmissions due to {ex}");
+
+                return false;
             }
         }
 
