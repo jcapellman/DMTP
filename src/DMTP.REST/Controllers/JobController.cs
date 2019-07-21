@@ -8,9 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DMTP.REST.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class JobController : BaseController
+    public class JobController : BaseAPIController
     {
         public JobController(IDatabase database) : base(database) { }
 
