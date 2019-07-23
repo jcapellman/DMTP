@@ -10,8 +10,10 @@ using NLog;
 
 namespace DMTP.lib.Handlers.Base
 {
-    public class BaseHandler
+    public abstract class BaseHandler
     {
+        protected abstract string RootAPI { get; }
+
         private readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         private readonly string _rootURL;
@@ -53,7 +55,7 @@ namespace DMTP.lib.Handlers.Base
             }
         }
 
-        protected async Task<bool> PostAsync<T>(string url, T data)
+        protected async Task<bool> PostAsync<T>(T data)
         {
             if (data == null)
             {
@@ -70,18 +72,18 @@ namespace DMTP.lib.Handlers.Base
 
                     var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    var response = httpClient.PostAsync(url, stringContent).Result;
+                    var response = httpClient.PostAsync(RootAPI, stringContent).Result;
 
                     var responseBody = await response.Content.ReadAsStringAsync();
 
-                    Log.Debug($"Url: {url} | Response: {responseBody}");
+                    Log.Debug($"Url: {RootAPI} | Response: {responseBody}");
 
                     return response.IsSuccessStatusCode;
                 }
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Failed to POST to {url} due to {ex}");
+                Log.Error(ex, $"Failed to POST to {RootAPI} due to {ex}");
 
                 return false;
             }

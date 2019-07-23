@@ -8,7 +8,9 @@ namespace DMTP.lib.Handlers
     public class JobHandler : BaseHandler
     {
         public JobHandler(string rootUrl) : base(rootUrl) { }
-    
-        public async Task<bool> AddNewJobAsync(Jobs job) => await PostAsync("Job", job);
+
+        protected override string RootAPI => "Job";
+
+        public async Task<bool> AddNewJobAsync(Jobs job) => await PostAsync(job);
     }
 }

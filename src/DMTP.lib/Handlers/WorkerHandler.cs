@@ -8,9 +8,11 @@ namespace DMTP.lib.Handlers
     public class WorkerHandler : BaseHandler
     {
         public WorkerHandler(string rootUrl) : base(rootUrl) { }
-    
-        public async Task<Jobs> GetWorkAsync(string hostName) => await GetAsync<Jobs>($"Worker?hostName={hostName}");
 
-        public async Task<bool> UpdateWorkAsync(Jobs job) => await PostAsync("Worker", job);
+        protected override string RootAPI => "Worker";
+
+        public async Task<Jobs> GetWorkAsync(string hostName) => await GetAsync<Jobs>($"hostName={hostName}");
+
+        public async Task<bool> UpdateWorkAsync(Jobs job) => await PostAsync(job);
     }
 }
