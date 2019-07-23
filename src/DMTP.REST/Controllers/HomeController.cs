@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 
+using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Enums;
@@ -45,7 +46,7 @@ namespace DMTP.REST.Controllers
 
             return job == null ? 
                 File(new byte[0], System.Net.Mime.MediaTypeNames.Text.Plain, "Model not found") : 
-                File(job.Model, System.Net.Mime.MediaTypeNames.Application.Octet, $"{job.Name}.mdl");
+                File(job.Model, System.Net.Mime.MediaTypeNames.Application.Octet, $"{job.Name}.{Constants.MODEL_EXTENSION}");
         }
     }
 }
