@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
-using DMTP.lib.Enums;
 
 using DMTP.REST.Models;
 
@@ -20,7 +20,7 @@ namespace DMTP.REST.Controllers
         public IActionResult Index() => View("Index", new HomeDashboardModel {
             Jobs = Database.GetJobs(),
             Hosts = Database.GetHosts(),
-            ModelTypes = Enum.GetNames(typeof(ModelType)).OrderBy(a => a).Select(a => new SelectListItem(a, a)).ToList()
+            ModelTypes = new List<string>().OrderBy(a => a).Select(a => new SelectListItem(a, a)).ToList()  // TODO: Read all assemblies
         });
 
         [HttpGet]

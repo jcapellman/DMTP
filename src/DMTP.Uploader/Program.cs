@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using DMTP.lib.Databases.Tables;
-using DMTP.lib.Enums;
 using DMTP.lib.Handlers;
 
 namespace DMTP.Uploader
@@ -22,19 +21,12 @@ namespace DMTP.Uploader
                 return (null, null);
             }
 
-            if (Enum.TryParse<ModelType>(args[1], true, out _))
+            return (args[3], new Jobs
             {
-                return (args[3], new Jobs
-                {
-                    ModelType = args[1],
-                    TrainingDataPath = args[2],
-                    Name = args[0]
-                });
-            }
-
-            Console.WriteLine($"Invalid Model Type option ({args[1]})");
-
-            return (null, null);
+                ModelType = args[1],
+                TrainingDataPath = args[2],
+                Name = args[0]
+            });
         }
 
         static async Task Main(string[] args)
