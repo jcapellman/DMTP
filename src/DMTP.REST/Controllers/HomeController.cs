@@ -8,11 +8,13 @@ using DMTP.lib.Databases.Tables;
 
 using DMTP.REST.Models;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DMTP.REST.Controllers
 {
+    [Authorize]
     public class HomeController : BaseController
     {
         public HomeController(IDatabase database) : base(database) { }
