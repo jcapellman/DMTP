@@ -5,7 +5,7 @@ using System.Linq;
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
-
+using DMTP.lib.ML.Base;
 using DMTP.REST.Models;
 
 using Microsoft.AspNetCore.Authorization;
@@ -17,12 +17,14 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class HomeController : BaseController
     {
-        public HomeController(IDatabase database) : base(database) { }
+        private List<BasePrediction> _assemblies;
+
+        public HomeController(IDatabase database, List<BasePrediction> assemblies) : base(database) { _assemblies = assemblies; }
     
         public IActionResult Index() => View("Index", new HomeDashboardModel {
             Jobs = Database.GetJobs(),
             Hosts = Database.GetHosts(),
-            ModelTypes = new List<string>().OrderBy(a => a).Select(a => new SelectListItem(a, a)).ToList()  // TODO: Read all assemblies
+            ModelTypes = _assemblies.OrderBy(a => a.MODEL_NAME).Select(a => new SelectListItem(a.MODEL_NAME, a.MODEL_NAME)).ToList()
         });
 
         [HttpGet]

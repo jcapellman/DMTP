@@ -25,6 +25,8 @@ namespace DMTP.REST
         {
             services.AddOptions();
 
+            services.AddSingleton(Helpers.AssemblyReader.LoadAssemblies());
+
             services.AddSingleton<IDatabase>(new LiteDBDatabase());
 
             services.AddMvc();
