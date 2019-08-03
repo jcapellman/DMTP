@@ -9,5 +9,7 @@
         public const int ML_SEED = 1985;
 
         public const string MODEL_EXTENSION = "mdl";
+
+        public const string ASSEMBLY_EXTENSION = "dasm";
     }
 }
