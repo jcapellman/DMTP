@@ -19,6 +19,8 @@ namespace DMTP.REST.Helpers
         {
             var files = Directory.GetFiles(AppContext.BaseDirectory, $"*.{Constants.ASSEMBLY_EXTENSION}");
 
+            Log.Debug($"{files.Length} files found to parse");
+
             var assemblies = new List<BasePrediction>();
 
             foreach (var file in files)
@@ -35,6 +37,8 @@ namespace DMTP.REST.Helpers
                     Log.Error(ex, $"Failed to parse {file} due to {ex}");
                 }
             }
+
+            Log.Debug($"{assemblies.Count} assemblies loaded from {files.Length} files");
 
             return assemblies;
         }
