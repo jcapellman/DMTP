@@ -32,5 +32,7 @@ namespace DMTP.lib.Databases.Base
         List<string> GetUploadedAssembliesList();
 
         bool UploadAssembly(byte[] assemblyBytes);
+
+        Guid? GetUser(string username, string password);
     }
 }
