@@ -27,6 +27,13 @@ namespace DMTP.REST.Controllers
 
         public IActionResult Create() => View(new CreateUserModel());
 
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync().Wait();
+
+            return RedirectToAction("Index", "Account");
+        }
+
         private IActionResult Login(Guid userGuid)
         {
             var claims = new List<Claim>
