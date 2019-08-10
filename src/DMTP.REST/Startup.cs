@@ -1,6 +1,7 @@
 using DMTP.lib.Databases;
 using DMTP.lib.Databases.Base;
 
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -32,6 +33,8 @@ namespace DMTP.REST
             services.AddMvc();
 
             services.Configure<FormOptions>(options => options.MultipartBodyLengthLimit = long.MaxValue);
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
