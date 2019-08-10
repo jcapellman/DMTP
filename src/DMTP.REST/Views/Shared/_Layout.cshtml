@@ -13,10 +13,43 @@
     <script src="https://kit.fontawesome.com/c3e94c5806.js"></script>
 </head>
 <body>
-<div class="container body-content">
-    <h2>DMTP</h2>
+<div class="container-fluid body-content">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">DMTP</a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Workers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Users</a>
+                </li>
+                
+            </ul>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Account/Logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     <hr/>
-    @RenderBody()
+    <div class="row-fluid">
+        @RenderBody()
+    </div>
     <br/>
     <footer class="border-top footer text-muted">
         <div class="container text-center">
