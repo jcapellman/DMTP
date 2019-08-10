@@ -357,7 +357,7 @@ namespace DMTP.lib.Databases
                     user = new Users
                     {
                         Username = username,
-                        Password = password.ToSHA1()
+                        Password = password
                     };
 
                     return db.GetCollection<Users>().Insert(user);
