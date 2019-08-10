@@ -6,6 +6,7 @@ using System.Reflection;
 
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.Helpers;
 using DMTP.lib.ML.Base;
 
 using LiteDB;
@@ -318,6 +319,55 @@ namespace DMTP.lib.Databases
                 Log.Error(ex, $"Failure to upload assembly {ex.StackTrace}");
 
                 return false;
+            }
+        }
+
+        public Guid? GetUser(string username, string password)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var user = db.GetCollection<Users>().FindOne(a => a.Username == username && a.Password == password);
+
+                    return user?.ID;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to get user due to {ex}");
+
+                return null;
+            }
+        }
+
+        public Guid? CreateUser(string username, string password)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var user = db.GetCollection<Users>().FindOne(a => a.Username == username);
+
+                    if (user != null)
+                    {
+                        return null;
+                    }
+
+                    user = new Users
+                    {
+                        Username = username,
+                        Password = password.ToSHA1()
+                    };
+
+                    return db.GetCollection<Users>().Insert(user);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to create user due to {ex}");
+
+                return null;
             }
         }
     }

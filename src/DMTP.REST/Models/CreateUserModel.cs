@@ -2,7 +2,7 @@
 
 namespace DMTP.REST.Models
 {
-    public class LoginViewModel
+    public class CreateUserModel
     {
         [Required]
         public string Username { get; set; }

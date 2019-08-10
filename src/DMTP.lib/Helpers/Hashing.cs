@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace DMTP.lib.Helpers
 {
@@ -15,6 +16,19 @@ namespace DMTP.lib.Helpers
             using (var sha = new SHA1Managed())
             {
                 return BitConverter.ToString(sha.ComputeHash(data)).Replace("-", "");
+            }
+        }
+
+        public static string ToSHA1(this string data)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                return Common.Constants.RESPONSE_ERROR;
+            }
+
+            using (var sha = new SHA1Managed())
+            {
+                return BitConverter.ToString(sha.ComputeHash(ASCIIEncoding.ASCII.GetBytes(data))).Replace("-", "");
             }
         }
     }
