@@ -1,0 +1,40 @@
+﻿@model DMTP.REST.Models.CreateUserModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LayoutUnauthenticated.cshtml";
+}
+
+<div class="col-sm-9 col-md-7 col-lg-5 mx-auto align-self-center">
+    <div class="card card-signin my-5">
+        <div class="card-body rounded">
+            <h5 class="card-title text-center">DMTP</h5>
+            <form method="post" asp-controller="Account" asp-action="AttemptCreate" class="form-signin">
+                <div class="form-label-group">
+                    <input class="form-control" type="email" asp-for="Username" required autofocus />
+                    <label asp-for="Username"></label>
+                </div>
+
+                <div class="form-label-group">
+                    <input class="form-control" type="password" asp-for="Password" />
+                    <label asp-for="Password"></label>
+                </div>
+
+                <input type="submit" value="Create Account" class="btn btn-lg btn-primary btn-block text-uppercase" />
+
+                <br />
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @Model.ErrorMessage
+                    </div>
+                }
+
+                <div class="container text-center">
+                    &copy; 2019 - <a href="http://www.jarredcapellman.com/">Jarred Capellman</a> <br /> source code on <a href="https://github.com/jcapellman/DMTP">GitHub</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
