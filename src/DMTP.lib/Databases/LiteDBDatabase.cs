@@ -320,5 +320,24 @@ namespace DMTP.lib.Databases
                 return false;
             }
         }
+
+        public Guid? GetUser(string username, string password)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var user = db.GetCollection<Users>().FindOne(a => a.Username == username && a.Password == password);
+
+                    return user?.ID;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to get user due to {ex}");
+
+                return null;
+            }
+        }
     }
 }
