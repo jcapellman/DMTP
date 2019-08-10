@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 using DMTP.lib.Databases.Base;
@@ -24,25 +25,10 @@ namespace DMTP.REST.Controllers
 
         public IActionResult Index() => View(new LoginViewModel());
 
-        [HttpPost]
-        public IActionResult AttemptLogin(LoginViewModel model)
+        public IActionResult Create() => View(new CreateUserModel());
+
+        private IActionResult Login(Guid userGuid)
         {
-            if (!ModelState.IsValid)
-            {
-                model.ErrorMessage = "Please try again";
-
-                return View("Index", model);
-            }
-
-            var userGuid = _database.GetUser(model.Username, model.Password.ToSHA1());
-
-            if (userGuid == null)
-            {
-                model.ErrorMessage = "Username and or Password are incorrect";
-
-                return View("Index", model);
-            }
-
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, userGuid.ToString())
@@ -60,6 +46,53 @@ namespace DMTP.REST.Controllers
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult AttemptCreate(CreateUserModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.ErrorMessage = "Please try again";
+
+                return View("Create", model);
+            }
+
+            var userGuid = _database.CreateUser(model.Username, model.Password.ToSHA1());
+
+            if (userGuid != null)
+            {
+                return Login(userGuid.Value);
+            }
+
+            model.ErrorMessage = "Username already exists, try again";
+
+            model.Password = string.Empty;
+            model.Username = string.Empty;
+
+            return View("Create", model);
+        }
+
+        [HttpPost]
+        public IActionResult AttemptLogin(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.ErrorMessage = "Please try again";
+
+                return View("Index", model);
+            }
+
+            var userGuid = _database.GetUser(model.Username, model.Password.ToSHA1());
+
+            if (userGuid != null)
+            {
+                return Login(userGuid.Value);
+            }
+
+            model.ErrorMessage = "Username and or Password are incorrect";
+
+            return View("Index", model);
         }
     }
 }
