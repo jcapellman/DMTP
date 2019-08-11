@@ -1,0 +1,14 @@
+﻿@model List<DMTP.lib.Databases.Tables.Jobs>
+
+@using DMTP.lib.Common
+
+<h3>Jobs</h3>
+
+@if (Model.Any())
+{
+    <partial name="_JobsListing" model="Model" />
+}
+else
+{
+    <p class="text-white text-center">There have been no jobs submitted</p>
+}
