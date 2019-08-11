@@ -1,4 +1,5 @@
-﻿using DMTP.lib.Databases.Base;
+﻿using System.Linq;
+using DMTP.lib.Databases.Base;
 using DMTP.REST.Models;
 
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +19,7 @@ namespace DMTP.REST.Controllers
             var model = new UserListingModel
             {
                 UsersListing = Database.GetUsers(),
-                UserLoginListing = Database.GetLogins()
+                UserLoginListing = Database.GetLogins().OrderByDescending(a => a.Timestamp).ToList()
             };
 
             return View(model);
