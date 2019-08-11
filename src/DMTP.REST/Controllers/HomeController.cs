@@ -22,7 +22,7 @@ namespace DMTP.REST.Controllers
         public HomeController(IDatabase database, List<BasePrediction> assemblies) : base(database) { _assemblies = assemblies; }
     
         public IActionResult Index() => View("Index", new HomeDashboardModel {
-            Jobs = Database.GetJobs(),
+            Jobs = Database.GetJobs().Where(a => !a.Completed).ToList(),
             Hosts = Database.GetHosts(),
             ModelTypes = _assemblies.OrderBy(a => a.MODEL_NAME).Select(a => new SelectListItem(a.MODEL_NAME, a.MODEL_NAME)).ToList()
         });
