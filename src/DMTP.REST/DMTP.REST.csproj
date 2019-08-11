@@ -27,9 +27,6 @@
     <PackageReference Include="NLog" Version="4.6.6" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Shared\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DMTP.lib\DMTP.lib.csproj" />
   </ItemGroup>
 </Project>
