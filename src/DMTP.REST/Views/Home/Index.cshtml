@@ -1,33 +1,6 @@
 ﻿@using DMTP.lib.Common
 @model DMTP.REST.Models.HomeDashboardModel
 
-<h3>Hosts</h3>
-<table class="table table-striped table-dark">
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col"># Cores</th>
-            <th scope="col">Platform</th>
-            <th scope="col">Worker Version</th>
-            <th scope="col">Last Connected</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var host in Model.Hosts)
-        {
-            <tr>
-                <td>@host.Name</td>
-                <td>@host.NumCores</td>
-                <td>@host.OSVersion</td>
-                <td>@host.WorkerVersion</td>
-                <td>@host.LastConnected</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<hr />
-
 <h3>Submit New Job</h3>
 
 <form asp-action="AddJob" asp-controller="Home" method="get" class="form-inline">
@@ -56,4 +29,14 @@
 else
 {
     <p class="text-white">There are no pending jobs</p>
+}
+
+<h3>Active Workers</h3>
+@if (Model.Hosts.Any())
+{
+    <partial name="_WorkersListing" model="Model.Hosts" />
+}
+else
+{
+    <p class="text-white">There are no active workers</p>
 }
