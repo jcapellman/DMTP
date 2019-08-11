@@ -1,4 +1,5 @@
 ﻿using DMTP.lib.Databases.Base;
+using DMTP.REST.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,15 @@ namespace DMTP.REST.Controllers
         {
         }
 
-        public IActionResult Index() => View(Database.GetUsers());
+        public IActionResult Index()
+        {
+            var model = new UserListingModel
+            {
+                UsersListing = Database.GetUsers(),
+                UserLoginListing = Database.GetLogins()
+            };
+
+            return View(model);
+        }
     }
 }
