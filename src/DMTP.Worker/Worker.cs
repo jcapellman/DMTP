@@ -10,7 +10,7 @@ namespace DMTP.Worker
     {
         private readonly string _serverURL;
 
-        private readonly Hosts _host;
+        private readonly Workers _worker;
 
         private readonly CheckinWorker _cWorker = new CheckinWorker();
         private readonly JobWorker _jWorker = new JobWorker();
@@ -19,7 +19,7 @@ namespace DMTP.Worker
         {
             _serverURL = serverURL;
 
-            _host = new Hosts
+            _worker = new Workers
             {
                 Name = Environment.MachineName,
                 NumCores = Environment.ProcessorCount,
@@ -30,11 +30,11 @@ namespace DMTP.Worker
 
         public async void RunAsync()
         {
-            _cWorker.Run(_host, _serverURL);
+            _cWorker.Run(_worker, _serverURL);
             
             while (true)
             {
-                var workerResult = await _jWorker.Run(_host, _serverURL);
+                var workerResult = await _jWorker.Run(_worker, _serverURL);
 
                 System.Threading.Thread.Sleep(!workerResult
                     ? Constants.LOOP_ERROR_INTERVAL_MS

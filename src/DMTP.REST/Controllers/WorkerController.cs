@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
@@ -11,7 +12,19 @@ namespace DMTP.REST.Controllers
     public class WorkerController : BaseAPIController
     {
         public WorkerController(IDatabase database) : base(database) { }
-    
+
+        [HttpPost]
+        public void Post([FromBody]Workers worker)
+        {
+            Database.AddUpdateWorker(worker);
+        }
+
+        [HttpDelete]
+        public void DeleteHost(Guid id)
+        {
+            Database.DeleteWorker(id);
+        }
+
         [HttpGet]
         public Jobs GetWork(string hostName)
         {

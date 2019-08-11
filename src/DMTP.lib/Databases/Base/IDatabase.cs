@@ -17,11 +17,11 @@ namespace DMTP.lib.Databases.Base
 
         List<Jobs> GetJobs();
 
-        bool AddUpdateHost(Hosts host);
+        bool AddUpdateWorker(Workers worker);
 
-        bool DeleteHost(Guid id);
+        bool DeleteWorker(Guid id);
 
-        List<Hosts> GetHosts();
+        List<Workers> GetWorkers();
 
         List<PendingSubmissions> GetPendingSubmissions();
 

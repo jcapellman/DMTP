@@ -124,14 +124,14 @@ namespace DMTP.lib.Databases
             }
         }
 
-        public bool AddUpdateHost(Hosts host)
+        public bool AddUpdateWorker(Workers worker)
         {
-            if (host == null)
+            if (worker == null)
             {
-                throw new ArgumentNullException(nameof(host));
+                throw new ArgumentNullException(nameof(worker));
             }
 
-            if (!host.IsValid())
+            if (!worker.IsValid())
             {
                 throw new ValidationException("Not all required fields are set");
             }
@@ -140,62 +140,62 @@ namespace DMTP.lib.Databases
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    host.LastConnected = DateTime.Now;
+                    worker.LastConnected = DateTime.Now;
 
-                    var dbHost = db.GetCollection<Hosts>().FindOne(a => a.Name == host.Name);
+                    var dbHost = db.GetCollection<Workers>().FindOne(a => a.Name == worker.Name);
 
                     if (dbHost == null)
                     {
-                        db.GetCollection<Hosts>().Insert(host);
+                        db.GetCollection<Workers>().Insert(worker);
                     }
                     else
                     {
-                        host.ID = dbHost.ID;
+                        worker.ID = dbHost.ID;
 
-                        db.GetCollection<Hosts>().Update(host);
+                        db.GetCollection<Workers>().Update(worker);
                     }
 
                     return true;
                 }
             } catch (Exception ex)
             {
-                Log.Error($"Failed to Add or Update Host {host} due to {ex}");
+                Log.Error($"Failed to Add or Update Worker {worker} due to {ex}");
 
                 return false;
             }
         }
 
-        public bool DeleteHost(Guid id)
+        public bool DeleteWorker(Guid id)
         {
             try
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    db.GetCollection<Hosts>().Delete(a => a.ID == id);
+                    db.GetCollection<Workers>().Delete(a => a.ID == id);
 
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to Delete Host {id} due to {ex}");
+                Log.Error($"Failed to Delete Worker {id} due to {ex}");
 
                 return false;
             }
         }
 
-        public List<Hosts> GetHosts()
+        public List<Workers> GetWorkers()
         {
             try
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    return db.GetCollection<Hosts>().FindAll().ToList();
+                    return db.GetCollection<Workers>().FindAll().ToList();
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to Get Hosts due to {ex}");
+                Log.Error($"Failed to Get Workers due to {ex}");
 
                 return null;
             }

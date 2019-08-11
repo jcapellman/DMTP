@@ -20,19 +20,19 @@ namespace DMTP.Worker.BackgroundWorkers
     {
         private readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        private Hosts _host;
+        private Workers _worker;
 
         private string _serverUrl;
 
-        public async Task<bool> Run(Hosts host, string serverUrl)
+        public async Task<bool> Run(Workers worker, string serverUrl)
         {
-            _host = host;
+            _worker = worker;
 
             _serverUrl = serverUrl;
 
             var workerHandler = new WorkerHandler(_serverUrl);
 
-            var work = await workerHandler.GetWorkAsync(_host.Name);
+            var work = await workerHandler.GetWorkAsync(_worker.Name);
 
             if (work == null)
             {

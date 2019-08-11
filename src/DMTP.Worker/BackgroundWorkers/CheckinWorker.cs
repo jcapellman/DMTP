@@ -14,7 +14,7 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private readonly BackgroundWorker _bwCheckin;
 
-        private Hosts _host;
+        private Workers _worker;
 
         private string _serverUrl;
 
@@ -26,9 +26,9 @@ namespace DMTP.Worker.BackgroundWorkers
             _bwCheckin.RunWorkerCompleted += BwCheckin_RunWorkerCompleted;            
         }
 
-        public void Run(Hosts host, string serverUrl)
+        public void Run(Workers worker, string serverUrl)
         {
-            _host = host;
+            _worker = worker;
             _serverUrl = serverUrl;
 
             _bwCheckin.RunWorkerAsync();
@@ -43,10 +43,10 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private async void BwCheckin_DoWork(object sender, DoWorkEventArgs e)
         {
-            var hostHandler = new HostsHandler(_serverUrl);
+            var hostHandler = new WorkerHandler(_serverUrl);
 
             // Call to checkin with the server
-            var checkinResult = await hostHandler.AddUpdateHostAsync(_host);
+            var checkinResult = await hostHandler.AddUpdateWorkerAsync(_worker);
 
             if (checkinResult)
             {

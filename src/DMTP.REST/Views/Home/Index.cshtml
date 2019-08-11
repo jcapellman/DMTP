@@ -32,9 +32,9 @@ else
 }
 
 <h3>Active Workers</h3>
-@if (Model.Hosts.Any())
+@if (Model.Workers.Any())
 {
-    <partial name="_WorkersListing" model="Model.Hosts" />
+    <partial name="_WorkersListing" model="Model.Workers" />
 }
 else
 {

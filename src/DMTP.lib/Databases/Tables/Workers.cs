@@ -4,7 +4,7 @@ using DMTP.lib.Databases.Tables.Base;
 
 namespace DMTP.lib.Databases.Tables
 {
-    public class Hosts : BaseTable
+    public class Workers : BaseTable
     {
         public string Name { get; set; }
 

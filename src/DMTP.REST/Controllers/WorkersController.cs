@@ -10,6 +10,6 @@ namespace DMTP.REST.Controllers
         {
         }
 
-        public IActionResult Index() => View(Database.GetHosts());
+        public IActionResult Index() => View(Database.GetWorkers());
     }
 }

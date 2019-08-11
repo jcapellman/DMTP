@@ -23,7 +23,7 @@ namespace DMTP.REST.Controllers
             job.ID = Guid.NewGuid();
             job.SubmissionTime = DateTime.Now;
 
-            var hosts = Database.GetHosts();
+            var hosts = Database.GetWorkers();
 
             if (hosts == null)
             {

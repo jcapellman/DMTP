@@ -30,7 +30,7 @@ namespace DMTP.REST.Controllers
                     .Select(a => new SelectListItem(a.MODEL_NAME, a.MODEL_NAME)).ToList()
             };
 
-            model.Hosts = Database.GetHosts().Where(a => model.Jobs.Any(b => b.AssignedHost == a.Name)).ToList();
+            model.Workers = Database.GetWorkers().Where(a => model.Jobs.Any(b => b.AssignedHost == a.Name)).ToList();
 
             return View(model);
         }

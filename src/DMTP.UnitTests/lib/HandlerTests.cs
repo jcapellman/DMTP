@@ -16,31 +16,31 @@ namespace DMTP.UnitTests.lib
         [ExpectedException(typeof(ArgumentNullException))]
         public void HostsHandler_Null()
         {
-            var hHandler = new HostsHandler(null);
+            var hHandler = new WorkerHandler(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void HostsHandler_EmptyString()
         {
-            var hHandler = new HostsHandler(string.Empty);
+            var hHandler = new WorkerHandler(string.Empty);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task HostsHandler_NullAddUpdateHostAsync()
         {
-            var hHandler = new HostsHandler(TEST_VALID_URL);
+            var hHandler = new WorkerHandler(TEST_VALID_URL);
 
-            await hHandler.AddUpdateHostAsync(null);
+            await hHandler.AddUpdateWorkerAsync(null);
         }
 
         [TestMethod]
         public async Task HostsHandler_DefaultAddUpdateHostAsync()
         {
-            var hHandler = new HostsHandler(TEST_VALID_URL);
+            var hHandler = new WorkerHandler(TEST_VALID_URL);
 
-            await hHandler.AddUpdateHostAsync(new DMTP.lib.Databases.Tables.Hosts());
+            await hHandler.AddUpdateWorkerAsync(new DMTP.lib.Databases.Tables.Workers());
         }
 
         [TestMethod]
