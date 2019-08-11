@@ -357,7 +357,8 @@ namespace DMTP.lib.Databases
                     user = new Users
                     {
                         Username = username,
-                        Password = password
+                        Password = password,
+                        Active = true
                     };
 
                     return db.GetCollection<Users>().Insert(user);
@@ -377,7 +378,7 @@ namespace DMTP.lib.Databases
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    return db.GetCollection<Users>().FindAll().ToList();
+                    return db.GetCollection<Users>().FindAll().Where(a => a.Active).ToList();
                 }
             }
             catch (Exception ex)
@@ -426,6 +427,34 @@ namespace DMTP.lib.Databases
                 Log.Error($"Failed to get user logins due to {ex}");
 
                 return null;
+            }
+        }
+
+        public bool DeleteUser(Guid userID)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var user = db.GetCollection<Users>().FindById(userID);
+
+                    if (user == null)
+                    {
+                        return false;
+                    }
+
+                    user.Active = false;
+
+                    db.GetCollection<Users>().Update(user);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to set {userID} to in active from the Users Table to {ex}");
+
+                return false;
             }
         }
     }
