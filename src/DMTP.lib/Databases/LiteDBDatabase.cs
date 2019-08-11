@@ -370,5 +370,22 @@ namespace DMTP.lib.Databases
                 return null;
             }
         }
+
+        public List<Users> GetUsers()
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Users>().FindAll().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to get users due to {ex}");
+
+                return null;
+            }
+        }
     }
 }
