@@ -15,13 +15,13 @@
     <tbody>
         @foreach (var host in Model.Hosts)
         {
-        <tr>
-            <td>@host.Name</td>
-            <td>@host.NumCores</td>
-            <td>@host.OSVersion</td>
-            <td>@host.WorkerVersion</td>
-            <td>@host.LastConnected</td>
-        </tr>
+            <tr>
+                <td>@host.Name</td>
+                <td>@host.NumCores</td>
+                <td>@host.OSVersion</td>
+                <td>@host.WorkerVersion</td>
+                <td>@host.LastConnected</td>
+            </tr>
         }
     </tbody>
 </table>
@@ -34,13 +34,13 @@
     <div class="form-group" style="margin-right: 10px">
         <input type="text" placeholder="name" name="name" id="name" required class="form-control" style="max-width: 200px" />
     </div>
-    
+
     <div class="form-group" style="margin-right: 10px">
         @Html.DropDownList("modelType", Model.ModelTypes, htmlAttributes: new { @class = "form-control" })
     </div>
-    
+
     <div class="form-group" style="margin-right: 10px">
-        <input type="text" placeholder="training data path" required name="trainingDataPath" id="trainingDataPath" class="form-control" style="max-width: 200px"/>
+        <input type="text" placeholder="training data path" required name="trainingDataPath" id="trainingDataPath" class="form-control" style="max-width: 200px" />
     </div>
 
     <button type="submit" class="btn btn-secondary">Add Job</button>
@@ -49,4 +49,11 @@
 <hr />
 
 <h3>Pending Jobs</h3>
-<partial name="_JobsListing" model="Model.Jobs" />
+@if (Model.Jobs.Any())
+{
+    <partial name="_JobsListing" model="Model.Jobs" />
+}
+else
+{
+    <p class="text-white">There are no pending jobs</p>
+}
