@@ -11,8 +11,18 @@
             <h5 class="card-title text-center">DMTP</h5>
             <form method="post" asp-controller="Account" asp-action="AttemptCreate" class="form-signin">
                 <div class="form-label-group">
-                    <input class="form-control" type="email" asp-for="Username" required autofocus />
-                    <label asp-for="Username"></label>
+                    <input class="form-control" type="email" asp-for="EmailAddress" required autofocus />
+                    <label>Email Address</label>
+                </div>
+
+                <div class="form-label-group">
+                    <input class="form-control" type="text" asp-for="FirstName" required />
+                    <label>First Name</label>
+                </div>
+
+                <div class="form-label-group">
+                    <input class="form-control" type="text" asp-for="LastName" required />
+                    <label>Last Name</label>
                 </div>
 
                 <div class="form-label-group">
