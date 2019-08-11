@@ -387,5 +387,29 @@ namespace DMTP.lib.Databases
                 return null;
             }
         }
+
+        public void RecordLogin(Guid? userID, string username, string ipAddress, bool successful)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var item = new UserLogins
+                    {
+                        IPAddress = ipAddress,
+                        Successful = successful,
+                        UserID = userID,
+                        Timestamp = DateTimeOffset.Now,
+                        Username = username
+                    };
+
+                    db.GetCollection<UserLogins>().Insert(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to log login due to {ex}");
+            }
+        }
     }
 }
