@@ -42,5 +42,7 @@ namespace DMTP.lib.Databases.Base
         void RecordLogin(Guid? userID, string username, string ipAddress, bool successful);
 
         List<UserLogins> GetLogins();
+
+        bool DeleteUser(Guid userID);
     }
 }
