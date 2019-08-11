@@ -78,7 +78,7 @@ h2, h3 {
 }
 
 .form-label-group input:not(:placeholder-shown) {
-    padding-left: 70px;
+    padding-left: 90px;
     height: 35px;
 }
 

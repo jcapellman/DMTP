@@ -12,7 +12,8 @@
 <table class="table table-striped table-dark">
     <thead>
         <tr>
-            <th scope="col">Username</th>
+            <th scope="col">Email Address</th>
+            <th scope="col">Name</th>
             <th scope="col">Last Login</th>
             <th scope="col">Jobs Submitted</th>
             <th scope="col">Action</th>
@@ -22,7 +23,8 @@
         @foreach (var user in Model.UsersListing)
         {
             <tr>
-                <th scope="row">@user.Username</th>
+                <th scope="row">@user.EmailAddress</th>
+                <td>@user.FirstName @user.LastName</td>
                 <td>@DateTime.Now</td>
                 <td>0</td>
                 <td>
@@ -45,7 +47,7 @@
 <table class="table table-striped table-dark">
     <thead>
         <tr>
-            <th scope="col">Username</th>
+            <th scope="col">Email Address</th>
             <th scope="col">Timestamp</th>
             <th scope="col">IP Address</th>
             <th scope="col">Successful</th>
