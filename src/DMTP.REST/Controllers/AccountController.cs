@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration;
 
 namespace DMTP.REST.Controllers
 {
@@ -66,6 +67,8 @@ namespace DMTP.REST.Controllers
             }
 
             var userGuid = _database.CreateUser(model.Username, model.Password.ToSHA1());
+
+            _database.RecordLogin(userGuid, model.Username, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
 
             if (userGuid != null)
             {
