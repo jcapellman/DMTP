@@ -38,5 +38,7 @@ namespace DMTP.lib.Databases.Base
         Guid? CreateUser(string username, string password);
 
         List<Users> GetUsers();
+
+        void RecordLogin(Guid? userID, string username, string ipAddress, bool successful);
     }
 }
