@@ -1,0 +1,14 @@
+﻿@model List<DMTP.lib.Databases.Tables.Hosts>
+
+@using DMTP.lib.Common
+
+<h3>Workers</h3>
+
+@if (Model.Any())
+{
+    <partial name="_WorkersListing" model="Model" />
+}
+else
+{
+    <p class="text-white">There are currently no workers</p>
+}
