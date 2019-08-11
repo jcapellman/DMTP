@@ -328,7 +328,7 @@ namespace DMTP.lib.Databases
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    var user = db.GetCollection<Users>().FindOne(a => a.Username == username && a.Password == password && a.Active);
+                    var user = db.GetCollection<Users>().FindOne(a => a.EmailAddress == username && a.Password == password && a.Active);
 
                     return user?.ID;
                 }
@@ -341,13 +341,13 @@ namespace DMTP.lib.Databases
             }
         }
 
-        public Guid? CreateUser(string username, string password)
+        public Guid? CreateUser(string emailAddress, string firstName, string lastName, string password)
         {
             try
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    var user = db.GetCollection<Users>().FindOne(a => a.Username == username);
+                    var user = db.GetCollection<Users>().FindOne(a => a.EmailAddress == emailAddress);
 
                     if (user != null)
                     {
@@ -356,7 +356,9 @@ namespace DMTP.lib.Databases
 
                     user = new Users
                     {
-                        Username = username,
+                        EmailAddress = emailAddress,
+                        FirstName = firstName,
+                        LastName = lastName,
                         Password = password,
                         Active = true
                     };
