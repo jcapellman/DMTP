@@ -1,5 +1,12 @@
 ﻿@model DMTP.REST.Models.UserListingModel
 
+@if (!string.IsNullOrEmpty(Model.ActionMessage))
+{
+    <div class="alert alert-primary">
+        @Model.ActionMessage
+    </div>
+}
+
 <h3>Users</h3>
 
 <table class="table table-striped table-dark">
@@ -21,7 +28,7 @@
                 <td>
                     <a href="Edit?id=@user.ID" class="text-center fa fa-pencil-square-o" title="Edit User"></a>
                     <a href="SendWelcome?id=@user.ID" class="text-center fa fa-envelope-o" title="Send Signup Email"></a>
-                    <a href="Delete?id=@user.ID" class="text-center fas fa-trash" title="Delete User"></a>
+                    <a asp-action="DeleteUser" asp-route-id="@user.ID" class="text-center fas fa-trash" title="Delete User"></a>
                 </td>
             </tr>
         }
