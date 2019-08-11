@@ -5,7 +5,7 @@ namespace DMTP.REST.Models
     public class LoginViewModel
     {
         [Required]
-        public string Username { get; set; }
+        public string EmailAddress { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

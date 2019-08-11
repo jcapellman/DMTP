@@ -5,7 +5,13 @@ namespace DMTP.REST.Models
     public class CreateUserModel
     {
         [Required]
-        public string Username { get; set; }
+        public string EmailAddress { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

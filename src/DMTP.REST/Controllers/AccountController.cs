@@ -65,19 +65,21 @@ namespace DMTP.REST.Controllers
                 return View("Create", model);
             }
 
-            var userGuid = _database.CreateUser(model.Username, model.Password.ToSHA1());
+            var userGuid = _database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1());
 
-            _database.RecordLogin(userGuid, model.Username, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
+            _database.RecordLogin(userGuid, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
 
             if (userGuid != null)
             {
                 return Login(userGuid.Value);
             }
 
-            model.ErrorMessage = "Username already exists, try again";
+            model.ErrorMessage = "EmailAddress already exists, try again";
 
             model.Password = string.Empty;
-            model.Username = string.Empty;
+            model.EmailAddress = string.Empty;
+            model.FirstName = string.Empty;
+            model.LastName = string.Empty;
 
             return View("Create", model);
         }
@@ -92,16 +94,16 @@ namespace DMTP.REST.Controllers
                 return View("Index", model);
             }
 
-            var userGuid = _database.GetUser(model.Username, model.Password.ToSHA1());
+            var userGuid = _database.GetUser(model.EmailAddress, model.Password.ToSHA1());
 
-            _database.RecordLogin(userGuid, model.Username, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
+            _database.RecordLogin(userGuid, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
 
             if (userGuid != null)
             {
                 return Login(userGuid.Value);
             }
 
-            model.ErrorMessage = "Username and or Password are incorrect";
+            model.ErrorMessage = "EmailAddress and or Password are incorrect";
 
             return View("Index", model);
         }
