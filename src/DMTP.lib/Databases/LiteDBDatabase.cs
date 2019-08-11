@@ -328,7 +328,7 @@ namespace DMTP.lib.Databases
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    var user = db.GetCollection<Users>().FindOne(a => a.Username == username && a.Password == password);
+                    var user = db.GetCollection<Users>().FindOne(a => a.Username == username && a.Password == password && a.Active);
 
                     return user?.ID;
                 }
