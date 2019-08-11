@@ -1,0 +1,25 @@
+﻿@model List<DMTP.lib.Databases.Tables.Hosts>
+
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col"># Cores</th>
+            <th scope="col">Platform</th>
+            <th scope="col">Worker Version</th>
+            <th scope="col">Last Connected</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var host in Model)
+        {
+            <tr>
+                <td>@host.Name</td>
+                <td>@host.NumCores</td>
+                <td>@host.OSVersion</td>
+                <td>@host.WorkerVersion</td>
+                <td>@host.LastConnected</td>
+            </tr>
+        }
+    </tbody>
+</table>
