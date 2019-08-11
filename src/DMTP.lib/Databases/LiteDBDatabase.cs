@@ -411,5 +411,22 @@ namespace DMTP.lib.Databases
                 Log.Error($"Failed to log login due to {ex}");
             }
         }
+
+        public List<UserLogins> GetLogins()
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<UserLogins>().FindAll().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to get user logins due to {ex}");
+
+                return null;
+            }
+        }
     }
 }
