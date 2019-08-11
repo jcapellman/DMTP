@@ -9,5 +9,7 @@ namespace DMTP.REST.Models
         public List<Users> UsersListing { get; set; }
 
         public List<UserLogins> UserLoginListing { get; set; }
+
+        public string ActionMessage { get; set; }
     }
 }
