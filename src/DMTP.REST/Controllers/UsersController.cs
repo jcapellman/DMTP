@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+
 using DMTP.lib.Databases.Base;
 using DMTP.REST.Models;
 
@@ -14,15 +16,27 @@ namespace DMTP.REST.Controllers
         {
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string actionMessage = null)
         {
-            var model = new UserListingModel
-            {
+           var model = new UserListingModel {
                 UsersListing = Database.GetUsers(),
                 UserLoginListing = Database.GetLogins().OrderByDescending(a => a.Timestamp).ToList()
-            };
+           };
 
-            return View(model);
+           if (!string.IsNullOrEmpty(actionMessage))
+           {
+               model.ActionMessage = actionMessage;
+           }
+
+           return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteUser(Guid id)
+        {
+            var result = Database.DeleteUser(id);
+
+            return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted user" : "Failed to delete user"});
         }
     }
 }
