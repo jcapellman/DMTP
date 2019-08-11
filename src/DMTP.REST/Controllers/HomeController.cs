@@ -17,15 +17,23 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class HomeController : BaseController
     {
-        private List<BasePrediction> _assemblies;
+        private readonly List<BasePrediction> _assemblies;
 
         public HomeController(IDatabase database, List<BasePrediction> assemblies) : base(database) { _assemblies = assemblies; }
-    
-        public IActionResult Index() => View("Index", new HomeDashboardModel {
-            Jobs = Database.GetJobs().Where(a => !a.Completed).ToList(),
-            Hosts = Database.GetHosts(),
-            ModelTypes = _assemblies.OrderBy(a => a.MODEL_NAME).Select(a => new SelectListItem(a.MODEL_NAME, a.MODEL_NAME)).ToList()
-        });
+
+        public IActionResult Index()
+        {
+            var model = new HomeDashboardModel
+            {
+                Jobs = Database.GetJobs().Where(a => !a.Completed).ToList(),
+                ModelTypes = _assemblies.OrderBy(a => a.MODEL_NAME)
+                    .Select(a => new SelectListItem(a.MODEL_NAME, a.MODEL_NAME)).ToList()
+            };
+
+            model.Hosts = Database.GetHosts().Where(a => model.Jobs.Any(b => b.AssignedHost == a.Name)).ToList();
+
+            return View(model);
+        }
 
         [HttpGet]
         public IActionResult AddJob([FromQuery]string name, [FromQuery]string trainingDataPath, [FromQuery]string modelType)
