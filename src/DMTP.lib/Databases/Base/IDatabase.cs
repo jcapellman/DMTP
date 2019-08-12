@@ -33,6 +33,8 @@ namespace DMTP.lib.Databases.Base
 
         bool UploadAssembly(byte[] assemblyBytes);
 
+        Users GetUser(Guid id);
+
         Guid? GetUser(string username, string password);
 
         Guid? CreateUser(string emailAddress, string firstName, string lastName, string password);
