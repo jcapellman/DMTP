@@ -23,7 +23,7 @@ namespace DMTP.REST.Controllers
             _database = database;
         }
 
-        public IActionResult Index(string returnUrl = "") => View(new LoginViewModel());
+        public IActionResult Index(string ReturnUrl = "") => View(new LoginViewModel());
 
         public IActionResult Create() => View(new CreateUserModel());
 

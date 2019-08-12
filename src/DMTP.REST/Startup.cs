@@ -34,7 +34,8 @@ namespace DMTP.REST
 
             services.Configure<FormOptions>(options => options.MultipartBodyLengthLimit = long.MaxValue);
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(a => a.LoginPath = "/Account");
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
