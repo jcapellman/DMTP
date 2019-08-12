@@ -2,6 +2,7 @@
 using System.Linq;
 
 using DMTP.lib.Databases.Base;
+using DMTP.lib.Databases.Tables;
 using DMTP.REST.Models.Users;
 
 using Microsoft.AspNetCore.Authorization;
@@ -70,7 +71,12 @@ namespace DMTP.REST.Controllers
         [HttpPost]
         public IActionResult AttemptUpdate(EditUserModel model)
         {
-            var result = false;
+            var result = Database.UpdateUser(new Users
+            {
+                ID = model.ID,
+                FirstName = model.FirstName,
+                LastName =  model.LastName
+            });
 
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully edited user" : "Failed to edit user"});
         }
