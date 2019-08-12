@@ -1,0 +1,43 @@
+﻿@model DMTP.REST.Models.Settings.SettingsDashboardModel
+
+<h3>Settings</h3>
+
+<br/>
+
+<form method="post" asp-controller="Settings" asp-action="AttemptUpdate" class="form-signin">
+    <input type="hidden" asp-for="@Model.Setting.ID" />
+
+    <h5 class="text-white">SMTP Settings</h5>
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.Setting.SMTPHostName" required />
+        <label>Host Name</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.Setting.SMTPPortNumber" required />
+        <label>Port Number</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.Setting.SMTPUsername" required />
+        <label>User Name</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.Setting.SMTPPassword" required />
+        <label>Password</label>
+    </div>
+
+    <br/>
+
+    <h5 class="text-white">Misc Settings</h5>
+
+    <div class="form-label-group">
+        <input class="form-control" type="checkbox" asp-for="@Model.Setting.AllowNewUserCreation" />
+        <label>Allow New User Creation</label>
+    </div>
+    
+    <br/>
+
+    <input type="submit" value="Update Settings" class="btn btn-lg btn-primary btn-block text-uppercase" />
+</form>
