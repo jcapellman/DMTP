@@ -50,5 +50,29 @@ namespace DMTP.REST.Controllers
 
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted user" : "Failed to delete user"});
         }
+
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+            var user = Database.GetUser(id);
+
+            var model = new EditUserModel
+            {
+                FirstName = user.FirstName,
+                ID = id,
+                LastName = user.LastName,
+                Message = string.Empty
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AttemptUpdate(EditUserModel model)
+        {
+            var result = false;
+
+            return RedirectToAction("Index", new { actionMessage = result ? "Successfully edited user" : "Failed to edit user"});
+        }
     }
 }
