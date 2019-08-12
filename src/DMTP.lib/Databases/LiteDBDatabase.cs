@@ -505,5 +505,41 @@ namespace DMTP.lib.Databases
                 return false;
             }
         }
+
+        public Settings GetSettings()
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Settings>().FindOne(a => a != null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to get settings due to {ex}");
+
+                return null;
+            }
+        }
+
+        public bool UpdateSettings(Settings setting)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    db.GetCollection<Settings>().Update(setting);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to update settings {setting.ID} in the Settings Table to {ex}");
+
+                return false;
+            }
+        }
     }
 }
