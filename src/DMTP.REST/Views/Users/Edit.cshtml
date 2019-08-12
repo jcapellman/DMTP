@@ -1,0 +1,15 @@
+﻿@model DMTP.REST.Models.Users.EditUserModel
+
+<form method="post" asp-controller="Users" asp-action="AttemptUpdate" class="form-signin">
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="FirstName" required />
+        <label>First Name</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="LastName" required />
+        <label>Last Name</label>
+    </div>
+
+    <input type="submit" value="Update" class="btn btn-lg btn-primary btn-block text-uppercase" />
+</form>
