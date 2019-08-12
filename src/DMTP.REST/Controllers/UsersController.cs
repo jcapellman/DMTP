@@ -32,7 +32,7 @@ namespace DMTP.REST.Controllers
                 EmailAddress = a.EmailAddress,
                 ID = a.ID,
                 LastLogin = model.UserLoginListing.Where(b => b.UserID == a.ID).Max(b => b.Timestamp),
-                NumJobs = 0
+                NumJobs = jobs.Count(b => b.SubmittedByUserID == a.ID)
             }).ToList();
     
            if (!string.IsNullOrEmpty(actionMessage))

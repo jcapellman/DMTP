@@ -35,5 +35,7 @@ namespace DMTP.lib.Databases.Tables
         public string Debug { get; set; }
 
         public byte[] FeatureExtractorBytes { get; set; }
+
+        public Guid SubmittedByUserID { get; set; }
     }
 }
