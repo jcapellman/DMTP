@@ -1,4 +1,4 @@
-﻿@model DMTP.REST.Models.UserListingModel
+﻿@model DMTP.REST.Models.Users.UserDashboardModel
 
 @if (!string.IsNullOrEmpty(Model.ActionMessage))
 {
@@ -25,8 +25,8 @@
             <tr>
                 <th scope="row">@user.EmailAddress</th>
                 <td>@user.FirstName @user.LastName</td>
-                <td>@DateTime.Now</td>
-                <td>0</td>
+                <td>@user.LastLogin</td>
+                <td>@user.NumJobs</td>
                 <td>
                     <a href="Edit?id=@user.ID" class="text-center fa fa-pencil-square-o" title="Edit User"></a>
 

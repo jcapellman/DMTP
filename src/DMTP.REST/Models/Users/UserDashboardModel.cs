@@ -2,11 +2,11 @@
 
 using DMTP.lib.Databases.Tables;
 
-namespace DMTP.REST.Models
+namespace DMTP.REST.Models.Users
 {
-    public class UserListingModel
+    public class UserDashboardModel
     {
-        public List<Users> UsersListing { get; set; }
+        public List<UserListingItem> UsersListing { get; set; }
 
         public List<UserLogins> UserLoginListing { get; set; }
 

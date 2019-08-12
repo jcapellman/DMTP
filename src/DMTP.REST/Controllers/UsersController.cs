@@ -2,7 +2,7 @@
 using System.Linq;
 
 using DMTP.lib.Databases.Base;
-using DMTP.REST.Models;
+using DMTP.REST.Models.Users;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +18,23 @@ namespace DMTP.REST.Controllers
 
         public IActionResult Index(string actionMessage = null)
         {
-           var model = new UserListingModel {
-                UsersListing = Database.GetUsers(),
+            var model = new UserDashboardModel
+            {
                 UserLoginListing = Database.GetLogins().OrderByDescending(a => a.Timestamp).ToList()
-           };
+            };
 
+            var jobs = Database.GetJobs();
+
+            model.UsersListing = Database.GetUsers().Select(a => new UserListingItem
+            {
+                FirstName = a.FirstName,
+                LastName = a.LastName,
+                EmailAddress = a.EmailAddress,
+                ID = a.ID,
+                LastLogin = model.UserLoginListing.Where(b => b.UserID == a.ID).Max(b => b.Timestamp),
+                NumJobs = 0
+            }).ToList();
+    
            if (!string.IsNullOrEmpty(actionMessage))
            {
                model.ActionMessage = actionMessage;
