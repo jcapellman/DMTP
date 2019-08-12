@@ -46,5 +46,7 @@ namespace DMTP.lib.Databases.Base
         List<UserLogins> GetLogins();
 
         bool DeleteUser(Guid userID);
+
+        bool UpdateUser(Users user);
     }
 }

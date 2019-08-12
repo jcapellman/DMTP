@@ -476,5 +476,34 @@ namespace DMTP.lib.Databases
                 return false;
             }
         }
+
+        public bool UpdateUser(Users user)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var dbUser = db.GetCollection<Users>().FindById(user.ID);
+
+                    if (dbUser == null)
+                    {
+                        return false;
+                    }
+
+                    dbUser.FirstName = user.FirstName;
+                    dbUser.LastName = user.LastName;
+
+                    db.GetCollection<Users>().Update(dbUser);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to update user {user.ID} in the Users Table to {ex}");
+
+                return false;
+            }
+        }
     }
 }
