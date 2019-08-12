@@ -28,7 +28,7 @@
                 <td>@user.LastLogin</td>
                 <td>@user.NumJobs</td>
                 <td>
-                    <a href="Edit?id=@user.ID" class="text-center fa fa-pencil-square-o" title="Edit User"></a>
+                    <a asp-action="Edit" asp-route-id="@user.ID" class="text-center fa fa-pencil-square-o" title="Edit User"></a>
 
                     @if (User.Identity.Name != @user.ID.ToString())
                     {
