@@ -1,6 +1,6 @@
 using DMTP.lib.Databases;
 using DMTP.lib.Databases.Base;
-
+using DMTP.lib.Databases.Tables;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
@@ -28,7 +28,11 @@ namespace DMTP.REST
 
             services.AddSingleton(Helpers.AssemblyReader.LoadAssemblies());
 
-            services.AddSingleton<IDatabase>(new LiteDBDatabase());
+            var db = new LiteDBDatabase();
+
+            services.AddSingleton(db.GetSettings());
+
+            services.AddSingleton<IDatabase>(db);
 
             services.AddMvc();
 
