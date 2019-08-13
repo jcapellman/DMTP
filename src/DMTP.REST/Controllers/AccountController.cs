@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 
 using DMTP.lib.Databases.Base;
+using DMTP.lib.Databases.Tables;
 using DMTP.lib.Helpers;
 using DMTP.REST.Models;
 
@@ -17,15 +18,28 @@ namespace DMTP.REST.Controllers
     public class AccountController : Controller
     {
         private readonly IDatabase _database;
+        private readonly Settings _settings;
 
-        public AccountController(IDatabase database)
+        public AccountController(IDatabase database, Settings settings)
         {
             _database = database;
+            _settings = settings;
         }
 
-        public IActionResult Index(string ReturnUrl = "") => View(new LoginViewModel());
+        public IActionResult Index(string ReturnUrl = "") => View(new LoginViewModel
+        {
+            CurrentSettings = _settings
+        });
 
-        public IActionResult Create() => View(new CreateUserModel());
+        public IActionResult Create()
+        {
+            if (!_settings.AllowNewUserCreation)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+
+            return View(new CreateUserModel());
+        }
 
         public IActionResult Logout()
         {
@@ -61,7 +75,7 @@ namespace DMTP.REST.Controllers
             if (!ModelState.IsValid)
             {
                 model.ErrorMessage = "Please try again";
-
+                
                 return View("Create", model);
             }
 
@@ -91,6 +105,8 @@ namespace DMTP.REST.Controllers
             {
                 model.ErrorMessage = "Please try again";
 
+                model.CurrentSettings = _settings;
+
                 return View("Index", model);
             }
 
@@ -104,6 +120,7 @@ namespace DMTP.REST.Controllers
             }
 
             model.ErrorMessage = "EmailAddress and or Password are incorrect";
+            model.CurrentSettings = _settings;
 
             return View("Index", model);
         }
