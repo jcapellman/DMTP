@@ -512,7 +512,25 @@ namespace DMTP.lib.Databases
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    return db.GetCollection<Settings>().FindOne(a => a != null);
+                    var settings = db.GetCollection<Settings>().FindOne(a => a != null);
+
+                    if (settings != null)
+                    {
+                        return settings;
+                    }
+
+                    settings = new Settings
+                    {
+                        AllowNewUserCreation = false,
+                        SMTPHostName = string.Empty,
+                        SMTPPassword = string.Empty,
+                        SMTPPortNumber = 467,
+                        SMTPUsername = string.Empty
+                    };
+
+                    db.GetCollection<Settings>().Insert(settings);
+
+                    return settings;
                 }
             }
             catch (Exception ex)
