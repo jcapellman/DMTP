@@ -12,5 +12,7 @@ namespace DMTP.REST.Models
         public string Password { get; set; }
 
         public string ErrorMessage { get; set; }
+
+        public lib.Databases.Tables.Settings CurrentSettings { get; set; }
     }
 }
