@@ -119,7 +119,7 @@ namespace DMTP.REST.Controllers
                 return Login(userGuid.Value);
             }
 
-            model.ErrorMessage = "EmailAddress and or Password are incorrect";
+            model.ErrorMessage = "Email Address and or Password are incorrect";
             model.CurrentSettings = _settings;
 
             return View("Index", model);
