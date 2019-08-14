@@ -4,6 +4,13 @@
 
 <br/>
 
+@if (!string.IsNullOrEmpty(Model.ActionMessage))
+{
+    <div class="alert alert-primary">
+        @Model.ActionMessage
+    </div>
+}
+
 <form method="post" asp-controller="Settings" asp-action="AttemptUpdate" class="form-signin">
     <input type="hidden" asp-for="@Model.Setting.ID" />
 
