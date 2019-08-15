@@ -19,7 +19,7 @@ namespace DMTP.REST.Controllers
     {
         private readonly List<BasePrediction> _assemblies;
 
-        public HomeController(IDatabase database, List<BasePrediction> assemblies) : base(database) { _assemblies = assemblies; }
+        public HomeController(IDatabase database, List<BasePrediction> assemblies, Settings settings) : base(database, settings) { _assemblies = assemblies; }
 
         public IActionResult Index()
         {

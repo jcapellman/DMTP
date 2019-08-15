@@ -10,7 +10,7 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class SettingsController : BaseController
     {
-        public SettingsController(IDatabase database) : base(database)
+        public SettingsController(IDatabase database, Settings settings) : base(database, settings)
         {
         }
 

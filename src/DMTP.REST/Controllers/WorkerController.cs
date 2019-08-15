@@ -11,7 +11,7 @@ namespace DMTP.REST.Controllers
 {
     public class WorkerController : BaseAPIController
     {
-        public WorkerController(IDatabase database) : base(database) { }
+        public WorkerController(IDatabase database, Settings settings) : base(database, settings) { }
 
         [HttpPost]
         public void Post([FromBody]Workers worker)

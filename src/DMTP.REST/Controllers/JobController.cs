@@ -10,7 +10,7 @@ namespace DMTP.REST.Controllers
 {
     public class JobController : BaseAPIController
     {
-        public JobController(IDatabase database) : base(database) { }
+        public JobController(IDatabase database, Settings settings) : base(database, settings) { }
 
         [HttpGet]
         public List<Jobs> Get() => Database.GetJobs();
