@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
@@ -13,9 +15,42 @@ namespace DMTP.REST.Controllers
     {
         protected readonly IDatabase Database;
 
-        protected BaseController(IDatabase database)
+        protected Settings CurrentSettings;
+
+        private readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
+
+        protected BaseController(IDatabase database, Settings settings)
         {
             Database = database;
+            CurrentSettings = settings;
+        }
+
+        protected void SendEmail(string receiverEmail, string subject, string body)
+        {
+            try
+            {
+                var client = new SmtpClient(CurrentSettings.SMTPHostName)
+                {
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(CurrentSettings.SMTPUsername, CurrentSettings.SMTPPassword),
+                    Port = CurrentSettings.SMTPPortNumber
+                };
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress(lib.Common.Constants.SENDER_EMAIL)
+                };
+
+                mailMessage.To.Add(receiverEmail);
+                mailMessage.Body = body;
+                mailMessage.Subject = subject;
+
+                client.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failure sending email to {receiverEmail}, subject: {subject}, body: {body} due to {ex}");
+            }
         }
 
         protected Guid? SaveJob(Jobs job)
