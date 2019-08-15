@@ -32,7 +32,7 @@
 
                     @if (User.Identity.Name != @user.ID.ToString())
                     {
-                        <a href="SendWelcome?id=@user.ID" class="text-center fa fa-envelope-o" title="Send Signup Email"></a>
+                        <a asp-action="SendEmail" asp-route-id="@user.EmailAddress" class="text-center fa fa-envelope-o" title="Send Signup Email"></a>
 
                         <a asp-action="DeleteUser" asp-route-id="@user.ID" class="text-center fas fa-trash" title="Delete User"></a>
                     }

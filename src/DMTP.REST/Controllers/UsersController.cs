@@ -13,7 +13,7 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class UsersController : BaseController
     {
-        public UsersController(IDatabase database) : base(database)
+        public UsersController(IDatabase database, Settings settings) : base(database, settings)
         {
         }
 
@@ -42,6 +42,14 @@ namespace DMTP.REST.Controllers
            }
 
            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult SendEmail(string email)
+        {
+            SendEmail(email, "Welcome to DMTP", "Welcome");
+
+            return RedirectToAction("Index", "Users", new {actionMessage = $"Email sent to {email}"});
         }
 
         [HttpGet]
