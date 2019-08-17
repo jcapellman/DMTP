@@ -1,0 +1,41 @@
+﻿@model DMTP.REST.Models.Roles.RoleDashboardModel
+
+@if (!string.IsNullOrEmpty(Model.ActionMessage))
+{
+    <div class="alert alert-primary">
+        @Model.ActionMessage
+    </div>
+}
+
+<h3>Roles</h3>
+
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col"># of Users</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model.RolesListing)
+        {
+            <tr>
+                <th scope="row">@role.Name</th>
+                <td>@role.NumberAssociatedUsers</td>
+                <td>
+                    @if (role.NumberAssociatedUsers == 0 && !role.IsBuiltIn)
+                    {
+                        <a asp-action="Edit" asp-route-id="@role.ID" class="text-center fa fa-pencil-square-o" title="Edit Role"></a>
+
+                        <a asp-action="DeleteRole" asp-route-id="@role.ID" class="text-center fas fa-trash" title="Delete Role"></a>
+                    }
+                    else
+                    {
+                        <p>Built-In Role</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
