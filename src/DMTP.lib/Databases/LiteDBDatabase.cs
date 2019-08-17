@@ -559,5 +559,22 @@ namespace DMTP.lib.Databases
                 return false;
             }
         }
+
+        public List<Roles> GetRoles()
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    return db.GetCollection<Roles>().FindAll().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to get roles due to {ex}");
+
+                return null;
+            }
+        }
     }
 }
