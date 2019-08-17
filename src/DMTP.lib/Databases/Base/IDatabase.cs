@@ -52,5 +52,7 @@ namespace DMTP.lib.Databases.Base
         Settings GetSettings();
 
         bool UpdateSettings(Settings setting);
+
+        List<Roles> GetRoles();
     }
 }
