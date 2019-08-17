@@ -2,12 +2,16 @@
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Claims;
 
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.REST.Auth;
 
 using Microsoft.AspNetCore.Mvc;
+
+using Newtonsoft.Json;
 
 namespace DMTP.REST.Controllers
 {
@@ -23,6 +27,30 @@ namespace DMTP.REST.Controllers
         {
             Database = database;
             CurrentSettings = settings;
+        }
+
+        protected IActionResult RedirectNotAuthorized() => RedirectToAction("Index", "Error", new { errorMessage = "Not Authorized to do that" });
+
+        protected ApplicationUser GetApplicationUser()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var claim = claimsIdentity?.FindFirst("ApplicationUser");
+
+            return JsonConvert.DeserializeObject<ApplicationUser>(claim?.Value);
+        }
+
+        protected bool HasAccess(string nameOfProperty)
+        {
+            var user = GetApplicationUser();
+
+            if (user?.Role == null)
+            {
+                return false;
+            }
+
+            var props = typeof(Roles).GetProperties();
+
+            return (from prop in props where prop.Name == nameOfProperty select (bool) prop.GetValue(user)).FirstOrDefault();
         }
 
         protected void SendEmail(string receiverEmail, string subject, string body)
