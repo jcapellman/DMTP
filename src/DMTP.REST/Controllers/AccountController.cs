@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading;
 
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Helpers;
+using DMTP.REST.Auth;
 using DMTP.REST.Models;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Newtonsoft.Json;
 
 namespace DMTP.REST.Controllers
 {
@@ -52,7 +56,8 @@ namespace DMTP.REST.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, userGuid.ToString())
+                new Claim(ClaimTypes.Name, userGuid.ToString()),
+                new Claim("ApplicationUser", JsonConvert.SerializeObject(new ApplicationUser()))
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -63,6 +68,8 @@ namespace DMTP.REST.Controllers
             {
                 IsPersistent = true
             };
+
+            Thread.CurrentPrincipal = principal;
 
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
 
