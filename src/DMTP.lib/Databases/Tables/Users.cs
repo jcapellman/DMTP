@@ -1,4 +1,6 @@
-﻿using DMTP.lib.Databases.Tables.Base;
+﻿using System;
+
+using DMTP.lib.Databases.Tables.Base;
 
 namespace DMTP.lib.Databases.Tables
 {
@@ -13,5 +15,7 @@ namespace DMTP.lib.Databases.Tables
         public string Password { get; set; }
 
         public bool Active { get; set; }
+
+        public Guid RoleID { get; set; }
     }
 }
