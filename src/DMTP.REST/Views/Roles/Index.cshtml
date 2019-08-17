@@ -26,9 +26,15 @@
                 <td>
                     @if (role.NumberAssociatedUsers == 0 && !role.IsBuiltIn)
                     {
-                        <a asp-action="Edit" asp-route-id="@role.ID" class="text-center fa fa-pencil-square-o" title="Edit Role"></a>
+                        @if (Model.CurrentUser.Role.RolesEdit)
+                        {
+                            <a asp-action="Edit" asp-route-id="@role.ID" class="text-center fa fa-pencil-square-o" title="Edit Role"></a>
+                        }
 
-                        <a asp-action="DeleteRole" asp-route-id="@role.ID" class="text-center fas fa-trash" title="Delete Role"></a>
+                        @if (Model.CurrentUser.Role.RolesDelete)
+                        {
+                            <a asp-action="DeleteRole" asp-route-id="@role.ID" class="text-center fas fa-trash" title="Delete Role"></a>
+                        }
                     }
                     else
                     {
