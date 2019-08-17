@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
@@ -12,13 +13,31 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class RolesController : BaseController
     {
-        protected RolesController(IDatabase database, Settings settings) : base(database, settings)
+        public RolesController(IDatabase database, Settings settings) : base(database, settings)
         {
+        }
+
+        [HttpGet]
+        public IActionResult DeleteRole(Guid id)
+        {
+            if (!HasAccess(nameof(Roles.RolesDelete)))
+            {
+                return RedirectNotAuthorized();
+            }
+
+            var result = Database.DeleteRole(id);
+
+            return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted user" : "Failed to delete user" });
         }
 
         public IActionResult Index(string actionMessage = null)
         {
-            var model = new RoleDashboardModel();
+            if (!HasAccess(nameof(Roles.RolesView)))
+            {
+                return RedirectNotAuthorized();
+            }
+
+            var model = new RoleDashboardModel(GetApplicationUser());
 
             var users = Database.GetUsers();
 
