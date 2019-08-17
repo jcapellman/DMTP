@@ -576,5 +576,33 @@ namespace DMTP.lib.Databases
                 return null;
             }
         }
+
+        public bool DeleteRole(Guid roleID)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var role = db.GetCollection<Roles>().FindById(roleID);
+
+                    if (role == null)
+                    {
+                        return false;
+                    }
+
+                    role.Active = false;
+
+                    db.GetCollection<Roles>().Update(role);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to set {roleID} to in active from the Roles Table to {ex}");
+
+                return false;
+            }
+        }
     }
 }
