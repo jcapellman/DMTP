@@ -19,9 +19,14 @@ namespace DMTP.REST.Controllers
 
         public IActionResult Index(string actionMessage = null)
         {
-            var model = new UserDashboardModel
+            if (!HasAccess(nameof(Roles.UsersView)))
             {
-                UserLoginListing = Database.GetLogins().OrderByDescending(a => a.Timestamp).ToList()
+                return RedirectNotAuthorized();
+            }
+
+            var model = new UserDashboardModel(GetApplicationUser())
+            {
+                UserLoginListing = Database.GetLogins().OrderByDescending(a => a.Timestamp).ToList(),
             };
 
             var jobs = Database.GetJobs();
@@ -55,6 +60,11 @@ namespace DMTP.REST.Controllers
         [HttpGet]
         public IActionResult DeleteUser(Guid id)
         {
+            if (!HasAccess(nameof(Roles.UsersDelete)))
+            {
+                return RedirectNotAuthorized();
+            }
+
             var result = Database.DeleteUser(id);
 
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted user" : "Failed to delete user"});
@@ -63,6 +73,11 @@ namespace DMTP.REST.Controllers
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
+            if (!HasAccess(nameof(Roles.UsersEdit)))
+            {
+                return RedirectNotAuthorized();
+            }
+
             var user = Database.GetUser(id);
 
             var model = new EditUserModel
@@ -79,6 +94,11 @@ namespace DMTP.REST.Controllers
         [HttpPost]
         public IActionResult AttemptUpdate(EditUserModel model)
         {
+            if (!HasAccess(nameof(Roles.UsersEdit)))
+            {
+                return RedirectNotAuthorized();
+            }
+
             var result = Database.UpdateUser(new Users
             {
                 ID = model.ID,
