@@ -54,5 +54,7 @@ namespace DMTP.lib.Databases.Base
         bool UpdateSettings(Settings setting);
 
         List<Roles> GetRoles();
+
+        bool DeleteRole(Guid roleID);
     }
 }
