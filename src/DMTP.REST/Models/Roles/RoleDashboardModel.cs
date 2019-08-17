@@ -4,14 +4,11 @@ using DMTP.REST.Auth;
 
 namespace DMTP.REST.Models.Roles
 {
-    public class RoleDashboardModel
+    public class RoleDashboardModel : BaseModel
     {
-        public RoleDashboardModel(ApplicationUser user)
+        public RoleDashboardModel(ApplicationUser user) : base(user)
         {
-            CurrentUser = user;
         }
-
-        public ApplicationUser CurrentUser { get; set; }
 
         public List<RoleListingItem> RolesListing { get; set; }
 
