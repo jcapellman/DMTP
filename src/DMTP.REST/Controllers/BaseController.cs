@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
-
+using System.Threading;
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
 using DMTP.REST.Auth;
-
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
@@ -51,6 +53,30 @@ namespace DMTP.REST.Controllers
             var props = typeof(Roles).GetProperties();
 
             return (from prop in props where prop.Name == nameOfProperty select (bool) prop.GetValue(user)).FirstOrDefault();
+        }
+
+        protected IActionResult Login(Guid userGuid)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, userGuid.ToString()),
+                new Claim("ApplicationUser", JsonConvert.SerializeObject(new ApplicationUser()))
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var principal = new ClaimsPrincipal(identity);
+
+            var props = new AuthenticationProperties
+            {
+                IsPersistent = true
+            };
+
+            Thread.CurrentPrincipal = principal;
+
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
+
+            return RedirectToAction("Index", "Home");
         }
 
         protected void SendEmail(string receiverEmail, string subject, string body)
