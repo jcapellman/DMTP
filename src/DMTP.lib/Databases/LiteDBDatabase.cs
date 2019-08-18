@@ -525,7 +525,8 @@ namespace DMTP.lib.Databases
                         SMTPHostName = string.Empty,
                         SMTPPassword = string.Empty,
                         SMTPPortNumber = 467,
-                        SMTPUsername = string.Empty
+                        SMTPUsername = string.Empty,
+                        IsInitialized = false
                     };
 
                     db.GetCollection<Settings>().Insert(settings);
@@ -602,6 +603,35 @@ namespace DMTP.lib.Databases
                 Log.Error($"Failed to set {roleID} to in active from the Roles Table to {ex}");
 
                 return false;
+            }
+        }
+
+        public void Initialize()
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    db.GetCollection<Users>().Delete(a => a != null);
+
+                    db.GetCollection<Roles>().Delete(a => a != null);
+
+                    db.GetCollection<Workers>().Delete(a => a != null);
+
+                    db.GetCollection<Assemblies>().Delete(a => a != null);
+
+                    db.GetCollection<Jobs>().Delete(a => a != null);
+
+                    db.GetCollection<PendingSubmissions>().Delete(a => a != null);
+
+                    db.GetCollection<Settings>().Delete(a => a != null);
+
+                    db.GetCollection<UserLogins>().Delete(a => a != null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to Initialize due to {ex}");
             }
         }
     }
