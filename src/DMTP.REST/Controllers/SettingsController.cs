@@ -1,6 +1,5 @@
 ﻿using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
-using DMTP.lib.Enums;
 using DMTP.REST.Models.Settings;
 
 using Microsoft.AspNetCore.Authorization;
@@ -11,8 +10,6 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class SettingsController : BaseController
     {
-        protected override AccessSections CurrentSection => AccessSections.SETTINGS;
-
         public SettingsController(IDatabase database, Settings settings) : base(database, settings)
         {
         }

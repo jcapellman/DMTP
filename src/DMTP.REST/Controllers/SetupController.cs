@@ -1,6 +1,5 @@
 ﻿using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
-using DMTP.lib.Enums;
 using DMTP.REST.Models.Setup;
 
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +8,6 @@ namespace DMTP.REST.Controllers
 {
     public class SetupController : BaseController
     {
-        protected override AccessSections CurrentSection => AccessSections.SETUP;
-
         public SetupController(IDatabase database, Settings settings) : base(database, settings)
         {
         }

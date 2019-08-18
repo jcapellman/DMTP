@@ -9,8 +9,6 @@ using System.Threading;
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
-using DMTP.lib.Enums;
-using DMTP.lib.Extensions;
 
 using DMTP.REST.Auth;
 
@@ -22,11 +20,9 @@ using Newtonsoft.Json;
 
 namespace DMTP.REST.Controllers
 {
-    public abstract class BaseController : Controller
+    public class BaseController : Controller
     {
         protected readonly IDatabase Database;
-
-        protected abstract AccessSections CurrentSection { get; }
 
         protected readonly Settings CurrentSettings;
 
@@ -46,13 +42,6 @@ namespace DMTP.REST.Controllers
             var claim = claimsIdentity?.FindFirst("ApplicationUser");
 
             return JsonConvert.DeserializeObject<ApplicationUser>(claim?.Value);
-        }
-
-        protected bool HasAccess(AccessLevels level)
-        {
-            var user = GetApplicationUser();
-
-            return user?.Role != null && user.Role.HasPermissions(CurrentSection, level);
         }
 
         protected IActionResult Login(Guid userGuid)

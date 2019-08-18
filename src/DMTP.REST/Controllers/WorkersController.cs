@@ -10,8 +10,6 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class WorkersController : BaseController
     {
-        protected override AccessSections CurrentSection => AccessSections.WORKERS;
-
         public WorkersController(IDatabase database, Settings settings) : base(database, settings)
         {
         }

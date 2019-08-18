@@ -4,6 +4,7 @@ using System.Linq;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Enums;
+using DMTP.REST.Attributes;
 using DMTP.REST.Models.Users;
 
 using Microsoft.AspNetCore.Authorization;
@@ -14,19 +15,13 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class UsersController : BaseController
     {
-        protected override AccessSections CurrentSection => AccessSections.USERS;
-
         public UsersController(IDatabase database, Settings settings) : base(database, settings)
         {
         }
 
+        [Access(AccessSections.USERS, AccessLevels.VIEW_ONLY)]
         public IActionResult Index(string actionMessage = null)
         {
-            if (!HasAccess(AccessLevels.VIEW_ONLY))
-            {
-                return RedirectNotAuthorized();
-            }
-
             var model = new UserDashboardModel(GetApplicationUser())
             {
                 UserLoginListing = Database.GetLogins().OrderByDescending(a => a.Timestamp).ToList(),
@@ -61,26 +56,18 @@ namespace DMTP.REST.Controllers
         }
 
         [HttpGet]
+        [Access(AccessSections.USERS, AccessLevels.FULL)]
         public IActionResult DeleteUser(Guid id)
         {
-            if (!HasAccess(AccessLevels.FULL))
-            {
-                return RedirectNotAuthorized();
-            }
-
             var result = Database.DeleteUser(id);
 
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted user" : "Failed to delete user"});
         }
 
         [HttpGet]
+        [Access(AccessSections.USERS, AccessLevels.EDIT)]
         public IActionResult Edit(Guid id)
         {
-            if (!HasAccess(AccessLevels.EDIT))
-            {
-                return RedirectNotAuthorized();
-            }
-
             var user = Database.GetUser(id);
 
             var model = new EditUserModel
@@ -95,13 +82,9 @@ namespace DMTP.REST.Controllers
         }
 
         [HttpPost]
+        [Access(AccessSections.USERS, AccessLevels.EDIT)]
         public IActionResult AttemptUpdate(EditUserModel model)
         {
-            if (!HasAccess(AccessLevels.EDIT))
-            {
-                return RedirectNotAuthorized();
-            }
-
             var result = Database.UpdateUser(new Users
             {
                 ID = model.ID,
