@@ -3,6 +3,7 @@ using System.Linq;
 
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.Enums;
 using DMTP.REST.Models.Users;
 
 using Microsoft.AspNetCore.Authorization;
@@ -13,13 +14,15 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class UsersController : BaseController
     {
+        protected override AccessSections CurrentSection => AccessSections.USERS;
+
         public UsersController(IDatabase database, Settings settings) : base(database, settings)
         {
         }
 
         public IActionResult Index(string actionMessage = null)
         {
-            if (!HasAccess(nameof(Roles.UsersView)))
+            if (!HasAccess(AccessLevels.VIEW_ONLY))
             {
                 return RedirectNotAuthorized();
             }
@@ -60,7 +63,7 @@ namespace DMTP.REST.Controllers
         [HttpGet]
         public IActionResult DeleteUser(Guid id)
         {
-            if (!HasAccess(nameof(Roles.UsersDelete)))
+            if (!HasAccess(AccessLevels.FULL))
             {
                 return RedirectNotAuthorized();
             }
@@ -73,7 +76,7 @@ namespace DMTP.REST.Controllers
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
-            if (!HasAccess(nameof(Roles.UsersEdit)))
+            if (!HasAccess(AccessLevels.EDIT))
             {
                 return RedirectNotAuthorized();
             }
@@ -94,7 +97,7 @@ namespace DMTP.REST.Controllers
         [HttpPost]
         public IActionResult AttemptUpdate(EditUserModel model)
         {
-            if (!HasAccess(nameof(Roles.UsersEdit)))
+            if (!HasAccess(AccessLevels.EDIT))
             {
                 return RedirectNotAuthorized();
             }
