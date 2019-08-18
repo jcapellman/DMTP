@@ -1,5 +1,6 @@
 ﻿using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.Enums;
 using DMTP.lib.Helpers;
 using DMTP.REST.Models;
 
@@ -12,6 +13,8 @@ namespace DMTP.REST.Controllers
     [AllowAnonymous]
     public class AccountController : BaseController
     {
+        protected override AccessSections CurrentSection => AccessSections.ACCOUNT;
+
         public AccountController(IDatabase database, Settings settings) : base(database, settings)
         {
         }
