@@ -1,0 +1,73 @@
+﻿@model DMTP.REST.Models.Setup.SetupModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutUnauthenticated.cshtml";
+}
+
+<h3>Setup DMTP</h3>
+
+@if (!string.IsNullOrEmpty(Model.ActionMessage))
+{
+    <div class="alert alert-primary">
+        @Model.ActionMessage
+    </div>
+}
+
+<form method="post" asp-controller="Setup" asp-action="AttemptSetup" class="form-signin form">
+    <h5 class="text-white">Administrator Account</h5>
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.FirstName" required />
+        <label>First Name</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.LastName" required />
+        <label>Last Name</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.EmailAddress" required />
+        <label>Email Address</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.Password" required />
+        <label>Password</label>
+    </div>
+
+    <br />
+
+    <h5 class="text-white">SMTP Settings</h5>
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.SMTPHostName" />
+        <label>Host Name</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.SMTPPortNumber" />
+        <label>Port Number</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.SMTPUsername" />
+        <label>User Name</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" type="text" asp-for="@Model.SMTPPassword" />
+        <label>Password</label>
+    </div>
+
+    <br />
+
+    <h5 class="text-white">Misc Settings</h5>
+
+    <div class="form-label-group">
+        <input class="form-control" type="checkbox" asp-for="@Model.AllowUserCreation" />
+        <label asp-for="AllowUserCreation">Allow New User Creation</label>
+    </div>
+
+    <br />
+
+    <input type="submit" value="Complete Setup" class="btn btn-lg btn-primary btn-block text-uppercase" />
+</form>
