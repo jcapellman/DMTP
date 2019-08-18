@@ -3,6 +3,7 @@ using System.Linq;
 
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.Enums;
 using DMTP.REST.Models.Roles;
 
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,8 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class RolesController : BaseController
     {
+        protected override AccessSections CurrentSection => AccessSections.ROLES;
+
         public RolesController(IDatabase database, Settings settings) : base(database, settings)
         {
         }
@@ -20,7 +23,7 @@ namespace DMTP.REST.Controllers
         [HttpGet]
         public IActionResult DeleteRole(Guid id)
         {
-            if (!HasAccess(nameof(Roles.RolesDelete)))
+            if (!HasAccess(AccessLevels.FULL))
             {
                 return RedirectNotAuthorized();
             }
@@ -32,7 +35,7 @@ namespace DMTP.REST.Controllers
 
         public IActionResult Index(string actionMessage = null)
         {
-            if (!HasAccess(nameof(Roles.RolesView)))
+            if (!HasAccess(AccessLevels.VIEW_ONLY))
             {
                 return RedirectNotAuthorized();
             }
