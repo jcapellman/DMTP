@@ -56,5 +56,7 @@ namespace DMTP.lib.Databases.Base
         List<Roles> GetRoles();
 
         bool DeleteRole(Guid roleID);
+
+        void Initialize();
     }
 }
