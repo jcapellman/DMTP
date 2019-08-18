@@ -4,6 +4,8 @@ namespace DMTP.lib.Databases.Tables
 {
     public class Settings : BaseTable
     {
+        public bool IsInitialized { get; set; }
+
         public string SMTPHostName { get; set; }
 
         public int SMTPPortNumber { get; set; }
