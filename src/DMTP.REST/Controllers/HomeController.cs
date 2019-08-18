@@ -5,6 +5,7 @@ using System.Linq;
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.Enums;
 using DMTP.lib.ML.Base;
 using DMTP.REST.Models;
 
@@ -18,6 +19,8 @@ namespace DMTP.REST.Controllers
     public class HomeController : BaseController
     {
         private readonly List<BasePrediction> _assemblies;
+
+        protected override AccessSections CurrentSection => AccessSections.DASHBOARD;
 
         public HomeController(IDatabase database, List<BasePrediction> assemblies, Settings settings) : base(database, settings) { _assemblies = assemblies; }
 
