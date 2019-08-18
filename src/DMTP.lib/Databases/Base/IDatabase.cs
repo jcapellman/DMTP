@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.Enums;
 
 namespace DMTP.lib.Databases.Base
 {
@@ -54,6 +55,8 @@ namespace DMTP.lib.Databases.Base
         bool UpdateSettings(Settings setting);
 
         List<Roles> GetRoles();
+
+        Guid? CreateRole(string name, bool builtIn, Dictionary<AccessSections, AccessLevels> permissions);
 
         bool DeleteRole(Guid roleID);
 
