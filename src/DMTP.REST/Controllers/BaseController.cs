@@ -5,10 +5,15 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading;
+
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.Enums;
+using DMTP.lib.Extensions;
+
 using DMTP.REST.Auth;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +22,13 @@ using Newtonsoft.Json;
 
 namespace DMTP.REST.Controllers
 {
-    public class BaseController : Controller
+    public abstract class BaseController : Controller
     {
         protected readonly IDatabase Database;
 
-        protected Settings CurrentSettings;
+        protected abstract AccessSections CurrentSection { get; }
+
+        protected readonly Settings CurrentSettings;
 
         private readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
@@ -41,18 +48,11 @@ namespace DMTP.REST.Controllers
             return JsonConvert.DeserializeObject<ApplicationUser>(claim?.Value);
         }
 
-        protected bool HasAccess(string nameOfProperty)
+        protected bool HasAccess(AccessLevels level)
         {
             var user = GetApplicationUser();
 
-            if (user?.Role == null)
-            {
-                return false;
-            }
-
-            var props = typeof(Roles).GetProperties();
-
-            return (from prop in props where prop.Name == nameOfProperty select (bool) prop.GetValue(user)).FirstOrDefault();
+            return user?.Role != null && user.Role.HasPermissions(CurrentSection, level);
         }
 
         protected IActionResult Login(Guid userGuid)
