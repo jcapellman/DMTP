@@ -3,10 +3,14 @@
     public enum AccessSections
     {
         DASHBOARD,
-        JOB,
+        JOBS,
         ROLES,
         SETTINGS,
         USERS,
-        WORKERS
+        WORKERS,
+        ACCOUNT,
+        ERROR,
+        SETUP,
+        API
     }
 }
