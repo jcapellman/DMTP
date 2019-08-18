@@ -1,43 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading;
-
-using DMTP.lib.Databases.Base;
+﻿using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Helpers;
-using DMTP.REST.Auth;
 using DMTP.REST.Models;
 
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-using Newtonsoft.Json;
 
 namespace DMTP.REST.Controllers
 {
     [AllowAnonymous]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private readonly IDatabase _database;
-        private readonly Settings _settings;
-
-        public AccountController(IDatabase database, Settings settings)
+        public AccountController(IDatabase database, Settings settings) : base(database, settings)
         {
-            _database = database;
-            _settings = settings;
         }
 
-        public IActionResult Index(string ReturnUrl = "") => View(new LoginViewModel
+        public IActionResult Index(string ReturnUrl = "")
         {
-            CurrentSettings = _settings
-        });
+            if (!CurrentSettings.IsInitialized)
+            {
+                return RedirectToAction("Index", "Setup");
+            }
+
+            return View(new LoginViewModel
+            {
+                CurrentSettings = CurrentSettings
+            });
+        }
 
         public IActionResult Create()
         {
-            if (!_settings.AllowNewUserCreation)
+            if (!CurrentSettings.AllowNewUserCreation)
             {
                 return RedirectToAction("Index", "Account");
             }
@@ -52,30 +46,6 @@ namespace DMTP.REST.Controllers
             return RedirectToAction("Index", "Account");
         }
 
-        private IActionResult Login(Guid userGuid)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, userGuid.ToString()),
-                new Claim("ApplicationUser", JsonConvert.SerializeObject(new ApplicationUser()))
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var principal = new ClaimsPrincipal(identity);
-
-            var props = new AuthenticationProperties
-            {
-                IsPersistent = true
-            };
-
-            Thread.CurrentPrincipal = principal;
-
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
-
-            return RedirectToAction("Index", "Home");
-        }
-
         [HttpPost]
         public IActionResult AttemptCreate(CreateUserModel model)
         {
@@ -86,9 +56,9 @@ namespace DMTP.REST.Controllers
                 return View("Create", model);
             }
 
-            var userGuid = _database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1());
+            var userGuid = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1());
 
-            _database.RecordLogin(userGuid, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
+            Database.RecordLogin(userGuid, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
 
             if (userGuid != null)
             {
@@ -112,14 +82,14 @@ namespace DMTP.REST.Controllers
             {
                 model.ErrorMessage = "Please try again";
 
-                model.CurrentSettings = _settings;
+                model.CurrentSettings = CurrentSettings;
 
                 return View("Index", model);
             }
 
-            var userGuid = _database.GetUser(model.EmailAddress, model.Password.ToSHA1());
+            var userGuid = Database.GetUser(model.EmailAddress, model.Password.ToSHA1());
 
-            _database.RecordLogin(userGuid, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
+            Database.RecordLogin(userGuid, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
 
             if (userGuid != null)
             {
@@ -127,7 +97,7 @@ namespace DMTP.REST.Controllers
             }
 
             model.ErrorMessage = "Email Address and or Password are incorrect";
-            model.CurrentSettings = _settings;
+            model.CurrentSettings = CurrentSettings;
 
             return View("Index", model);
         }
