@@ -1,4 +1,6 @@
-﻿@model DMTP.REST.Models.Roles.RoleDashboardModel
+﻿@using DMTP.lib.Enums
+@using DMTP.lib.Extensions
+@model DMTP.REST.Models.Roles.RoleDashboardModel
 
 @if (!string.IsNullOrEmpty(Model.ActionMessage))
 {
@@ -26,12 +28,12 @@
                 <td>
                     @if (role.NumberAssociatedUsers == 0 && !role.IsBuiltIn)
                     {
-                        @if (Model.CurrentUser.Role.RolesEdit)
+                        @if (Model.CurrentUser.Role.HasPermissions(AccessSections.ROLES, AccessLevels.EDIT))
                         {
                             <a asp-action="Edit" asp-route-id="@role.ID" class="text-center fa fa-pencil-square-o" title="Edit Role"></a>
                         }
 
-                        @if (Model.CurrentUser.Role.RolesDelete)
+                        @if (Model.CurrentUser.Role.HasPermissions(AccessSections.ROLES, AccessLevels.FULL))
                         {
                             <a asp-action="DeleteRole" asp-route-id="@role.ID" class="text-center fas fa-trash" title="Delete Role"></a>
                         }
