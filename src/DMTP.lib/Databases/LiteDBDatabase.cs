@@ -6,6 +6,7 @@ using System.Reflection;
 
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.Enums;
 using DMTP.lib.Helpers;
 using DMTP.lib.ML.Base;
 
@@ -573,6 +574,31 @@ namespace DMTP.lib.Databases
             catch (Exception ex)
             {
                 Log.Error($"Failed to get roles due to {ex}");
+
+                return null;
+            }
+        }
+
+        public Guid? CreateRole(string name, bool builtIn, Dictionary<AccessSections, AccessLevels> permissions)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var item = new Roles
+                    {
+                        Name = name,
+                        Active = true,
+                        BuiltIn = builtIn,
+                        Permissions = permissions
+                    };
+
+                    return db.GetCollection<Roles>().Insert(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to insert roles due to {ex}");
 
                 return null;
             }
