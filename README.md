@@ -9,3 +9,9 @@ Components include:
 Feature remaining:
 * Authenticated Login
 * Authenticated Uploads
+
+## Installation Instructions
+
+### Docker
+Master branch builds are configured to auto-build to Docker Hub and can be installed with:
+docker pull jcapellman/dmtp
