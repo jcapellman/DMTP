@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
+using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Enums;
@@ -359,7 +360,7 @@ namespace DMTP.lib.Databases
             }
         }
 
-        public Guid? CreateUser(string emailAddress, string firstName, string lastName, string password)
+        public Guid? CreateUser(string emailAddress, string firstName, string lastName, string password, Guid roleID)
         {
             try
             {
@@ -378,7 +379,8 @@ namespace DMTP.lib.Databases
                         FirstName = firstName,
                         LastName = lastName,
                         Password = password,
-                        Active = true
+                        Active = true,
+                        RoleID = roleID
                     };
 
                     return db.GetCollection<Users>().Insert(user);
@@ -638,6 +640,7 @@ namespace DMTP.lib.Databases
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
+                    // Delete all rows
                     db.GetCollection<Users>().Delete(a => a != null);
 
                     db.GetCollection<Roles>().Delete(a => a != null);
@@ -653,6 +656,10 @@ namespace DMTP.lib.Databases
                     db.GetCollection<Settings>().Delete(a => a != null);
 
                     db.GetCollection<UserLogins>().Delete(a => a != null);
+
+                    CreateRole(Constants.ROLE_BUILTIN_ADMIN, true,
+                        Enum.GetNames(typeof(AccessSections))
+                            .ToDictionary(Enum.Parse<AccessSections>, section => AccessLevels.FULL));
                 }
             }
             catch (Exception ex)
