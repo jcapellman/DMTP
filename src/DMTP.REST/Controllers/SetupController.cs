@@ -1,4 +1,7 @@
-﻿using DMTP.lib.Databases.Base;
+﻿using System.Linq;
+
+using DMTP.lib.Common;
+using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
 using DMTP.REST.Models.Setup;
 
@@ -33,18 +36,25 @@ namespace DMTP.REST.Controllers
                 return RedirectToAction("Index", new {model = model});
             }
 
-            var user = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password);
+            var adminRole = Database.GetRoles().FirstOrDefault(a => a.Name == Constants.ROLE_BUILTIN_ADMIN);
 
-            if (user == null)
+            if (adminRole == null)
             {
-                model.ActionMessage = "Failed to create user";
+                model.ActionMessage = "Admin Role could not be found";
 
                 return RedirectToAction("Index", model);
             }
 
-            // TODO: Update Settings
-            
-            return Login(user.Value);
+            var user = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password, adminRole.ID);
+
+            if (user != null)
+            {
+                return Login(user.Value);
+            }
+
+            model.ActionMessage = "Failed to create user";
+
+            return RedirectToAction("Index", model);
         }
     }
 }
