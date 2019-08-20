@@ -38,7 +38,7 @@ namespace DMTP.lib.Databases.Base
 
         Guid? GetUser(string username, string password);
 
-        Guid? CreateUser(string emailAddress, string firstName, string lastName, string password);
+        Guid? CreateUser(string emailAddress, string firstName, string lastName, string password, Guid roleID);
 
         List<Users> GetUsers();
 
