@@ -13,5 +13,7 @@
         public const string ASSEMBLY_EXTENSION = "dasm";
 
         public const string SENDER_EMAIL = "no-reply@dmtp";
+
+        public const string ROLE_BUILTIN_ADMIN = "Admin";
     }
 }
