@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DMTP.REST.Models
 {
@@ -18,5 +19,7 @@ namespace DMTP.REST.Models
         public string Password { get; set; }
 
         public string ErrorMessage { get; set; }
+
+        public Guid RoleID { get; set; }
     }
 }
