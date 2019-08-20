@@ -56,7 +56,7 @@ namespace DMTP.REST.Controllers
                 return View("Create", model);
             }
 
-            var userGuid = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1());
+            var userGuid = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1(), model.RoleID);
 
             Database.RecordLogin(userGuid, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
 
