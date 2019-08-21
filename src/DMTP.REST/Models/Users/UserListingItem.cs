@@ -12,7 +12,7 @@ namespace DMTP.REST.Models.Users
 
         public string LastName { get; set; }
 
-        public DateTimeOffset LastLogin { get; set; }
+        public DateTimeOffset? LastLogin { get; set; }
 
         public int NumJobs { get; set; }
     }

@@ -35,7 +35,7 @@ namespace DMTP.REST.Controllers
                 LastName = a.LastName,
                 EmailAddress = a.EmailAddress,
                 ID = a.ID,
-                LastLogin = model.UserLoginListing.Where(b => b.UserID == a.ID).Max(b => b.Timestamp),
+                LastLogin = model.UserLoginListing.Where(b => b.UserID == a.ID).DefaultIfEmpty().Max(b => b?.Timestamp),
                 NumJobs = jobs.Count(b => b.SubmittedByUserID == a.ID)
             }).ToList();
     
