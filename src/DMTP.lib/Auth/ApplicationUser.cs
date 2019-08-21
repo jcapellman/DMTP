@@ -2,7 +2,7 @@
 
 using DMTP.lib.Databases.Tables;
 
-namespace DMTP.REST.Auth
+namespace DMTP.lib.Auth
 {
     public class ApplicationUser
     {

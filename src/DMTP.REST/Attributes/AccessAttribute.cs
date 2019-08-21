@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 
+using DMTP.lib.Auth;
 using DMTP.lib.Enums;
 using DMTP.lib.Extensions;
-using DMTP.REST.Auth;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

@@ -1,4 +1,4 @@
-﻿using DMTP.REST.Auth;
+﻿using DMTP.lib.Auth;
 
 namespace DMTP.REST.Models
 {

@@ -5,13 +5,10 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading;
-
+using DMTP.lib.Auth;
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
-
-using DMTP.REST.Auth;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -49,7 +46,7 @@ namespace DMTP.REST.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, userGuid.ToString()),
-                new Claim("ApplicationUser", JsonConvert.SerializeObject(new ApplicationUser()))
+                new Claim("ApplicationUser", JsonConvert.SerializeObject(Database.GetApplicationUser(userGuid)))
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

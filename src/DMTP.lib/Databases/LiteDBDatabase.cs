@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-
+using DMTP.lib.Auth;
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
@@ -665,6 +665,36 @@ namespace DMTP.lib.Databases
             catch (Exception ex)
             {
                 Log.Error($"Failed to Initialize due to {ex}");
+            }
+        }
+
+        public ApplicationUser GetApplicationUser(Guid userID)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var user = db.GetCollection<Users>().FindById(userID);
+
+                    if (user == null)
+                    {
+                        throw new Exception("Could not retrieve user");
+                    }
+
+                    return new ApplicationUser
+                    {
+                        ID = userID,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Role = GetRoles().FirstOrDefault(a => a.ID == user.RoleID)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to get information of {userID} due to {ex}");
+
+                return null;
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using DMTP.lib.Auth;
 using DMTP.lib.Databases.Tables;
 using DMTP.lib.Enums;
 
@@ -61,5 +61,7 @@ namespace DMTP.lib.Databases.Base
         bool DeleteRole(Guid roleID);
 
         void Initialize();
+
+        ApplicationUser GetApplicationUser(Guid userID);
     }
 }

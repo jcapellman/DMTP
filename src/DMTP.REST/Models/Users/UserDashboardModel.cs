@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using DMTP.lib.Auth;
 using DMTP.lib.Databases.Tables;
-using DMTP.REST.Auth;
 
 namespace DMTP.REST.Models.Users
 {
