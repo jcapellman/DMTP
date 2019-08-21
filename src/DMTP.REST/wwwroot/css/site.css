@@ -65,46 +65,15 @@ h3 {
     border-radius: 2rem;
 }
 
-.form-label-group>input,
 .form-label-group>label {
-    padding: var(--input-padding-y) var(--input-padding-x);
-}
-
-.form-label-group>label {
-    position: absolute;
-    top: 0;
-    left: 0;
     display: block;
     width: 100%;
-    margin-bottom: 0;
     line-height: 1.5;
-    color: #FFFFFF;
-    border: 1px solid transparent;
-    border-radius: .25rem;
-    transition: all .1s ease-in-out;
-}
-
-.form-label-group input::-webkit-input-placeholder {
-    color: transparent;
-}
-
-.form-label-group input::-moz-placeholder {
-    color: transparent;
-}
-
-.form-label-group input::placeholder {
-    color: transparent;
+    color: #ffffff;
+    margin-left: 10px;
+    text-transform: uppercase;
 }
 
 .form-label-group input:not(:placeholder-shown) {
-    padding-left: 90px;
-    height: 35px;
-}
-
-.form-label-group input:not(:placeholder-shown) ~ label {
-    padding-top: 5px;
-    font-size: 12px;
-    color: #777;
-    padding-left: 10px;
     height: 35px;
 }
