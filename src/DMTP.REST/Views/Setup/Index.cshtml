@@ -16,46 +16,46 @@
 <form method="post" asp-controller="Setup" asp-action="AttemptSetup" class="form-signin form">
     <h5 class="text-white">Administrator Account</h5>
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="@Model.FirstName" required />
         <label>First Name</label>
+        <input class="form-control" type="text" asp-for="@Model.FirstName" required />
     </div>
 
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="@Model.LastName" required />
         <label>Last Name</label>
+        <input class="form-control" type="text" asp-for="@Model.LastName" required />
     </div>
 
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="@Model.EmailAddress" required />
         <label>Email Address</label>
+        <input class="form-control" type="text" asp-for="@Model.EmailAddress" required />
     </div>
 
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="@Model.Password" required />
         <label>Password</label>
+        <input class="form-control" type="text" asp-for="@Model.Password" required />
     </div>
 
     <br />
 
     <h5 class="text-white">SMTP Settings</h5>
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="@Model.SMTPHostName" />
         <label>Host Name</label>
+        <input class="form-control" type="text" asp-for="@Model.SMTPHostName" />
     </div>
 
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="@Model.SMTPPortNumber" />
         <label>Port Number</label>
+        <input class="form-control" type="text" asp-for="@Model.SMTPPortNumber" />
     </div>
 
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="@Model.SMTPUsername" />
         <label>User Name</label>
+        <input class="form-control" type="text" asp-for="@Model.SMTPUsername" />
     </div>
 
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="@Model.SMTPPassword" />
         <label>Password</label>
+        <input class="form-control" type="password" asp-for="@Model.SMTPPassword" />
     </div>
 
     <br />
@@ -63,8 +63,8 @@
     <h5 class="text-white">Misc Settings</h5>
 
     <div class="form-label-group">
-        <input class="form-control" type="checkbox" asp-for="@Model.AllowUserCreation" />
         <label asp-for="AllowUserCreation">Allow New User Creation</label>
+        <input class="form-control" type="checkbox" asp-for="@Model.AllowUserCreation" />
     </div>
 
     <br />
