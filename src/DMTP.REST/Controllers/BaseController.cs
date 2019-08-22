@@ -41,8 +41,10 @@ namespace DMTP.REST.Controllers
             return JsonConvert.DeserializeObject<ApplicationUser>(claim?.Value);
         }
 
-        protected IActionResult Login(Guid userGuid)
+        protected IActionResult Login(Guid userGuid, string emailAddress)
         {
+            Database.RecordLogin(userGuid, emailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), true);
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, userGuid.ToString()),
