@@ -58,12 +58,12 @@ namespace DMTP.REST.Controllers
 
             var userGuid = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1(), model.RoleID);
 
-            Database.RecordLogin(userGuid, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
-
             if (userGuid != null)
             {
-                return Login(userGuid.Value);
+                return Login(userGuid.Value, model.EmailAddress);
             }
+
+            Database.RecordLogin(null, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), false);
 
             model.ErrorMessage = "EmailAddress already exists, try again";
 
@@ -89,12 +89,12 @@ namespace DMTP.REST.Controllers
 
             var userGuid = Database.GetUser(model.EmailAddress, model.Password.ToSHA1());
 
-            Database.RecordLogin(userGuid, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), userGuid.HasValue);
-
             if (userGuid != null)
             {
-                return Login(userGuid.Value);
+                return Login(userGuid.Value, model.EmailAddress);
             }
+
+            Database.RecordLogin(null, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), false);
 
             model.ErrorMessage = "Email Address and or Password are incorrect";
             model.CurrentSettings = CurrentSettings;
