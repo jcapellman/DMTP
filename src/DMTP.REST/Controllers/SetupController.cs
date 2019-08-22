@@ -3,6 +3,7 @@
 using DMTP.lib.Common;
 using DMTP.lib.Databases.Base;
 using DMTP.lib.Databases.Tables;
+using DMTP.lib.Helpers;
 using DMTP.REST.Models.Setup;
 
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,15 @@ namespace DMTP.REST.Controllers
                 return RedirectToAction("Index", new {model = model});
             }
 
+            CurrentSettings.IsInitialized = true;
+            CurrentSettings.AllowNewUserCreation = model.AllowUserCreation;
+            CurrentSettings.SMTPHostName = model.SMTPHostName;
+            CurrentSettings.SMTPPassword = model.SMTPPassword;
+            CurrentSettings.SMTPPortNumber = model.SMTPPortNumber;
+            CurrentSettings.SMTPUsername = model.SMTPUsername;
+
+            Database.UpdateSettings(CurrentSettings);
+
             var adminRole = Database.GetRoles().FirstOrDefault(a => a.Name == Constants.ROLE_BUILTIN_ADMIN);
 
             if (adminRole == null)
@@ -45,11 +55,11 @@ namespace DMTP.REST.Controllers
                 return RedirectToAction("Index", model);
             }
 
-            var user = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password, adminRole.ID);
+            var user = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1(), adminRole.ID);
 
             if (user != null)
             {
-                return Login(user.Value);
+                return Login(user.Value, model.EmailAddress);
             }
 
             model.ActionMessage = "Failed to create user";
