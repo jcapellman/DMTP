@@ -551,7 +551,12 @@ namespace DMTP.lib.Databases
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    db.GetCollection<Settings>().Update(setting);
+                    var result = db.GetCollection<Settings>().Update(setting);
+
+                    if (!result)
+                    {
+                        db.GetCollection<Settings>().Insert(setting);
+                    }
 
                     return true;
                 }
