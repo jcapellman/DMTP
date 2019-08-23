@@ -58,6 +58,8 @@ namespace DMTP.lib.Databases.Base
 
         Guid? CreateRole(string name, bool builtIn, Dictionary<AccessSections, AccessLevels> permissions);
 
+        bool UpdateRole(Guid id, string name, Dictionary<AccessSections, AccessLevels> permissions);
+
         bool DeleteRole(Guid roleID);
 
         void Initialize();
