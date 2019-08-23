@@ -20,6 +20,39 @@ namespace DMTP.REST.Controllers
         }
 
         [HttpGet]
+        [Access(AccessSections.ROLES, AccessLevels.EDIT)]
+        public IActionResult Edit(Guid id)
+        {
+            var roles = Database.GetRoles();
+
+            var currentRole = roles.FirstOrDefault(a => a.ID == id);
+
+            if (currentRole == null || currentRole.BuiltIn)
+            {
+                return RedirectToAction("Index", new { actionMessage = "Cannot modify a built-in role"});
+            }
+
+            var model = new CreateUpdateRoleModel
+            {
+                ID = id,
+                Name = currentRole.Name,
+                Permissions = currentRole.Permissions,
+                ActionMessage = string.Empty
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Access(AccessSections.USERS, AccessLevels.EDIT)]
+        public IActionResult AttemptUpdate(CreateUpdateRoleModel model)
+        {
+            var result = Database.UpdateRole(model.ID.Value, model.Name, model.Permissions);
+
+            return RedirectToAction("Index", new { actionMessage = result ? "Successfully edited role" : "Failed to edit role" });
+        }
+
+        [HttpGet]
         [Access(AccessSections.ROLES, AccessLevels.FULL)]
         public IActionResult DeleteRole(Guid id)
         {
