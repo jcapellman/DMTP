@@ -611,6 +611,35 @@ namespace DMTP.lib.Databases
             }
         }
 
+        public bool UpdateRole(Guid id, string name, Dictionary<AccessSections, AccessLevels> permissions)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DbFilename))
+                {
+                    var dbRole = db.GetCollection<Roles>().FindById(id);
+
+                    if (dbRole == null)
+                    {
+                        return false;
+                    }
+
+                    dbRole.Name = name;
+                    dbRole.Permissions = permissions;
+
+                    db.GetCollection<Roles>().Update(dbRole);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to update role {id} in the Roles Table to {ex}");
+
+                return false;
+            }
+        }
+
         public bool DeleteRole(Guid roleID)
         {
             try
