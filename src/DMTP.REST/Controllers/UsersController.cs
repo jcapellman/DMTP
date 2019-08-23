@@ -9,6 +9,7 @@ using DMTP.REST.Models.Users;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DMTP.REST.Controllers
 {
@@ -70,12 +71,16 @@ namespace DMTP.REST.Controllers
         {
             var user = Database.GetUser(id);
 
+            var roles = Database.GetRoles();
+
             var model = new EditUserModel
             {
                 FirstName = user.FirstName,
                 ID = id,
                 LastName = user.LastName,
-                Message = string.Empty
+                Message = string.Empty,
+                SelectedRole = roles.FirstOrDefault(a => a.ID == user.RoleID)?.Name,
+                Roles = roles.Select(a => new SelectListItem(a.Name, a.ID.ToString())).ToList()
             };
 
             return View(model);
@@ -89,7 +94,8 @@ namespace DMTP.REST.Controllers
             {
                 ID = model.ID,
                 FirstName = model.FirstName,
-                LastName =  model.LastName
+                LastName =  model.LastName,
+                RoleID = Guid.Parse(model.SelectedRole)
             });
 
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully edited user" : "Failed to edit user"});

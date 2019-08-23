@@ -6,13 +6,18 @@
     <input type="hidden" asp-for="ID" />
 
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="FirstName" required />
         <label>First Name</label>
+        <input class="form-control" type="text" asp-for="FirstName" required />
     </div>
 
     <div class="form-label-group">
-        <input class="form-control" type="text" asp-for="LastName" required />
         <label>Last Name</label>
+        <input class="form-control" type="text" asp-for="LastName" required />
+    </div>
+    
+    <div class="form-label-group">
+        <label>Role</Label>
+        <select asp-for="SelectedRole" class="form-control" asp-items="Model.Roles"></select>
     </div>
 
     <input type="submit" value="Update" class="btn btn-lg btn-primary btn-block text-uppercase" />
