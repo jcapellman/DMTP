@@ -1,0 +1,22 @@
+﻿@model DMTP.REST.Models.Roles.CreateUpdateRoleModel
+
+<h3>Create Role</h3>
+
+<form method="post" asp-controller="Roles" asp-action="AttemptCreate" class="form-signin">
+    <div class="form-label-group">
+        <label>Name</label>
+        <input class="form-control" type="text" asp-for="Name" required />
+    </div>
+
+    <div class="form-label-group">
+        <label>Permissions</label>
+
+        @foreach (var kvp in Model.Permissions)
+        {
+            <Label>@kvp.Key</Label>
+            <select asp-for="@Model.Permissions[kvp.Key]" class="form-control" asp-items="Model.AccessLevels"></select>
+        }
+    </div>
+
+    <input type="submit" value="Create" class="btn btn-lg btn-primary btn-block text-uppercase" />
+</form>
