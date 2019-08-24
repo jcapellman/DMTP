@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using DMTP.lib.Enums;
 
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace DMTP.REST.Models.Roles
 {
     public class CreateUpdateRoleModel
@@ -14,5 +16,7 @@ namespace DMTP.REST.Models.Roles
         public string Name { get; set; }
 
         public Dictionary<AccessSections, AccessLevels> Permissions { get; set; }
+
+        public List<SelectListItem> AccessLevels { get; set; }
     }
 }
