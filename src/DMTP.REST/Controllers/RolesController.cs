@@ -9,6 +9,7 @@ using DMTP.REST.Models.Roles;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DMTP.REST.Controllers
 {
@@ -37,7 +38,25 @@ namespace DMTP.REST.Controllers
                 ID = id,
                 Name = currentRole.Name,
                 Permissions = currentRole.Permissions,
-                ActionMessage = string.Empty
+                ActionMessage = string.Empty,
+                AccessLevels = Enum.GetNames(typeof(AccessLevels)).Select(a => new SelectListItem(a, a)).ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Access(AccessSections.ROLES, AccessLevels.EDIT)]
+        public IActionResult Create()
+        {
+            var permissions = Enum.GetNames(typeof(AccessSections)).ToDictionary(section => Enum.Parse<AccessSections>(section), section => AccessLevels.EDIT);
+
+            var model = new CreateUpdateRoleModel
+            {
+                Name = string.Empty,
+                Permissions = permissions,
+                ActionMessage = string.Empty,
+                AccessLevels = Enum.GetNames(typeof(AccessLevels)).Select(a => new SelectListItem(a, a)).ToList()
             };
 
             return View(model);
@@ -48,8 +67,17 @@ namespace DMTP.REST.Controllers
         public IActionResult AttemptUpdate(CreateUpdateRoleModel model)
         {
             var result = Database.UpdateRole(model.ID.Value, model.Name, model.Permissions);
-
+            
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully edited role" : "Failed to edit role" });
+        }
+
+        [HttpPost]
+        [Access(AccessSections.USERS, AccessLevels.EDIT)]
+        public IActionResult AttemptCreate(CreateUpdateRoleModel model)
+        {
+            var result = Database.CreateRole(model.Name, false, model.Permissions);
+        
+            return RedirectToAction("Index", new { actionMessage = result.HasValue ? "Successfully created role" : "Failed to create role" });
         }
 
         [HttpGet]
