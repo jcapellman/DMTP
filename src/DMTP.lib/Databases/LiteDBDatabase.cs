@@ -575,7 +575,7 @@ namespace DMTP.lib.Databases
             {
                 using (var db = new LiteDatabase(DbFilename))
                 {
-                    return db.GetCollection<Roles>().FindAll().ToList();
+                    return db.GetCollection<Roles>().FindAll().Where(a => a.Active).ToList();
                 }
             }
             catch (Exception ex)
