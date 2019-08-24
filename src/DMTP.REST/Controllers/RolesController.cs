@@ -86,7 +86,7 @@ namespace DMTP.REST.Controllers
         {
             var result = Database.DeleteRole(id);
 
-            return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted user" : "Failed to delete user" });
+            return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted role" : "Failed to delete role" });
         }
 
         [Access(AccessSections.ROLES, AccessLevels.VIEW_ONLY)]
