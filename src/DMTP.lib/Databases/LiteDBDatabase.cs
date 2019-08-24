@@ -655,9 +655,7 @@ namespace DMTP.lib.Databases
 
                     role.Active = false;
 
-                    db.GetCollection<Roles>().Update(role);
-
-                    return true;
+                    return db.GetCollection<Roles>().Update(role);
                 }
             }
             catch (Exception ex)
