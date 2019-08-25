@@ -2,8 +2,9 @@
 using System.Linq;
 
 using DMTP.lib.Common;
-using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.Managers;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,24 +12,31 @@ namespace DMTP.REST.Controllers
 {
     public class WorkerController : BaseAPIController
     {
-        public WorkerController(IDatabase database, Settings settings) : base(database, settings) { }
+        private readonly WorkerManager _workerManager;
+
+        public WorkerController(IDatabase database, Settings settings) : base(database, settings)
+        {
+            _workerManager = new WorkerManager(Database);
+        }
 
         [HttpPost]
         public void Post([FromBody]Workers worker)
         {
-            Database.AddUpdateWorker(worker);
+            _workerManager.AddUpdateWorker(worker);
         }
 
         [HttpDelete]
         public void DeleteHost(Guid id)
         {
-            Database.DeleteWorker(id);
+            _workerManager.DeleteWorker(id);
         }
 
         [HttpGet]
         public Jobs GetWork(string hostName)
         {
-            var job = Database.GetJobs()
+            var jobManager = new JobManager(Database);
+
+            var job = jobManager.GetJobs()
                 .FirstOrDefault(a => !a.Completed && (a.AssignedHost == hostName || a.AssignedHost == Constants.UNASSIGNED_JOB));
 
             if (job != null && job.AssignedHost == hostName)
@@ -44,7 +52,7 @@ namespace DMTP.REST.Controllers
             // Assign the first unassigned job to the hostName
             job.AssignedHost = hostName;
 
-            Database.UpdateJob(job);
+            jobManager.UpdateJob(job);
 
             return job;
         }
@@ -53,7 +61,7 @@ namespace DMTP.REST.Controllers
         [RequestSizeLimit(100_000_000)]
         public void UpdateWork([FromBody]Jobs job)
         {
-            Database.UpdateJob(job);
+            new JobManager(Database).UpdateJob(job);
         }
     }
 }

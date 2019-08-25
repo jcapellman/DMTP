@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Tables;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 

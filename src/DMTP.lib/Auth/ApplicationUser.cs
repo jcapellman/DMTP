@@ -1,6 +1,6 @@
 ﻿using System;
 
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Tables;
 
 namespace DMTP.lib.Auth
 {

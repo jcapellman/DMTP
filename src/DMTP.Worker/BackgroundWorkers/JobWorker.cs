@@ -4,12 +4,14 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-using DMTP.lib.Databases;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases;
+using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.Enums;
 using DMTP.lib.Handlers;
+using DMTP.lib.Managers;
 using DMTP.lib.ML.Base;
 using DMTP.lib.Options;
+
 using DMTP.Worker.Common;
 
 using NLog;
@@ -128,7 +130,7 @@ namespace DMTP.Worker.BackgroundWorkers
         {
             var db = new LiteDBDatabase();
 
-            db.AddOfflineSubmission(work);
+            new SubmissionManager(db).AddOfflineSubmission(work);
 
             Log.Debug($"{work.ID} has been added to the pending submission database");
         }

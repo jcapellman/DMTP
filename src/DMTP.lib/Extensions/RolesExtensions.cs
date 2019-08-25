@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Enums;
 using DMTP.lib.Enums;
 
 namespace DMTP.lib.Extensions

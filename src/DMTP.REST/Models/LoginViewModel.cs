@@ -13,6 +13,6 @@ namespace DMTP.REST.Models
 
         public string ErrorMessage { get; set; }
 
-        public lib.Databases.Tables.Settings CurrentSettings { get; set; }
+        public lib.dal.Databases.Tables.Settings CurrentSettings { get; set; }
     }
 }

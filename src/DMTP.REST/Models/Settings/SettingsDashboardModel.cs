@@ -2,7 +2,7 @@
 {
     public class SettingsDashboardModel
     {
-        public lib.Databases.Tables.Settings Setting { get; set; }
+        public lib.dal.Databases.Tables.Settings Setting { get; set; }
 
         public string ActionMessage { get; set; }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using DMTP.lib.Databases.Tables;
+
+using DMTP.lib.dal.Databases.Tables;
+
 using DMTP.Worker.BackgroundWorkers;
 using DMTP.Worker.Common;
 

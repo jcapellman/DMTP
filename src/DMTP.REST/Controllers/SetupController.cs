@@ -1,9 +1,12 @@
 ﻿using System.Linq;
 
 using DMTP.lib.Common;
-using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
+
 using DMTP.lib.Helpers;
+using DMTP.lib.Managers;
+
 using DMTP.REST.Models.Setup;
 
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +15,11 @@ namespace DMTP.REST.Controllers
 {
     public class SetupController : BaseController
     {
+        private readonly SetupManager _setupManager;
+
         public SetupController(IDatabase database, Settings settings) : base(database, settings)
         {
+            _setupManager = new SetupManager(Database);
         }
 
         public IActionResult Index(SetupModel model = null)
@@ -23,7 +29,7 @@ namespace DMTP.REST.Controllers
                 return RedirectToAction("Index", "Account");
             }
 
-            Database.Initialize();
+            _setupManager.Initialize();
 
             return View(model ?? new SetupModel());
         }
@@ -44,9 +50,9 @@ namespace DMTP.REST.Controllers
             CurrentSettings.SMTPPortNumber = model.SMTPPortNumber;
             CurrentSettings.SMTPUsername = model.SMTPUsername;
 
-            Database.UpdateSettings(CurrentSettings);
+            new SettingManager(Database).UpdateSettings(CurrentSettings);
 
-            var adminRole = Database.GetRoles().FirstOrDefault(a => a.Name == Constants.ROLE_BUILTIN_ADMIN);
+            var adminRole = new RoleManager(Database).GetRoles().FirstOrDefault(a => a.Name == Constants.ROLE_BUILTIN_ADMIN);
 
             if (adminRole == null)
             {
@@ -55,7 +61,7 @@ namespace DMTP.REST.Controllers
                 return RedirectToAction("Index", model);
             }
 
-            var user = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1(), adminRole.ID);
+            var user = new UserManager(Database).CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1(), adminRole.ID);
 
             if (user != null)
             {

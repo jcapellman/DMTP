@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 
 using DMTP.lib.Auth;
+using DMTP.lib.dal.Enums;
 using DMTP.lib.Enums;
 using DMTP.lib.Extensions;
 

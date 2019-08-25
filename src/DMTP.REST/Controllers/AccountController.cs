@@ -1,6 +1,8 @@
-﻿using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+﻿using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.Helpers;
+using DMTP.lib.Managers;
+
 using DMTP.REST.Models;
 
 using Microsoft.AspNetCore.Authentication;
@@ -12,8 +14,11 @@ namespace DMTP.REST.Controllers
     [AllowAnonymous]
     public class AccountController : BaseController
     {
+        private UserManager _userManager;
+
         public AccountController(IDatabase database, Settings settings) : base(database, settings)
         {
+            _userManager = new UserManager(Database);
         }
 
         public IActionResult Index(string ReturnUrl = "")
@@ -56,14 +61,14 @@ namespace DMTP.REST.Controllers
                 return View("Create", model);
             }
 
-            var userGuid = Database.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1(), model.RoleID);
+            var userGuid = _userManager.CreateUser(model.EmailAddress, model.FirstName, model.LastName, model.Password.ToSHA1(), model.RoleID);
 
             if (userGuid != null)
             {
                 return Login(userGuid.Value, model.EmailAddress);
             }
 
-            Database.RecordLogin(null, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), false);
+            new LoginManager(Database).RecordLogin(null, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), false);
 
             model.ErrorMessage = "EmailAddress already exists, try again";
 
@@ -87,14 +92,14 @@ namespace DMTP.REST.Controllers
                 return View("Index", model);
             }
 
-            var userGuid = Database.GetUser(model.EmailAddress, model.Password.ToSHA1());
+            var userGuid = _userManager.GetUser(model.EmailAddress, model.Password.ToSHA1());
 
             if (userGuid != null)
             {
                 return Login(userGuid.Value, model.EmailAddress);
             }
 
-            Database.RecordLogin(null, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), false);
+            new LoginManager(Database).RecordLogin(null, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), false);
 
             model.ErrorMessage = "Email Address and or Password are incorrect";
             model.CurrentSettings = CurrentSettings;

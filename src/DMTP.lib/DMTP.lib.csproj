@@ -16,4 +16,8 @@
     <Folder Include="Auth\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DMTP.lib.dal\DMTP.lib.dal.csproj" />
+  </ItemGroup>
+
 </Project>

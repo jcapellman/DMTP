@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.Managers;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +11,21 @@ namespace DMTP.REST.Controllers
 {
     public class JobController : BaseAPIController
     {
-        public JobController(IDatabase database, Settings settings) : base(database, settings) { }
+        private readonly JobManager _jobManager;
+
+        public JobController(IDatabase database, Settings settings) : base(database, settings)
+        {
+            _jobManager = new JobManager(Database);
+        }
 
         [HttpGet]
-        public List<Jobs> Get() => Database.GetJobs();
+        public List<Jobs> Get() => _jobManager.GetJobs();
 
         [HttpGet("{id}")]
-        public Jobs Get(Guid id) => Database.GetJob(id);
+        public Jobs Get(Guid id) => _jobManager.GetJob(id);
 
         [HttpPut]
-        public bool Put(Jobs item) => Database.UpdateJob(item);
+        public bool Put(Jobs item) => _jobManager.UpdateJob(item);
 
         [HttpPost]
         public Guid? Post([FromBody]Jobs item) => SaveJob(item);
@@ -27,7 +33,7 @@ namespace DMTP.REST.Controllers
         [HttpDelete("{id}")]
         public void Delete(Guid id)
         {
-            Database.DeleteJob(id);
+            _jobManager.DeleteJob(id);
         }
     }
 }

@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.Linq;
 
-using DMTP.lib.Databases;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases;
+using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.Handlers;
-
+using DMTP.lib.Managers;
 using DMTP.Worker.Common;
 
 using Newtonsoft.Json;
@@ -49,7 +49,9 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private async void BwCheckin_DoWork(object sender, DoWorkEventArgs e)
         {
-            var pendingJobs = _db.GetPendingSubmissions();
+            var submissionManager = new SubmissionManager(_db);
+
+            var pendingJobs = submissionManager.GetPendingSubmissions();
 
             if (!pendingJobs.Any())
             {
@@ -78,7 +80,7 @@ namespace DMTP.Worker.BackgroundWorkers
                 {
                     Log.Error($"Job was null - removing {pJob.ID} from Queue");
 
-                    _db.RemoveOfflineSubmission(pJob.ID);
+                    submissionManager.RemoveOfflineSubmission(pJob.ID);
 
                     continue;
                 }
@@ -89,7 +91,7 @@ namespace DMTP.Worker.BackgroundWorkers
                 {
                     Log.Debug($"{job.ID} was successfully uploaded");
 
-                    _db.RemoveOfflineSubmission(pJob.ID);
+                    submissionManager.RemoveOfflineSubmission(pJob.ID);
 
                     continue;
                 }

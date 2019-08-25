@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.Handlers;
 
 namespace DMTP.Uploader

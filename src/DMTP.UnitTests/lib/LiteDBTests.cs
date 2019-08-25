@@ -2,8 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 
-using DMTP.lib.Databases;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases;
+using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.Managers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -18,7 +19,7 @@ namespace DMTP.UnitTests.lib
         {
             var liteDb = new LiteDBDatabase();
 
-            liteDb.AddJob(null);
+            new JobManager(liteDb).AddJob(null);
         }
 
         [TestMethod]
@@ -27,7 +28,7 @@ namespace DMTP.UnitTests.lib
         {
             var liteDb = new LiteDBDatabase();
 
-            liteDb.AddJob(new Jobs());
+            new JobManager(liteDb).AddJob(new Jobs());
         }
 
         [TestMethod]
@@ -42,7 +43,7 @@ namespace DMTP.UnitTests.lib
                 TrainingDataPath = Path.GetRandomFileName()
             };
 
-            liteDb.AddJob(job);
+            new JobManager(liteDb).AddJob(job);
         }
 
         [TestMethod]
@@ -51,7 +52,7 @@ namespace DMTP.UnitTests.lib
         {
             var liteDb = new LiteDBDatabase();
 
-            liteDb.UpdateJob(null);
+            new JobManager(liteDb).UpdateJob(null);
         }
 
         [TestMethod]
@@ -60,7 +61,7 @@ namespace DMTP.UnitTests.lib
         {
             var liteDb = new LiteDBDatabase();
 
-            liteDb.UpdateJob(new Jobs());
+            new JobManager(liteDb).UpdateJob(new Jobs());
         }
     }
 }

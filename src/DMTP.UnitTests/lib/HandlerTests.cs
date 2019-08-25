@@ -40,7 +40,7 @@ namespace DMTP.UnitTests.lib
         {
             var hHandler = new WorkerHandler(TEST_VALID_URL);
 
-            await hHandler.AddUpdateWorkerAsync(new DMTP.lib.Databases.Tables.Workers());
+            await hHandler.AddUpdateWorkerAsync(new DMTP.lib.dal.Databases.Tables.Workers());
         }
 
         [TestMethod]

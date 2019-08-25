@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 
-using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Enums;
 using DMTP.lib.Enums;
+using DMTP.lib.Managers;
 using DMTP.REST.Attributes;
 using DMTP.REST.Models.Users;
 
@@ -16,8 +18,11 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class UsersController : BaseController
     {
+        private UserManager _userManager;
+
         public UsersController(IDatabase database, Settings settings) : base(database, settings)
         {
+            _userManager = new UserManager(Database);
         }
 
         [Access(AccessSections.USERS, AccessLevels.VIEW_ONLY)]
@@ -25,12 +30,12 @@ namespace DMTP.REST.Controllers
         {
             var model = new UserDashboardModel(GetApplicationUser())
             {
-                UserLoginListing = Database.GetLogins().OrderByDescending(a => a.Timestamp).ToList(),
+                UserLoginListing = new LoginManager(Database).GetLogins().OrderByDescending(a => a.Timestamp).ToList(),
             };
 
-            var jobs = Database.GetJobs();
+            var jobs = new JobManager(Database).GetJobs();
 
-            model.UsersListing = Database.GetUsers().Select(a => new UserListingItem
+            model.UsersListing = _userManager.GetUsers().Select(a => new UserListingItem
             {
                 FirstName = a.FirstName,
                 LastName = a.LastName,
@@ -60,7 +65,7 @@ namespace DMTP.REST.Controllers
         [Access(AccessSections.USERS, AccessLevels.FULL)]
         public IActionResult DeleteUser(Guid id)
         {
-            var result = Database.DeleteUser(id);
+            var result = _userManager.DeleteUser(id);
 
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted user" : "Failed to delete user"});
         }
@@ -69,9 +74,9 @@ namespace DMTP.REST.Controllers
         [Access(AccessSections.USERS, AccessLevels.EDIT)]
         public IActionResult Edit(Guid id)
         {
-            var user = Database.GetUser(id);
+            var user = _userManager.GetUser(id);
 
-            var roles = Database.GetRoles();
+            var roles = new RoleManager(Database).GetRoles();
 
             var model = new EditUserModel
             {
@@ -90,7 +95,7 @@ namespace DMTP.REST.Controllers
         [Access(AccessSections.USERS, AccessLevels.EDIT)]
         public IActionResult AttemptUpdate(EditUserModel model)
         {
-            var result = Database.UpdateUser(new Users
+            var result = _userManager.UpdateUser(new Users
             {
                 ID = model.ID,
                 FirstName = model.FirstName,

@@ -5,10 +5,13 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading;
+
 using DMTP.lib.Auth;
 using DMTP.lib.Common;
-using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.Managers;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -43,12 +46,12 @@ namespace DMTP.REST.Controllers
 
         protected IActionResult Login(Guid userGuid, string emailAddress)
         {
-            Database.RecordLogin(userGuid, emailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), true);
+            new LoginManager(Database).RecordLogin(userGuid, emailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), true);
 
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, userGuid.ToString()),
-                new Claim("ApplicationUser", JsonConvert.SerializeObject(Database.GetApplicationUser(userGuid)))
+                new Claim("ApplicationUser", JsonConvert.SerializeObject(new UserManager(Database).GetApplicationUser(userGuid)))
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -100,16 +103,18 @@ namespace DMTP.REST.Controllers
             job.ID = Guid.NewGuid();
             job.SubmissionTime = DateTime.Now;
 
-            var hosts = Database.GetWorkers();
+            var hosts = new WorkerManager(Database).GetWorkers();
 
             if (hosts == null)
             {
                 return null;
             }
 
+            var jobManager = new JobManager(Database);
+
             if (hosts.Any())
             {
-                var jobs = Database.GetJobs().Where(a => !a.Completed).ToList();
+                var jobs = jobManager.GetJobs().Where(a => !a.Completed).ToList();
 
                 foreach (var host in hosts)
                 {
@@ -133,7 +138,7 @@ namespace DMTP.REST.Controllers
                 job.AssignedHost = Constants.UNASSIGNED_JOB;
             }
 
-            if (Database.AddJob(job))
+            if (jobManager.AddJob(job))
             {
                 return job.ID;
             }

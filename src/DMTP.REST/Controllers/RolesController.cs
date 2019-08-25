@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
 
-using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Enums;
+
 using DMTP.lib.Enums;
+using DMTP.lib.Managers;
 using DMTP.REST.Attributes;
 using DMTP.REST.Models.Roles;
 
@@ -16,15 +19,18 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class RolesController : BaseController
     {
+        private RoleManager _roleManager;
+
         public RolesController(IDatabase database, Settings settings) : base(database, settings)
         {
+            _roleManager = new RoleManager(Database);
         }
 
         [HttpGet]
         [Access(AccessSections.ROLES, AccessLevels.EDIT)]
         public IActionResult Edit(Guid id)
         {
-            var roles = Database.GetRoles();
+            var roles = _roleManager.GetRoles();
 
             var currentRole = roles.FirstOrDefault(a => a.ID == id);
 
@@ -66,7 +72,7 @@ namespace DMTP.REST.Controllers
         [Access(AccessSections.USERS, AccessLevels.EDIT)]
         public IActionResult AttemptUpdate(CreateUpdateRoleModel model)
         {
-            var result = Database.UpdateRole(model.ID.Value, model.Name, model.Permissions);
+            var result = _roleManager.UpdateRole(model.ID.Value, model.Name, model.Permissions);
             
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully edited role" : "Failed to edit role" });
         }
@@ -75,7 +81,7 @@ namespace DMTP.REST.Controllers
         [Access(AccessSections.USERS, AccessLevels.EDIT)]
         public IActionResult AttemptCreate(CreateUpdateRoleModel model)
         {
-            var result = Database.CreateRole(model.Name, false, model.Permissions);
+            var result = _roleManager.CreateRole(model.Name, false, model.Permissions);
         
             return RedirectToAction("Index", new { actionMessage = result.HasValue ? "Successfully created role" : "Failed to create role" });
         }
@@ -84,7 +90,7 @@ namespace DMTP.REST.Controllers
         [Access(AccessSections.ROLES, AccessLevels.FULL)]
         public IActionResult DeleteRole(Guid id)
         {
-            var result = Database.DeleteRole(id);
+            var result = _roleManager.DeleteRole(id);
 
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted role" : "Failed to delete role" });
         }
@@ -94,9 +100,9 @@ namespace DMTP.REST.Controllers
         {
             var model = new RoleDashboardModel(GetApplicationUser());
 
-            var users = Database.GetUsers();
+            var users = new UserManager(Database).GetUsers();
 
-            model.RolesListing = Database.GetRoles().Select(a => new RoleListingItem
+            model.RolesListing = _roleManager.GetRoles().Select(a => new RoleListingItem
             {
                 Name = a.Name,
                 ID = a.ID,

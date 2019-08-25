@@ -1,5 +1,5 @@
-﻿using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+﻿using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

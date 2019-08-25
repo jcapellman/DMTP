@@ -1,5 +1,7 @@
-﻿using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+﻿using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.Managers;
+
 using DMTP.REST.Models.Settings;
 
 using Microsoft.AspNetCore.Authorization;
@@ -10,8 +12,11 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class SettingsController : BaseController
     {
+        private SettingManager _settingManager;
+
         public SettingsController(IDatabase database, Settings settings) : base(database, settings)
         {
+            _settingManager = new SettingManager(database);
         }
 
         public IActionResult Index(string actionMessage = null)
@@ -19,7 +24,7 @@ namespace DMTP.REST.Controllers
             var model = new SettingsDashboardModel
             {
                 ActionMessage = actionMessage,
-                Setting = Database.GetSettings()
+                Setting = _settingManager.GetSettings()
             };
 
             return View(model);
@@ -28,7 +33,7 @@ namespace DMTP.REST.Controllers
         [HttpPost]
         public IActionResult AttemptUpdate(Settings setting)
         {
-            var result = Database.UpdateSettings(setting);
+            var result = _settingManager.UpdateSettings(setting);
 
             return RedirectToAction("Index",
                 new {actionMessage = result ? "Successfully updated settings" : "Failed to update settings"});

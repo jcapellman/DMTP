@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 using DMTP.lib.Common;
-using DMTP.lib.Databases.Base;
-using DMTP.lib.Databases.Tables;
+using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.Managers;
 using DMTP.lib.ML.Base;
+
 using DMTP.REST.Models;
 
 using Microsoft.AspNetCore.Authorization;
@@ -25,12 +27,12 @@ namespace DMTP.REST.Controllers
         {
             var model = new HomeDashboardModel
             {
-                Jobs = Database.GetJobs().Where(a => !a.Completed).ToList(),
+                Jobs = new JobManager(Database).GetJobs().Where(a => !a.Completed).ToList(),
                 ModelTypes = _assemblies.OrderBy(a => a.MODEL_NAME)
                     .Select(a => new SelectListItem(a.MODEL_NAME, a.MODEL_NAME)).ToList()
             };
 
-            model.Workers = Database.GetWorkers().Where(a => model.Jobs.Any(b => b.AssignedHost == a.Name)).ToList();
+            model.Workers = new WorkerManager(Database).GetWorkers().Where(a => model.Jobs.Any(b => b.AssignedHost == a.Name)).ToList();
 
             return View(model);
         }
@@ -54,7 +56,7 @@ namespace DMTP.REST.Controllers
         [Route("/Download")]
         public FileResult Download([FromQuery]Guid id)
         {
-            var job = Database.GetJob(id);
+            var job = new JobManager(Database).GetJob(id);
 
             return job == null ? 
                 File(new byte[0], System.Net.Mime.MediaTypeNames.Text.Plain, "Model not found") : 
