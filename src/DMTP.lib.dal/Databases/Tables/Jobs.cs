@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using DMTP.lib.dal.Databases.Tables.Base;
 
-using DMTP.lib.Databases.Tables.Base;
-
-namespace DMTP.lib.Databases.Tables
+namespace DMTP.lib.dal.Databases.Tables
 {
     public class Jobs : BaseTable
     {

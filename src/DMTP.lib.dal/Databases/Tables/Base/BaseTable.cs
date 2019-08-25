@@ -2,11 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace DMTP.lib.Databases.Tables.Base
+namespace DMTP.lib.dal.Databases.Tables.Base
 {
     public class BaseTable
     {
         public Guid ID { get; set; }
+
+        public bool Active { get; set; }
 
         public bool IsValid()
         {

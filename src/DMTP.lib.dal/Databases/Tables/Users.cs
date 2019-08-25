@@ -1,8 +1,8 @@
 ﻿using System;
 
-using DMTP.lib.Databases.Tables.Base;
+using DMTP.lib.dal.Databases.Tables.Base;
 
-namespace DMTP.lib.Databases.Tables
+namespace DMTP.lib.dal.Databases.Tables
 {
     public class Users : BaseTable
     {
@@ -13,8 +13,6 @@ namespace DMTP.lib.Databases.Tables
         public string LastName { get; set; }
 
         public string Password { get; set; }
-
-        public bool Active { get; set; }
 
         public Guid RoleID { get; set; }
     }
