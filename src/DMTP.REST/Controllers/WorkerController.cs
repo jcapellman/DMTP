@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using DMTP.lib.Common;
 using DMTP.lib.dal.Databases.Tables;
@@ -36,8 +35,7 @@ namespace DMTP.REST.Controllers
         {
             var jobManager = new JobManager(Database);
 
-            var job = jobManager.GetJobs()
-                .FirstOrDefault(a => !a.Completed && (a.AssignedHost == hostName || a.AssignedHost == Constants.UNASSIGNED_JOB));
+            var job = jobManager.GetUnassignedJob(hostName);
 
             if (job != null && job.AssignedHost == hostName)
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using DMTP.lib.Common;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
 
@@ -98,6 +98,21 @@ namespace DMTP.lib.Managers
             try
             {
                 return _database.GetAll<Jobs>();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to obtain jobs due to {ex}");
+
+                return null;
+            }
+        }
+
+        public Jobs GetUnassignedJob(string hostName)
+        {
+            try
+            {
+                return _database.GetOne<Jobs>(a =>
+                    !a.Completed && (a.AssignedHost == hostName || a.AssignedHost == Constants.UNASSIGNED_JOB));
             }
             catch (Exception ex)
             {
