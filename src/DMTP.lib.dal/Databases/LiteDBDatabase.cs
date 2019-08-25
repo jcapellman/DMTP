@@ -26,6 +26,16 @@ namespace DMTP.lib.dal.Databases
             }
         }
 
+        public bool InsertRange<T>(List<T> objects) where T : BaseTable
+        {
+            using (var db = new LiteDatabase(DbFilename))
+            {
+                db.GetCollection<T>().Insert(objects);
+
+                return true;
+            }
+        }
+
         public bool DeleteAll<T>() where T : BaseTable
         {
             using (var db = new LiteDatabase(DbFilename))

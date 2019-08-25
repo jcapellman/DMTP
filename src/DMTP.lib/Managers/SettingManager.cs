@@ -1,14 +1,14 @@
 ﻿using System;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers.Base;
 
 namespace DMTP.lib.Managers
 {
     public class SettingManager : BaseManager
     {
-        public SettingManager(IDatabase database) : base(database)
+        public SettingManager(DatabaseManager database) : base(database)
         {
         }
 

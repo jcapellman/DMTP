@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using DMTP.lib.dal.Databases.Tables.Base;
 
 namespace DMTP.lib.dal.Databases.Base
@@ -7,6 +8,8 @@ namespace DMTP.lib.dal.Databases.Base
     public interface IDatabase
     {
         Guid Insert<T>(T objectValue) where T : BaseTable;
+
+        bool InsertRange<T>(List<T> objects) where T : BaseTable;
 
         bool DeleteAll<T>() where T : BaseTable;
 

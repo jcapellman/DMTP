@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
 
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ namespace DMTP.REST.Controllers
     {
         private readonly JobManager _jobManager;
 
-        public JobController(IDatabase database, Settings settings) : base(database, settings)
+        public JobController(DatabaseManager database, Settings settings) : base(database, settings)
         {
             _jobManager = new JobManager(Database);
         }

@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 
 using DMTP.lib.Common;
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
-
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Helpers;
 using DMTP.lib.Managers;
 
@@ -17,7 +16,7 @@ namespace DMTP.REST.Controllers
     {
         private readonly SetupManager _setupManager;
 
-        public SetupController(IDatabase database, Settings settings) : base(database, settings)
+        public SetupController(DatabaseManager database, Settings settings) : base(database, settings)
         {
             _setupManager = new SetupManager(Database);
         }

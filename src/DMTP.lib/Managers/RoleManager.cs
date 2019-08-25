@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Enums;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Enums;
 using DMTP.lib.Managers.Base;
 
@@ -11,7 +11,7 @@ namespace DMTP.lib.Managers
 {
     public class RoleManager : BaseManager
     {
-        public RoleManager(IDatabase database) : base(database)
+        public RoleManager(DatabaseManager database) : base(database)
         {
         }
 

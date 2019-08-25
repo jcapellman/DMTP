@@ -4,6 +4,7 @@ using System.Linq;
 
 using DMTP.lib.dal.Databases;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Handlers;
 using DMTP.lib.Managers;
 using DMTP.Worker.Common;
@@ -49,7 +50,7 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private async void BwCheckin_DoWork(object sender, DoWorkEventArgs e)
         {
-            var submissionManager = new SubmissionManager(_db);
+            var submissionManager = new SubmissionManager(new DatabaseManager(_db, null));
 
             var pendingJobs = submissionManager.GetPendingSubmissions();
 

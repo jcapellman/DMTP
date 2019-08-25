@@ -1,5 +1,5 @@
-﻿using DMTP.lib.dal.Databases.Base;
-using DMTP.lib.dal.Databases.Tables;
+﻿using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class BaseAPIController : BaseController
     {
-        protected BaseAPIController(IDatabase database, Settings settings) : base(database, settings)
+        protected BaseAPIController(DatabaseManager database, Settings settings) : base(database, settings)
         {
         }
     }

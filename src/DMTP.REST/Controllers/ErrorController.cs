@@ -1,5 +1,5 @@
-﻿using DMTP.lib.dal.Databases.Base;
-using DMTP.lib.dal.Databases.Tables;
+﻿using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class ErrorController : BaseController
     {
-        public ErrorController(IDatabase database, Settings settings) : base(database, settings)
+        public ErrorController(DatabaseManager database, Settings settings) : base(database, settings)
         {
         }
 

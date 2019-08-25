@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers.Base;
 
 namespace DMTP.lib.Managers
 {
     public class WorkerManager : BaseManager
     {
-        public WorkerManager(IDatabase database) : base(database)
+        public WorkerManager(DatabaseManager database) : base(database)
         {
         }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Enums;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Enums;
 using DMTP.lib.Managers;
 using DMTP.REST.Attributes;
@@ -18,9 +18,9 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class UsersController : BaseController
     {
-        private UserManager _userManager;
+        private readonly UserManager _userManager;
 
-        public UsersController(IDatabase database, Settings settings) : base(database, settings)
+        public UsersController(DatabaseManager database, Settings settings) : base(database, settings)
         {
             _userManager = new UserManager(Database);
         }

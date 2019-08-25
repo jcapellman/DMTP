@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using DMTP.lib.dal.Databases;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Enums;
 using DMTP.lib.Handlers;
 using DMTP.lib.Managers;
@@ -129,8 +130,11 @@ namespace DMTP.Worker.BackgroundWorkers
         private void AddToPending(Jobs work)
         {
             var db = new LiteDBDatabase();
+            var cache = new InMemoryCache();
 
-            new SubmissionManager(db).AddOfflineSubmission(work);
+            var dbManager = new DatabaseManager(db, cache);
+
+            new SubmissionManager(dbManager).AddOfflineSubmission(work);
 
             Log.Debug($"{work.ID} has been added to the pending submission database");
         }

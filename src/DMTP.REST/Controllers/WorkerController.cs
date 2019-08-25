@@ -2,8 +2,8 @@
 using System.Linq;
 
 using DMTP.lib.Common;
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
 
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@ namespace DMTP.REST.Controllers
     {
         private readonly WorkerManager _workerManager;
 
-        public WorkerController(IDatabase database, Settings settings) : base(database, settings)
+        public WorkerController(DatabaseManager database, Settings settings) : base(database, settings)
         {
             _workerManager = new WorkerManager(Database);
         }

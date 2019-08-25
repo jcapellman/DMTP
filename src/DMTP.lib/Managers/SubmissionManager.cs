@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers.Base;
 
 using Newtonsoft.Json;
@@ -11,7 +11,7 @@ namespace DMTP.lib.Managers
 {
     public class SubmissionManager : BaseManager
     {
-        public SubmissionManager(IDatabase database) : base(database)
+        public SubmissionManager(DatabaseManager database) : base(database)
         {
         }
 

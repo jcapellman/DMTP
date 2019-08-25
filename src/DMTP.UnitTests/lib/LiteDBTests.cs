@@ -4,6 +4,7 @@ using System.IO;
 
 using DMTP.lib.dal.Databases;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,29 +14,31 @@ namespace DMTP.UnitTests.lib
     [TestClass]
     public class LiteDBTests
     {
+        private DatabaseManager _dbManager;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            _dbManager = new DatabaseManager(new LiteDBDatabase(), new InMemoryCache());
+        }
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddJob_Null()
         {
-            var liteDb = new LiteDBDatabase();
-
-            new JobManager(liteDb).AddJob(null);
+            new JobManager(_dbManager).AddJob(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ValidationException))]
         public void AddJob_Default()
         {
-            var liteDb = new LiteDBDatabase();
-
-            new JobManager(liteDb).AddJob(new Jobs());
+            new JobManager(_dbManager).AddJob(new Jobs());
         }
 
         [TestMethod]
         public void AddJob_Valid()
         {
-            var liteDb = new LiteDBDatabase();
-
             var job = new Jobs
             {
                 Name = DateTime.Now.ToLongDateString(),
@@ -43,25 +46,21 @@ namespace DMTP.UnitTests.lib
                 TrainingDataPath = Path.GetRandomFileName()
             };
 
-            new JobManager(liteDb).AddJob(job);
+            new JobManager(_dbManager).AddJob(job);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void UpdateJob_Null()
         {
-            var liteDb = new LiteDBDatabase();
-
-            new JobManager(liteDb).UpdateJob(null);
+            new JobManager(_dbManager).UpdateJob(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ValidationException))]
         public void UpdateJob_Default()
         {
-            var liteDb = new LiteDBDatabase();
-
-            new JobManager(liteDb).UpdateJob(new Jobs());
+            new JobManager(_dbManager).UpdateJob(new Jobs());
         }
     }
 }

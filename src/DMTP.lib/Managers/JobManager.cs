@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
+
 using DMTP.lib.Managers.Base;
 
 namespace DMTP.lib.Managers
 {
     public class JobManager : BaseManager
     {
-        public JobManager(IDatabase database) : base(database)
+        public JobManager(DatabaseManager database) : base(database)
         {
         }
 

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Enums;
-
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Enums;
 using DMTP.lib.Managers;
 using DMTP.REST.Attributes;
@@ -19,9 +18,9 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class RolesController : BaseController
     {
-        private RoleManager _roleManager;
+        private readonly RoleManager _roleManager;
 
-        public RolesController(IDatabase database, Settings settings) : base(database, settings)
+        public RolesController(DatabaseManager database, Settings settings) : base(database, settings)
         {
             _roleManager = new RoleManager(Database);
         }

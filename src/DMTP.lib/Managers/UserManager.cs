@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 
 using DMTP.lib.Auth;
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers.Base;
 
 namespace DMTP.lib.Managers
 {
     public class UserManager : BaseManager
     {
-        public UserManager(IDatabase database) : base(database)
+        public UserManager(DatabaseManager database) : base(database)
         {
         }
 

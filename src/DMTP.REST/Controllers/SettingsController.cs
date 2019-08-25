@@ -1,5 +1,5 @@
-﻿using DMTP.lib.dal.Databases.Base;
-using DMTP.lib.dal.Databases.Tables;
+﻿using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
 
 using DMTP.REST.Models.Settings;
@@ -12,9 +12,9 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class SettingsController : BaseController
     {
-        private SettingManager _settingManager;
+        private readonly SettingManager _settingManager;
 
-        public SettingsController(IDatabase database, Settings settings) : base(database, settings)
+        public SettingsController(DatabaseManager database, Settings settings) : base(database, settings)
         {
             _settingManager = new SettingManager(database);
         }

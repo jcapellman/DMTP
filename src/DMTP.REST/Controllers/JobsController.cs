@@ -1,5 +1,5 @@
-﻿using DMTP.lib.dal.Databases.Base;
-using DMTP.lib.dal.Databases.Tables;
+﻿using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
 
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +10,7 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class JobsController : BaseController
     {
-        public JobsController(IDatabase database, Settings settings) : base(database, settings)
+        public JobsController(DatabaseManager database, Settings settings) : base(database, settings)
         {
         }
 

@@ -1,5 +1,5 @@
-﻿using DMTP.lib.dal.Databases.Base;
-using DMTP.lib.dal.Databases.Tables;
+﻿using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Helpers;
 using DMTP.lib.Managers;
 
@@ -14,9 +14,9 @@ namespace DMTP.REST.Controllers
     [AllowAnonymous]
     public class AccountController : BaseController
     {
-        private UserManager _userManager;
+        private readonly UserManager _userManager;
 
-        public AccountController(IDatabase database, Settings settings) : base(database, settings)
+        public AccountController(DatabaseManager database, Settings settings) : base(database, settings)
         {
             _userManager = new UserManager(Database);
         }

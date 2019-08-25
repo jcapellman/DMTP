@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers.Base;
 
 namespace DMTP.lib.Managers
 {
     public class LoginManager : BaseManager
     {
-        public LoginManager(IDatabase database) : base(database)
+        public LoginManager(DatabaseManager database) : base(database)
         {
         }
 

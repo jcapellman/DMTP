@@ -10,6 +10,7 @@ using DMTP.lib.Auth;
 using DMTP.lib.Common;
 using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
 
 using Microsoft.AspNetCore.Authentication;
@@ -22,13 +23,13 @@ namespace DMTP.REST.Controllers
 {
     public class BaseController : Controller
     {
-        protected readonly IDatabase Database;
+        protected readonly DatabaseManager Database;
 
         protected readonly Settings CurrentSettings;
 
         private readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
-        protected BaseController(IDatabase database, Settings settings)
+        protected BaseController(DatabaseManager database, Settings settings)
         {
             Database = database;
             CurrentSettings = settings;

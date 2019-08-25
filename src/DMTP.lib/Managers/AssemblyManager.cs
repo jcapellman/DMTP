@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers.Base;
 using DMTP.lib.ML.Base;
 
@@ -12,7 +12,7 @@ namespace DMTP.lib.Managers
 {
     public class AssemblyManager : BaseManager
     {
-        public AssemblyManager(IDatabase database) : base(database)
+        public AssemblyManager(DatabaseManager database) : base(database)
         {
         }
 

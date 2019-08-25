@@ -1,4 +1,4 @@
-﻿using DMTP.lib.dal.Databases.Base;
+﻿using DMTP.lib.dal.Manager;
 
 namespace DMTP.lib.Managers.Base
 {
@@ -6,9 +6,9 @@ namespace DMTP.lib.Managers.Base
     {
         protected readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
-        protected IDatabase _database;
+        protected DatabaseManager _database;
 
-        public BaseManager(IDatabase database)
+        public BaseManager(DatabaseManager database)
         {
             _database = database;
         }
