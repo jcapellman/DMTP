@@ -11,13 +11,13 @@
             <h5 class="card-title text-center">DMTP</h5>
             <form method="post" asp-controller="Account" asp-action="AttemptLogin" class="form-signin">
                 <div class="form-label-group">
+                    <label>Email Address</label>
                     <input class="form-control" type="email" asp-for="EmailAddress" required autofocus />
-                    <label asp-for="EmailAddress"></label>
                 </div>
 
                 <div class="form-label-group">
-                    <input class="form-control" type="password" asp-for="Password" />
                     <label asp-for="Password"></label>
+                    <input class="form-control" type="password" asp-for="Password" />
                 </div>
 
                 <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block text-uppercase" />
