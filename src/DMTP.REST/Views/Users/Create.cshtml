@@ -1,0 +1,32 @@
+﻿@model DMTP.REST.Models.Users.CreateEditUserModel
+
+<h3>Create User</h3>
+
+<form method="post" asp-controller="Users" asp-action="AttemptCreate" class="form-signin">
+    <div class="form-label-group">
+        <label>First Name</label>
+        <input class="form-control" type="text" asp-for="FirstName" required />
+    </div>
+
+    <div class="form-label-group">
+        <label>Last Name</label>
+        <input class="form-control" type="text" asp-for="LastName" required />
+    </div>
+
+    <div class="form-label-group">
+        <label>Email Address</label>
+        <input class="form-control" type="text" asp-for="EmailAddress" required />
+    </div>
+
+    <div class="form-label-group">
+        <label>Password</label>
+        <input class="form-control" type="password" asp-for="Password" required />
+    </div>
+
+    <div class="form-label-group">
+        <label>Role</label>
+        <select asp-for="SelectedRole" class="form-control" asp-items="Model.Roles"></select>
+    </div>
+
+    <input type="submit" value="Create" class="btn btn-lg btn-primary btn-block text-uppercase" />
+</form>

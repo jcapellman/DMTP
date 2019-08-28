@@ -5,6 +5,7 @@ using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Enums;
 using DMTP.lib.dal.Manager;
 using DMTP.lib.Enums;
+using DMTP.lib.Helpers;
 using DMTP.lib.Managers;
 using DMTP.REST.Attributes;
 using DMTP.REST.Models.Users;
@@ -78,7 +79,7 @@ namespace DMTP.REST.Controllers
 
             var roles = new RoleManager(Database).GetRoles();
 
-            var model = new EditUserModel
+            var model = new CreateEditUserModel
             {
                 FirstName = user.FirstName,
                 ID = id,
@@ -93,17 +94,34 @@ namespace DMTP.REST.Controllers
 
         [HttpPost]
         [Access(AccessSections.USERS, AccessLevels.EDIT)]
-        public IActionResult AttemptUpdate(EditUserModel model)
+        public IActionResult AttemptUpdate(CreateEditUserModel model)
         {
             var result = _userManager.UpdateUser(new Users
             {
-                ID = model.ID,
+                ID = model.ID.Value,
                 FirstName = model.FirstName,
                 LastName =  model.LastName,
                 RoleID = Guid.Parse(model.SelectedRole)
             });
 
             return RedirectToAction("Index", new { actionMessage = result ? "Successfully edited user" : "Failed to edit user"});
+        }
+
+        [HttpGet]
+        [Access(AccessSections.USERS, AccessLevels.EDIT)]
+        public IActionResult Create() => View(new CreateEditUserModel
+        {
+            Roles = new RoleManager(Database).GetRoles().Select(a => new SelectListItem(a.Name, a.ID.ToString())).ToList()
+        });
+
+        [HttpPost]
+        [Access(AccessSections.USERS, AccessLevels.EDIT)]
+        public IActionResult AttemptCreate(CreateEditUserModel model)
+        {
+            var result = _userManager.CreateUser(model.EmailAddress, model.FirstName, model.LastName,
+                model.Password.ToSHA1(), Guid.Parse(model.SelectedRole));
+
+            return RedirectToAction("Index", new { actionMessage = result.HasValue ? "Successfully created user" : "Failed to create user" });
         }
     }
 }
