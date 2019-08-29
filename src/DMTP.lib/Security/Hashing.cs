@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace DMTP.lib.Helpers
+namespace DMTP.lib.Security
 {
     public static class Hashing
     {
@@ -28,7 +28,7 @@ namespace DMTP.lib.Helpers
 
             using (var sha = new SHA1Managed())
             {
-                return BitConverter.ToString(sha.ComputeHash(ASCIIEncoding.ASCII.GetBytes(data))).Replace("-", "");
+                return BitConverter.ToString(sha.ComputeHash(Encoding.ASCII.GetBytes(data))).Replace("-", "");
             }
         }
     }

@@ -3,9 +3,8 @@
 using DMTP.lib.Common;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
-using DMTP.lib.Helpers;
 using DMTP.lib.Managers;
-
+using DMTP.lib.Security;
 using DMTP.REST.Models.Setup;
 
 using Microsoft.AspNetCore.Mvc;
