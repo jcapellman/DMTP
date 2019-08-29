@@ -15,5 +15,7 @@ namespace DMTP.lib.dal.Databases.Tables
         public string SMTPPassword { get; set; }
 
         public bool AllowNewUserCreation { get; set; }
+
+        public string DeviceKeyPassword { get; set; }
     }
 }
