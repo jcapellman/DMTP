@@ -25,7 +25,7 @@ namespace DMTP.REST.Controllers
     {
         protected readonly DatabaseManager Database;
 
-        protected readonly Settings CurrentSettings;
+        protected Settings CurrentSettings;
 
         private readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
