@@ -3,6 +3,7 @@
 using DMTP.lib.Common;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
+using DMTP.lib.Helpers;
 using DMTP.lib.Managers;
 using DMTP.lib.Security;
 using DMTP.REST.Models.Setup;
@@ -47,6 +48,7 @@ namespace DMTP.REST.Controllers
             CurrentSettings.SMTPPassword = model.SMTPPassword;
             CurrentSettings.SMTPPortNumber = model.SMTPPortNumber;
             CurrentSettings.SMTPUsername = model.SMTPUsername;
+            CurrentSettings.DeviceKeyPassword = Strings.GenerateRandomString();
 
             new SettingManager(Database).UpdateSettings(CurrentSettings);
 
