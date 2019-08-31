@@ -1,5 +1,6 @@
 ﻿using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
+using DMTP.lib.Helpers;
 using DMTP.lib.Managers;
 
 using DMTP.REST.Models.Settings;
@@ -31,9 +32,19 @@ namespace DMTP.REST.Controllers
         }
 
         [HttpPost]
-        public IActionResult AttemptUpdate(Settings setting)
+        public IActionResult AttemptUpdate(SettingsDashboardModel model)
         {
-            var result = _settingManager.UpdateSettings(setting);
+            if (model.GenerateNewRegistrationKey)
+            {
+                model.Setting.DeviceKeyPassword = Strings.GenerateRandomString();
+            }
+
+            var result = _settingManager.UpdateSettings(model.Setting);
+
+            if (result)
+            {
+                CurrentSettings = model.Setting;
+            }
 
             return RedirectToAction("Index",
                 new {actionMessage = result ? "Successfully updated settings" : "Failed to update settings"});
