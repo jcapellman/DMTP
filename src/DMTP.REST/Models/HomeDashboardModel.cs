@@ -8,7 +8,7 @@ namespace DMTP.REST.Models
 {
     public class HomeDashboardModel
     {
-        public List<Workers> Workers { get; set; }
+        public List<lib.dal.Databases.Tables.Workers> Workers { get; set; }
         
         public List<Jobs> Jobs { get; set; }
 

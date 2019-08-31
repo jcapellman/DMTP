@@ -1,10 +1,12 @@
-﻿@model List<DMTP.lib.dal.Databases.Tables.Workers>
+﻿@model DMTP.REST.Models.Workers.WorkerListingModel
 
 <h3>Workers</h3>
 
-@if (Model.Any())
+<h4>Registration Key: @Model.RegistrationKey</h4>
+
+@if (Model.WorkersListing.Any())
 {
-    <partial name="_WorkersListing" model="Model" />
+    <partial name="_WorkersListing" model="Model.WorkersListing" />
 }
 else
 {
