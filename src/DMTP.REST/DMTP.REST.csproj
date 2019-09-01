@@ -5,7 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.4" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
