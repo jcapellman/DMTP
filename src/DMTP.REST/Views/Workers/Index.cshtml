@@ -1,9 +1,24 @@
 ﻿@model DMTP.REST.Models.Workers.WorkerListingModel
 
-<h3>Workers</h3>
+<h3>Add a Worker</h3>
 
-<h4>Registration Key: @Model.RegistrationKey</h4>
+<div class="row text-white">
+    <p class="text-white" style="margin-left: 15px">
+        <div style="float: left;">
+            <label class="text-uppercase">Registration Key:</label><br/>
+            <input type="text" id="registrationKey" class="form-control" readonly style="width: 225px; float:left" value="@Model.RegistrationKey" /><i class="fas fa-copy" style="margin-left: 10px; font-size: 32px" onclick="copyRegistrationKey()"></i><br/><br/>
+        </div>
+        
+        <div style="float: left; margin-left: 50px">
+            <label class="text-uppercase">Download Worker:</label><br />
+            <i class="fab fa-linux download-workers"></i>
+            <i class="fab fa-apple download-workers"></i>
+            <i class="fab fa-windows download-workers"></i>
+        </div>
+    </p>
+</div>
 
+<h3>Current Workers</h3>
 @if (Model.WorkersListing.Any())
 {
     <partial name="_WorkersListing" model="Model.WorkersListing" />
@@ -12,3 +27,16 @@ else
 {
     <p class="text-white">There are currently no workers</p>
 }
+
+<script type="text/javascript">
+    function copyRegistrationKey() {
+        var copyText = document.getElementById("registrationKey");
+
+        copyText.select(); 
+        copyText.setSelectionRange(0, 99999);
+
+        document.execCommand("copy");
+
+        alert("Copied Key");
+    }
+</script>

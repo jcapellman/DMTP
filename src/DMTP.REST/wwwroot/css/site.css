@@ -77,3 +77,8 @@ h3 {
 .form-label-group input:not(:placeholder-shown) {
     height: 35px;
 }
+
+.download-workers {
+    font-size: 32px;
+    margin-right: 10px;
+}
