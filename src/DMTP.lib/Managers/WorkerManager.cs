@@ -38,9 +38,12 @@ namespace DMTP.lib.Managers
                 }
                 else
                 {
-                    worker.ID = dbHost.ID;
+                    dbHost.Active = true;
+                    dbHost.LastConnected = worker.LastConnected;
+                    dbHost.NumCores = worker.NumCores;
+                    dbHost.OSVersion = worker.OSVersion;
 
-                    _database.Update(worker);
+                    _database.Update(dbHost);
                 }
 
                 return true;
