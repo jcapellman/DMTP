@@ -5,16 +5,27 @@
 <div class="row text-white">
     <p class="text-white" style="margin-left: 15px">
         <div style="float: left;">
-            <label class="text-uppercase">Registration Key:</label><br/>
-            <input type="text" id="registrationKey" class="form-control" readonly style="width: 250px; float:left" value="@Model.RegistrationKey" /><i class="fas fa-copy" style="margin-left: 10px; font-size: 32px" onclick="copyRegistrationKey()"></i><br/><br/>
+            <label>Registration Key</label><br />
+            <label class="label-value">@Model.RegistrationKey</label><br /><br />
         </div>
-        
+
         <div style="float: left; margin-left: 50px">
-            <label class="text-uppercase">Download Worker:</label><br />
+            <label>Web Service URL</label><br />
+            <label class="label-value">@Model.WebServiceURL</label>
+        </div>
+
+        <div style="float: left; margin-left: 50px">
+            <label>Download Worker</label><br />
             <i class="fab fa-linux download-workers"></i>
             <i class="fab fa-apple download-workers"></i>
             <i class="fab fa-windows download-workers"></i>
         </div>
+    </p>
+</div>
+<div class="row text-white">
+    <p style="margin-left: 15px">
+        <label>Usage Example</label><br />
+        <input type="text" id="usageExample" class="form-control" style="width: 500px; float: left" value="DMTP.Worker @Model.WebServiceURL @Model.RegistrationKey" /><i class="fas fa-copy" style="margin-left: 10px; font-size: 32px" onclick="copyUsage()"></i>
     </p>
 </div>
 
@@ -29,14 +40,14 @@ else
 }
 
 <script type="text/javascript">
-    function copyRegistrationKey() {
-        var copyText = document.getElementById("registrationKey");
+    function copyUsage() {
+        var copyText = document.getElementById("usageExample");
 
         copyText.select(); 
         copyText.setSelectionRange(0, 99999);
 
         document.execCommand("copy");
 
-        alert("Copied Key");
+        alert("Copied Usage Example");
     }
 </script>
