@@ -8,7 +8,6 @@ namespace DMTP.REST.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class BaseAPIController : BaseController
     {
         protected BaseAPIController(DatabaseManager database, Settings settings) : base(database, settings)
