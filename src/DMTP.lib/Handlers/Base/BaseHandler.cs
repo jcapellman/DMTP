@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,7 +46,7 @@ namespace DMTP.lib.Handlers.Base
                 using (var httpClient = new HttpClient(GetHttpClientHandler()))
                 {
                     httpClient.BaseAddress = new Uri(_rootURL);
-                    httpClient.DefaultRequestHeaders.Add("Auth", _registrationKey);
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", _registrationKey);
 
                     var response = httpClient.GetAsync(url).Result;
 
@@ -76,7 +77,7 @@ namespace DMTP.lib.Handlers.Base
                 using (var httpClient = new HttpClient(GetHttpClientHandler()))
                 {
                     httpClient.BaseAddress = new Uri(_rootURL);
-                    httpClient.DefaultRequestHeaders.Add("Auth", _registrationKey);
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", _registrationKey);
 
                     var json = JsonConvert.SerializeObject(data);
 
