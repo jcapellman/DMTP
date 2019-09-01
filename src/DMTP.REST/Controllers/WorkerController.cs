@@ -55,7 +55,7 @@ namespace DMTP.REST.Controllers
             return job;
         }
 
-        [HttpPost]
+        [HttpPut]
         [RequestSizeLimit(100_000_000)]
         public void UpdateWork([FromBody]Jobs job)
         {
