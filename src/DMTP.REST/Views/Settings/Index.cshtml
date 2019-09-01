@@ -35,16 +35,21 @@
         <label>Password</label>
     </div>
 
-    <br/>
+    <br />
 
     <h5 class="text-white">Misc Settings</h5>
 
     <div class="form-label-group">
-        <input class="form-control" type="checkbox" asp-for="@Model.Setting.AllowNewUserCreation" />
         <label asp-for="Setting.AllowNewUserCreation">Allow New User Creation</label>
+        <input class="form-control" type="checkbox" asp-for="@Model.Setting.AllowNewUserCreation" />
     </div>
-    
-    <br/>
+
+    <div class="form-label-group">
+        <label asp-for="GenerateNewRegistrationKey">Generate new Registration Key</label>
+        <input class="form-control" type="checkbox" asp-for="@Model.GenerateNewRegistrationKey"/>
+    </div>
+
+    <br />
 
     <input type="submit" value="Update Settings" class="btn btn-lg btn-primary btn-block text-uppercase" />
 </form>
