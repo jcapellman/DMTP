@@ -9,25 +9,45 @@ namespace DMTP.Worker.Helpers
 {
     public class ConfigManager
     {
+        private static NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
+
         public static Config ReadConfig(string configFilename)
         {
-            var configString = File.ReadAllText(configFilename);
-
-            if (string.IsNullOrEmpty(configString))
+            try
             {
-                throw new NullReferenceException($"{configFilename} was empty or null");
-            }
+                var configString = File.ReadAllText(configFilename);
 
-            return JsonConvert.DeserializeObject<Config>(configString);
+                if (string.IsNullOrEmpty(configString))
+                {
+                    throw new NullReferenceException($"{configFilename} was empty or null");
+                }
+
+                return JsonConvert.DeserializeObject<Config>(configString);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failure reading {configFilename} due to {ex}");
+
+                return null;
+            }
         }
 
         public static bool WriteConfig(Config config, string configFilename)
         {
-            var json = JsonConvert.SerializeObject(config);
+            try
+            {
+                var json = JsonConvert.SerializeObject(config);
 
-            File.WriteAllText(configFilename, json);
+                File.WriteAllText(configFilename, json);
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failure writing {configFilename} due to {ex}");
+                
+                return false;
+            }
         }
     }
 }
