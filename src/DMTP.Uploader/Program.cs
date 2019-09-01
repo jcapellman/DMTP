@@ -40,7 +40,7 @@ namespace DMTP.Uploader
                 return;
             }
 
-            var jobHandler = new JobHandler(url);
+            var jobHandler = new JobHandler(url, null);
 
             var result = await jobHandler.AddNewJobAsync(job);
 

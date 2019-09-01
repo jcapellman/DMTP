@@ -7,7 +7,7 @@ namespace DMTP.lib.Handlers
 {
     public class JobHandler : BaseHandler
     {
-        public JobHandler(string rootUrl) : base(rootUrl) { }
+        public JobHandler(string rootUrl, string registrationKey) : base(rootUrl, registrationKey) { }
 
         protected override string RootAPI => "Job";
 

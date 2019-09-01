@@ -45,7 +45,7 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private async void BwCheckin_DoWork(object sender, DoWorkEventArgs e)
         {
-            var hostHandler = new WorkerHandler(_config.WebServiceURL);
+            var hostHandler = new WorkerHandler(_config.WebServiceURL, _config.RegistrationKey);
 
             // Call to checkin with the server
             var checkinResult = await hostHandler.AddUpdateWorkerAsync(_worker);

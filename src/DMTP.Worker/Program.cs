@@ -37,9 +37,9 @@ namespace DMTP.Worker
             {
                 config = new Config
                 {
-                    RegistrationKey = args[0],
+                    RegistrationKey = args[1],
                     DebugLogLevel = false,
-                    WebServiceURL = args[1]
+                    WebServiceURL = args[0]
                 };
 
                 ConfigManager.WriteConfig(config, Constants.CONFIG_FILE);

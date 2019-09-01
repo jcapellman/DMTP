@@ -18,14 +18,22 @@ namespace DMTP.lib.Handlers.Base
 
         private readonly string _rootURL;
 
-        protected BaseHandler(string rootURL)
+        private readonly string _registrationKey;
+
+        protected BaseHandler(string rootURL, string registrationKey)
         {
             if (string.IsNullOrEmpty(rootURL))
             {
                 throw new ArgumentNullException(nameof(rootURL));
             }
 
+            if (string.IsNullOrEmpty(registrationKey))
+            {
+                throw new ArgumentNullException(nameof(registrationKey));
+            }
+
             _rootURL = rootURL;
+            _registrationKey = registrationKey;
         }
 
         private static HttpClientHandler GetHttpClientHandler() => new HttpClientHandler { DefaultProxyCredentials = CredentialCache.DefaultCredentials };
@@ -37,6 +45,7 @@ namespace DMTP.lib.Handlers.Base
                 using (var httpClient = new HttpClient(GetHttpClientHandler()))
                 {
                     httpClient.BaseAddress = new Uri(_rootURL);
+                    httpClient.DefaultRequestHeaders.Add("Auth", _registrationKey);
 
                     var response = httpClient.GetAsync(url).Result;
 
@@ -67,6 +76,7 @@ namespace DMTP.lib.Handlers.Base
                 using (var httpClient = new HttpClient(GetHttpClientHandler()))
                 {
                     httpClient.BaseAddress = new Uri(_rootURL);
+                    httpClient.DefaultRequestHeaders.Add("Auth", _registrationKey);
 
                     var json = JsonConvert.SerializeObject(data);
 

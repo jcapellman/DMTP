@@ -7,7 +7,7 @@ namespace DMTP.lib.Handlers
 {
     public class WorkerHandler : BaseHandler
     {
-        public WorkerHandler(string rootUrl) : base(rootUrl) { }
+        public WorkerHandler(string rootUrl, string registrationKey) : base(rootUrl, registrationKey) { }
 
         protected override string RootAPI => "Worker";
 

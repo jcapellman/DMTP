@@ -34,7 +34,7 @@ namespace DMTP.Worker.BackgroundWorkers
 
             _config = config;
 
-            var workerHandler = new WorkerHandler(_config.WebServiceURL);
+            var workerHandler = new WorkerHandler(_config.WebServiceURL, _config.RegistrationKey);
 
             var work = await workerHandler.GetWorkAsync(_worker.Name);
 

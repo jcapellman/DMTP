@@ -7,7 +7,9 @@ using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
 using DMTP.lib.Handlers;
 using DMTP.lib.Managers;
+
 using DMTP.Worker.Common;
+using DMTP.Worker.Objects;
 
 using Newtonsoft.Json;
 
@@ -23,7 +25,7 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private readonly LiteDBDatabase _db;
 
-        private string _serverURL;
+        private Config _config;
 
         public PendingSubmissionsWorker()
         {
@@ -34,9 +36,9 @@ namespace DMTP.Worker.BackgroundWorkers
             _bwCheckin.RunWorkerCompleted += BwCheckin_RunWorkerCompleted;
         }
 
-        public void Run(string serverURL)
+        public void Run(Config config)
         {
-            _serverURL = serverURL;
+            _config = config;
 
             _bwCheckin.RunWorkerAsync();
         }
@@ -63,7 +65,7 @@ namespace DMTP.Worker.BackgroundWorkers
 
             Log.Debug($"{pendingJobs.Count} pending jobs found...");
 
-            var workerHandler = new WorkerHandler(_serverURL);
+            var workerHandler = new WorkerHandler(_config.WebServiceURL, _config.RegistrationKey);
 
             foreach (var pJob in pendingJobs)
             {

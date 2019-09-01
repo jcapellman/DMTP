@@ -16,21 +16,21 @@ namespace DMTP.UnitTests.lib
         [ExpectedException(typeof(ArgumentNullException))]
         public void HostsHandler_Null()
         {
-            var hHandler = new WorkerHandler(null);
+            var hHandler = new WorkerHandler(null, null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void HostsHandler_EmptyString()
         {
-            var hHandler = new WorkerHandler(string.Empty);
+            var hHandler = new WorkerHandler(string.Empty, string.Empty);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task HostsHandler_NullAddUpdateHostAsync()
         {
-            var hHandler = new WorkerHandler(TEST_VALID_URL);
+            var hHandler = new WorkerHandler(TEST_VALID_URL, "test");
 
             await hHandler.AddUpdateWorkerAsync(null);
         }
@@ -38,7 +38,7 @@ namespace DMTP.UnitTests.lib
         [TestMethod]
         public async Task HostsHandler_DefaultAddUpdateHostAsync()
         {
-            var hHandler = new WorkerHandler(TEST_VALID_URL);
+            var hHandler = new WorkerHandler(TEST_VALID_URL, "test");
 
             await hHandler.AddUpdateWorkerAsync(new DMTP.lib.dal.Databases.Tables.Workers());
         }
@@ -47,14 +47,14 @@ namespace DMTP.UnitTests.lib
         [ExpectedException(typeof(ArgumentNullException))]
         public void JobHandler_Null()
         {
-            var jHandler = new JobHandler(null);
+            var jHandler = new JobHandler(null, null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void WorkerHandler_Null()
         {
-            var wHandler = new WorkerHandler(null);
+            var wHandler = new WorkerHandler(null, null);
         }
     }
 }
