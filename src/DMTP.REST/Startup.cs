@@ -1,6 +1,7 @@
 using DMTP.lib.dal.Databases;
 using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
+using DMTP.REST.Filters;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +34,7 @@ namespace DMTP.REST
             
             services.AddSingleton(dbManager);
             services.AddSingleton(new SettingManager(dbManager).GetSettings());
+            services.AddScoped<APIAuthorize>();
 
             services.AddMvc();
 
