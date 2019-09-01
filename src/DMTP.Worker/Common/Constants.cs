@@ -6,6 +6,6 @@
 
         public const int LOOP_ERROR_INTERVAL_MS = LOOP_INTERVAL_MS * 5;
 
-        public const string DEFAULT_SERVER_URL = "http://localhost:5000/api/";
+        public const string CONFIG_FILE = "config.json";
     }
 }

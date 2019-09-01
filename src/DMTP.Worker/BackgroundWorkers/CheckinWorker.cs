@@ -2,7 +2,9 @@
 
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.Handlers;
+
 using DMTP.Worker.Common;
+using DMTP.Worker.Objects;
 
 using NLog;
 
@@ -16,7 +18,7 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private Workers _worker;
 
-        private string _serverUrl;
+        private Config _config;
 
         public CheckinWorker()
         {
@@ -26,10 +28,10 @@ namespace DMTP.Worker.BackgroundWorkers
             _bwCheckin.RunWorkerCompleted += BwCheckin_RunWorkerCompleted;            
         }
 
-        public void Run(Workers worker, string serverUrl)
+        public void Run(Workers worker, Config config)
         {
             _worker = worker;
-            _serverUrl = serverUrl;
+            _config = config;
 
             _bwCheckin.RunWorkerAsync();
         }
@@ -43,7 +45,7 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private async void BwCheckin_DoWork(object sender, DoWorkEventArgs e)
         {
-            var hostHandler = new WorkerHandler(_serverUrl);
+            var hostHandler = new WorkerHandler(_config.WebServiceURL);
 
             // Call to checkin with the server
             var checkinResult = await hostHandler.AddUpdateWorkerAsync(_worker);
@@ -53,7 +55,7 @@ namespace DMTP.Worker.BackgroundWorkers
                 return;
             }
 
-            Log.Error($"Failed to check in with {_serverUrl}");;
+            Log.Error($"Failed to check in with {_config.WebServiceURL}");
 
             System.Threading.Thread.Sleep(Constants.LOOP_ERROR_INTERVAL_MS);
         }

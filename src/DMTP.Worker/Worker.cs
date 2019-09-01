@@ -5,22 +5,23 @@ using DMTP.lib.dal.Databases.Tables;
 
 using DMTP.Worker.BackgroundWorkers;
 using DMTP.Worker.Common;
+using DMTP.Worker.Objects;
 
 namespace DMTP.Worker
 {
     public class Worker
     {
-        private readonly string _serverURL;
+        private readonly Config _config;
 
         private readonly Workers _worker;
 
         private readonly CheckinWorker _cWorker = new CheckinWorker();
         private readonly JobWorker _jWorker = new JobWorker();
 
-        public Worker(string serverURL)
+        public Worker(Config config)
         {
-            _serverURL = serverURL;
-
+            _config = config;
+            
             _worker = new Workers
             {
                 Name = Environment.MachineName,
@@ -32,11 +33,11 @@ namespace DMTP.Worker
 
         public async void RunAsync()
         {
-            _cWorker.Run(_worker, _serverURL);
+            _cWorker.Run(_worker, _config);
             
             while (true)
             {
-                var workerResult = await _jWorker.Run(_worker, _serverURL);
+                var workerResult = await _jWorker.Run(_worker, _config);
 
                 System.Threading.Thread.Sleep(!workerResult
                     ? Constants.LOOP_ERROR_INTERVAL_MS

@@ -1,7 +1,6 @@
 ﻿using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
-using DMTP.lib.Security;
 
 using DMTP.REST.Models.Workers;
 
@@ -13,7 +12,7 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class WorkersController : BaseController
     {
-        private string ComputeRegistrationKey() => AES.EncryptString($"{HttpContext.Request.Host.Host}", CurrentSettings.DeviceKeyPassword);
+        private string ComputeRegistrationKey() => CurrentSettings.DeviceKeyPassword;
 
         public WorkersController(DatabaseManager database, Settings settings) : base(database, settings)
         {

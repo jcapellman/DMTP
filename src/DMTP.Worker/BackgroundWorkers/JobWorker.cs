@@ -14,6 +14,7 @@ using DMTP.lib.ML.Base;
 using DMTP.lib.Options;
 
 using DMTP.Worker.Common;
+using DMTP.Worker.Objects;
 
 using NLog;
 
@@ -25,21 +26,21 @@ namespace DMTP.Worker.BackgroundWorkers
 
         private Workers _worker;
 
-        private string _serverUrl;
+        private Config _config;
 
-        public async Task<bool> Run(Workers worker, string serverUrl)
+        public async Task<bool> Run(Workers worker, Config config)
         {
             _worker = worker;
 
-            _serverUrl = serverUrl;
+            _config = config;
 
-            var workerHandler = new WorkerHandler(_serverUrl);
+            var workerHandler = new WorkerHandler(_config.WebServiceURL);
 
             var work = await workerHandler.GetWorkAsync(_worker.Name);
 
             if (work == null)
             {
-                Log.Debug($"No work or connection issues to {_serverUrl}, waiting until next interval");
+                Log.Debug($"No work or connection issues to {_config.WebServiceURL}, waiting until next interval");
 
                 System.Threading.Thread.Sleep(Constants.LOOP_INTERVAL_MS);
 
