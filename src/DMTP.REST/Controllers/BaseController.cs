@@ -8,7 +8,6 @@ using System.Threading;
 
 using DMTP.lib.Auth;
 using DMTP.lib.Common;
-using DMTP.lib.dal.Databases.Base;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;

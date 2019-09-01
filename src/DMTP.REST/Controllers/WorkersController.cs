@@ -5,6 +5,7 @@ using DMTP.lib.Managers;
 using DMTP.REST.Models.Workers;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DMTP.REST.Controllers
@@ -21,7 +22,8 @@ namespace DMTP.REST.Controllers
         public IActionResult Index() => View(new WorkerListingModel
         {
             WorkersListing = new WorkerManager(Database).GetWorkers(),
-            RegistrationKey = ComputeRegistrationKey()
+            RegistrationKey = ComputeRegistrationKey(),
+            WebServiceURL = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}"
         });
     }
 }
