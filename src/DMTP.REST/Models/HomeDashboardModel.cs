@@ -13,5 +13,7 @@ namespace DMTP.REST.Models
         public List<Jobs> Jobs { get; set; }
 
         public List<SelectListItem> ModelTypes { get; set; }
+
+        public List<SelectListItem> AssignWorkers { get; set; }
     }
 }
