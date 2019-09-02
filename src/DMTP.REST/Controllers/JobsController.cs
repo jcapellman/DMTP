@@ -1,4 +1,6 @@
-﻿using DMTP.lib.dal.Databases.Tables;
+﻿using System.Linq;
+
+using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
 
@@ -14,6 +16,6 @@ namespace DMTP.REST.Controllers
         {
         }
 
-        public IActionResult Index() => View(new JobManager(Database).GetJobs());
+        public IActionResult Index() => View(new JobManager(Database).GetJobs().OrderByDescending(a => a.SubmissionTime).ToList());
     }
 }
