@@ -39,7 +39,7 @@ namespace DMTP.REST.Controllers
                 }
             }
 
-            model.Workers = new WorkerManager(Database).GetWorkers().Where(a => model.Jobs.Any(b => b.AssignedHost == a.Name)).ToList();
+            model.Workers = new WorkerManager(Database).GetWorkers().OrderBy(a => a.Name).ToList();
 
             return View(model);
         }
