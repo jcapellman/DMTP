@@ -22,7 +22,7 @@ namespace DMTP.REST.Controllers
         {
             WorkersListing = new WorkerManager(Database).GetWorkers(),
             RegistrationKey = ComputeRegistrationKey(),
-            WebServiceURL = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}api/"
+            WebServiceURL = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/api/"
         });
     }
 }
