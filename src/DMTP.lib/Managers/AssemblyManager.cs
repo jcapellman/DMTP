@@ -16,11 +16,11 @@ namespace DMTP.lib.Managers
         {
         }
 
-        public List<string> GetUploadedAssembliesList()
+        public List<Assemblies> GetUploadedAssembliesList()
         {
             try
             {
-                return _database.GetAll<Assemblies>().Select(a => a.Name).ToList();
+                return _database.GetAll<Assemblies>();
             }
             catch (Exception ex)
             {
