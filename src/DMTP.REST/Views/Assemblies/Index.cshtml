@@ -37,7 +37,7 @@
         {
             <tr>
                 <th scope="row">@assembly.FileName</th>
-                <th>@string.Join(',', Model.AssembliesList)</th>
+                <th>@string.Join(',', assembly.Predictors)</th>
                 <td>
                     <a asp-action="DeleteAssembly" asp-route-id="@assembly.ID" class="text-center fas fa-trash" title="Delete Assembly"></a>
                 </td>
