@@ -15,5 +15,7 @@
         public const string SENDER_EMAIL = "no-reply@dmtp";
 
         public const string ROLE_BUILTIN_ADMIN = "Admin";
+
+        public const string WORKER_AUTO_ASSIGN = "Auto-Assign";
     }
 }
