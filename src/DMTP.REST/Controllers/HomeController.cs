@@ -24,7 +24,7 @@ namespace DMTP.REST.Controllers
         {
             var model = new HomeDashboardModel
             {
-                Jobs = new JobManager(Database).GetJobs().Where(a => !a.Completed).ToList()
+                Jobs = new JobManager(Database).GetJobs().Where(a => !a.Completed).OrderByDescending(a => a.SubmissionTime).ToList()
             };
 
             var assemblies = new AssemblyManager(Database).GetUploadedAssembliesList();
