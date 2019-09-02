@@ -59,7 +59,7 @@ namespace DMTP.lib.Handlers.Base
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Failed to get {url} due to {ex}");
+                Log.Error(ex, $"Failed to get {_rootURL}{url} due to {ex}");
 
                 return default;
             }
