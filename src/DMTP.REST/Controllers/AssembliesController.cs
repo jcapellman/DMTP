@@ -32,7 +32,7 @@ namespace DMTP.REST.Controllers
             {
                 file.CopyTo(ms);
 
-                var result = new AssemblyManager(Database).UploadAssembly(ms.ToArray());
+                var result = new AssemblyManager(Database).UploadAssembly(ms.ToArray(), file.FileName);
 
                 return RedirectToAction("Index", !result ? new { actionMessage = $"Invalid assembly ({file.FileName})" } : new {actionMessage = $"Successfully upload {file.FileName}"});
             }
