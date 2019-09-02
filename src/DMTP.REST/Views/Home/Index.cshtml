@@ -47,12 +47,12 @@ else
     <p class="text-white">There are no pending jobs</p>
 }
 
-<h3>Active Workers</h3>
-@if (Model.Workers.Any())
+<h3>Busy Workers</h3>
+@if (Model.Workers.Any(a => Model.Jobs.Any(b => b.AssignedHost == a.Name)))
 {
     <partial name="_WorkersListing" model="Model.Workers" />
 }
 else
 {
-    <p class="text-white">There are no active workers</p>
+    <p class="text-white">There are no busy workers</p>
 }
