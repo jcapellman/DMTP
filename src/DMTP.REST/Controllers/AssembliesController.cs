@@ -38,7 +38,7 @@ namespace DMTP.REST.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpGet]
         [Access(AccessSections.ASSEMBLIES, AccessLevels.FULL)]
         public IActionResult DeleteAssembly(Guid id) =>
             RedirectToAction("Index",
