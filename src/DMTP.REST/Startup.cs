@@ -28,8 +28,6 @@ namespace DMTP.REST
         {
             services.AddOptions();
 
-            services.AddSingleton(Helpers.AssemblyReader.LoadAssemblies());
-
             var dbManager = new DatabaseManager(new LiteDBDatabase(), new InMemoryCache());
             
             services.AddSingleton(dbManager);
