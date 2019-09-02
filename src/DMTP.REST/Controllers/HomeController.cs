@@ -6,7 +6,6 @@ using DMTP.lib.Common;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
-using DMTP.lib.ML.Base;
 
 using DMTP.REST.Models;
 
@@ -19,18 +18,26 @@ namespace DMTP.REST.Controllers
     [Authorize]
     public class HomeController : BaseController
     {
-        private readonly List<BasePrediction> _assemblies;
-
-        public HomeController(DatabaseManager database, List<BasePrediction> assemblies, Settings settings) : base(database, settings) { _assemblies = assemblies; }
+        public HomeController(DatabaseManager database, Settings settings) : base(database, settings) { }
 
         public IActionResult Index()
         {
             var model = new HomeDashboardModel
             {
-                Jobs = new JobManager(Database).GetJobs().Where(a => !a.Completed).ToList(),
-                ModelTypes = _assemblies.OrderBy(a => a.MODEL_NAME)
-                    .Select(a => new SelectListItem(a.MODEL_NAME, a.MODEL_NAME)).ToList()
+                Jobs = new JobManager(Database).GetJobs().Where(a => !a.Completed).ToList()
             };
+
+            var assemblies = new AssemblyManager(Database).GetUploadedAssembliesList();
+
+            model.ModelTypes = new List<SelectListItem>();
+
+            foreach (var assembly in assemblies)
+            {
+                foreach (var predictor in assembly.Predictors)
+                {
+                    model.ModelTypes.Add(new SelectListItem(predictor, assembly.ID.ToString()));
+                }
+            }
 
             model.Workers = new WorkerManager(Database).GetWorkers().Where(a => model.Jobs.Any(b => b.AssignedHost == a.Name)).ToList();
 
