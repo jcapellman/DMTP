@@ -1,23 +1,39 @@
-﻿@using DMTP.lib.Common
-@model DMTP.REST.Models.HomeDashboardModel
+﻿@model DMTP.REST.Models.HomeDashboardModel
 
 <h3>Submit New Job</h3>
 
-<form asp-action="AddJob" asp-controller="Home" method="get" class="form-inline">
-    <div class="form-group" style="margin-right: 10px">
-        <input type="text" placeholder="name" name="name" id="name" required class="form-control" style="max-width: 200px" />
-    </div>
+@if (Model.ModelTypes.Any() && Model.Workers.Any())
+{
+    <form asp-action="AddJob" asp-controller="Home" method="get" class="form-inline">
+        <div class="form-group" style="margin-right: 10px">
+            <input type="text" placeholder="name" name="name" id="name" required class="form-control" style="max-width: 200px" />
+        </div>
 
-    <div class="form-group" style="margin-right: 10px">
-        @Html.DropDownList("modelType", Model.ModelTypes, htmlAttributes: new { @class = "form-control" })
-    </div>
+        <div class="form-group" style="margin-right: 10px">
+            @Html.DropDownList("modelType", Model.ModelTypes, htmlAttributes: new { @class = "form-control" })
+        </div>
 
-    <div class="form-group" style="margin-right: 10px">
-        <input type="text" placeholder="training data path" required name="trainingDataPath" id="trainingDataPath" class="form-control" style="max-width: 200px" />
-    </div>
+        <div class="form-group" style="margin-right: 10px">
+            <input type="text" placeholder="training data path" required name="trainingDataPath" id="trainingDataPath" class="form-control" style="max-width: 200px" />
+        </div>
 
-    <button type="submit" class="btn btn-secondary">Add Job</button>
-</form>
+        <button type="submit" class="btn btn-secondary">Add Job</button>
+    </form>
+}
+else
+{
+    <div class="text-white">
+    @if (!Model.Workers.Any())
+    {
+        <p>No workers found, please proceed to <a asp-action="Index" asp-controller="Workers">Workers</a> to add Workers to your cluster</p>
+    }
+
+    @if (!Model.ModelTypes.Any())
+    {
+        <p>No Predictors found, please proceed to <a asp-action="Index" asp-controller="Assemblies">Assemblies</a> to add Predictors to your cluster</p>
+    }
+    </div>
+}
 
 <hr />
 
