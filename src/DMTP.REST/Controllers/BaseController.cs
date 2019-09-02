@@ -98,11 +98,8 @@ namespace DMTP.REST.Controllers
             }
         }
 
-        protected Guid? SaveJob(Jobs job)
+        private string FindAvailableWorker()
         {
-            job.ID = Guid.NewGuid();
-            job.SubmissionTime = DateTime.Now;
-
             var hosts = new WorkerManager(Database).GetWorkers();
 
             if (hosts == null)
@@ -123,21 +120,27 @@ namespace DMTP.REST.Controllers
                         continue;
                     }
 
-                    job.AssignedHost = host.Name;
-
-                    break;
+                    return host.Name;
                 }
 
-                if (string.IsNullOrEmpty(job.AssignedHost))
-                {
-                    job.AssignedHost = Constants.UNASSIGNED_JOB;
-                }
+                return Constants.UNASSIGNED_JOB;
             }
-            else
+
+            return Constants.UNASSIGNED_JOB;
+        }
+
+        protected Guid? SaveJob(Jobs job)
+        {
+            var jobManager = new JobManager(Database);
+
+            job.ID = Guid.NewGuid();
+            job.SubmissionTime = DateTime.Now;
+
+            if (string.IsNullOrEmpty(job.AssignedHost))
             {
-                job.AssignedHost = Constants.UNASSIGNED_JOB;
+                job.AssignedHost = FindAvailableWorker();
             }
-
+            
             if (jobManager.AddJob(job))
             {
                 return job.ID;
