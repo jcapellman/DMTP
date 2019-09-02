@@ -41,11 +41,18 @@ namespace DMTP.REST.Controllers
 
             model.Workers = new WorkerManager(Database).GetWorkers().OrderBy(a => a.Name).ToList();
 
+            model.AssignWorkers = new List<SelectListItem>
+            {
+                new SelectListItem(Constants.WORKER_AUTO_ASSIGN, Constants.WORKER_AUTO_ASSIGN)
+            };
+
+            model.AssignWorkers.AddRange(model.Workers.Select(a => new SelectListItem(a.Name, a.Name)));
+
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult AddJob([FromQuery]string name, [FromQuery]string trainingDataPath, [FromQuery]string modelType)
+        public IActionResult AddJob([FromQuery]string name, [FromQuery]string trainingDataPath, [FromQuery]string modelType, [FromQuery]string selectedWorker)
         {
             var job = new Jobs
             {
@@ -54,9 +61,14 @@ namespace DMTP.REST.Controllers
                 ModelType = modelType
             };
 
+            if (selectedWorker != Constants.WORKER_AUTO_ASSIGN)
+            {
+                job.AssignedHost = selectedWorker;
+            }
+
             SaveJob(job);
 
-            return Index();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
