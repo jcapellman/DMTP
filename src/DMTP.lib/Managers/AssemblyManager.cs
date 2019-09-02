@@ -32,7 +32,7 @@ namespace DMTP.lib.Managers
 
         public bool DeleteAssembly(Guid id) => _database.Delete<Assemblies>(id);
 
-        public bool UploadAssembly(byte[] assemblyBytes)
+        public bool UploadAssembly(byte[] assemblyBytes, string fileName)
         {
             try
             {
@@ -48,18 +48,18 @@ namespace DMTP.lib.Managers
                     throw new ArgumentException("File uploaded is not a valid DLL");
                 }
 
-                var baseExtractorType = assembly.DefinedTypes.FirstOrDefault(a => a.BaseType == typeof(BasePrediction));
+                var predictorTypes =
+                    assembly.DefinedTypes.Where(a => a.BaseType == typeof(BasePrediction) && !a.IsAbstract).ToList();
 
-                if (baseExtractorType == null)
+                if (!predictorTypes.Any())
                 {
                     throw new ArgumentException("File was a valid DLL, but was not compiled properly");
                 }
 
-                var baseExtractor = (BasePrediction)Activator.CreateInstance(baseExtractorType);
-
                 var item = new Assemblies
                 {
-                    Name = baseExtractor.MODEL_NAME,
+                    FileName = fileName,
+                    Predictors = predictorTypes.Select(a => (BasePrediction)Activator.CreateInstance(a)).Select(b => b.MODEL_NAME).ToList(),
                     Data = assemblyBytes
                 };
 
