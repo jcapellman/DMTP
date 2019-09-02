@@ -48,18 +48,18 @@ namespace DMTP.lib.Handlers.Base
                     httpClient.BaseAddress = new Uri(_rootURL);
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", _registrationKey);
 
-                    var response = httpClient.GetAsync(url).Result;
+                    var response = httpClient.GetAsync($"{RootAPI}{url}").Result;
 
                     var responseBody = await response.Content.ReadAsStringAsync();
 
-                    Log.Debug($"Url: {url} | Response: {responseBody}");
+                    Log.Debug($"Url: {_rootURL}{RootAPI}{url} | Response: {responseBody}");
 
                     return response.IsSuccessStatusCode ? JsonConvert.DeserializeObject<T>(responseBody) : default;
                 }
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Failed to get {_rootURL}{url} due to {ex}");
+                Log.Error(ex, $"Failed to get {_rootURL}{RootAPI}{url} due to {ex}");
 
                 return default;
             }
