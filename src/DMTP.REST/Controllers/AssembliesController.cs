@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Enums;
@@ -36,6 +37,14 @@ namespace DMTP.REST.Controllers
                 return RedirectToAction("Index", !result ? new { actionMessage = $"Invalid assembly ({file.FileName})" } : new {actionMessage = $"Successfully upload {file.FileName}"});
             }
         }
+
+        [HttpDelete]
+        [Access(AccessSections.ASSEMBLIES, AccessLevels.FULL)]
+        public IActionResult DeleteAssembly(Guid id) =>
+            RedirectToAction("Index",
+                new AssemblyManager(Database).DeleteAssembly(id)
+                    ? new {actionMessage = "Successfully deleted assembly"}
+                    : new {actionMessage = "Failed to delete assembly"});
 
         [Access(AccessSections.ASSEMBLIES, AccessLevels.VIEW_ONLY)]
         public IActionResult Index(string actionMessage = null)
