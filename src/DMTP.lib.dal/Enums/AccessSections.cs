@@ -11,6 +11,7 @@
         ACCOUNT,
         ERROR,
         SETUP,
-        API
+        API,
+        ASSEMBLIES
     }
 }
