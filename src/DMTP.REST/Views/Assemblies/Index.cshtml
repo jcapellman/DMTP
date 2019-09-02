@@ -27,7 +27,8 @@
     <table class="table table-striped table-dark">
         <thead>
         <tr>
-            <th scope="col">Name</th>
+            <th scope="col">FileName</th>
+            <th scope="col">Predictors</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
@@ -35,7 +36,8 @@
         @foreach (var assembly in Model.AssembliesList)
         {
             <tr>
-                <th scope="row">@assembly.Name</th>
+                <th scope="row">@assembly.FileName</th>
+                <th>@string.Join(',', Model.AssembliesList)</th>
                 <td>
                     <a asp-action="DeleteAssembly" asp-route-id="@assembly.ID" class="text-center fas fa-trash" title="Delete Assembly"></a>
                 </td>
