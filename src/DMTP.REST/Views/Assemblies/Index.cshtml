@@ -1,0 +1,43 @@
+﻿@model DMTP.REST.Models.Assemblies.AssemblyDashboardModel
+
+@if (!string.IsNullOrEmpty(Model.ActionMessage))
+{
+    <div class="alert alert-primary">
+        @Model.ActionMessage
+    </div>
+}
+
+<h3>
+    Upload Assembly
+</h3>
+
+<form asp-action="UploadAssembly" asp-controller="Assemblies" method="post" enctype="multipart/form-data" class="form-inline">
+    <div class="form-group" style="margin-right: 10px">
+        <input type="file" name="file" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-secondary">Upload</button>
+</form>
+
+<br/>
+
+<h3>Current Assemblies</h3>
+<table class="table table-striped table-dark">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var assembly in Model.AssembliesList)
+    {
+        <tr>
+            <th scope="row">@assembly.Name</th>
+            <td>
+                <a asp-action="DeleteAssembly" asp-route-id="@assembly.ID" class="text-center fas fa-trash" title="Delete Assembly"></a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
