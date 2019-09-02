@@ -30,6 +30,8 @@ namespace DMTP.lib.Managers
             }
         }
 
+        public bool DeleteAssembly(Guid id) => _database.Delete<Assemblies>(id);
+
         public bool UploadAssembly(byte[] assemblyBytes)
         {
             try
