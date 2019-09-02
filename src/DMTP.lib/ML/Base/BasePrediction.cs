@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
+using DMTP.lib.Enums;
 using DMTP.lib.ML.Base.Objects;
 using DMTP.lib.Options;
 
@@ -15,7 +18,7 @@ namespace DMTP.lib.ML.Base
 {
     public abstract class BasePrediction
     {
-        private static Logger Log = NLog.LogManager.GetCurrentClassLogger();
+        protected static Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
         public abstract string MODEL_NAME { get; }
 
@@ -98,8 +101,46 @@ namespace DMTP.lib.ML.Base
             }
         }
 
-        public abstract (T Data, string Output) FeatureExtraction<T>(ClassifierResponseItem response)
-            where T : BaseData;
+        protected string FeatureExtractFolder(TrainerCommandLineOptions options)
+        {
+            var fileName = Path.Combine(AppContext.BaseDirectory, $"{DateTime.Now.Ticks}.txt");
+
+            var files = Directory.GetFiles(options.FolderOfData);
+
+            Log.Debug($"{files.Length} Files found for training...", options);
+
+            var stopWatch = DateTime.Now;
+
+            var extractions = new ConcurrentQueue<string>();
+
+            var classifications = new ConcurrentQueue<FileGroupType>();
+
+            Parallel.ForEach(files, file =>
+            {
+                var response = new ClassifierResponseItem(File.ReadAllBytes(file), file, true);
+
+                var (data, output) = FeatureExtraction(response);
+
+                classifications.Enqueue(response.FileGroup);
+
+                extractions.Enqueue(output);
+            });
+
+            File.WriteAllText(fileName, string.Join(System.Environment.NewLine, extractions));
+
+            var featureBreakdown = (from classification in classifications.GroupBy(a => a).Select(a => a.Key)
+                let count = classifications.Count(a => a == classification)
+                let percentage = Math.Round((double)count / files.Length * 100.0, 0)
+                select $"{classification}: {(double)count} ({percentage}%)").ToList();
+
+            Log.Debug(string.Join("|", featureBreakdown), options);
+
+            Log.Debug($"Feature Extraction took {DateTime.Now.Subtract(stopWatch).TotalSeconds} seconds", options);
+
+            return fileName;
+        }
+
+        public abstract (string json, string Output) FeatureExtraction(ClassifierResponseItem response);
 
         public abstract (string OutputFile, string Metrics) TrainModel(TrainerCommandLineOptions options);
     }
