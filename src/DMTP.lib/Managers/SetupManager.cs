@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
 
 using DMTP.lib.dal.Databases.Tables;
+using DMTP.lib.dal.Enums;
 using DMTP.lib.dal.Manager;
+using DMTP.lib.Enums;
 using DMTP.lib.Managers.Base;
 
 namespace DMTP.lib.Managers
@@ -24,10 +27,10 @@ namespace DMTP.lib.Managers
                 _database.DeleteAll<PendingSubmissions>();
                 _database.DeleteAll<Settings>();
                 _database.DeleteAll<UserLogins>();
-                /*
-                CreateRole(Constants.ROLE_BUILTIN_ADMIN, true,
-                    Enum.GetNames(typeof(AccessSections))
-                        .ToDictionary(Enum.Parse<AccessSections>, section => AccessLevels.FULL));*/
+
+                var permissions = Enum.GetNames(typeof(AccessSections)).ToDictionary(Enum.Parse<AccessSections>, section => AccessLevels.FULL);
+
+                new RoleManager(_database).CreateRole(Common.Constants.ROLE_BUILTIN_ADMIN, true, permissions);
             }
             catch (Exception ex)
             {
