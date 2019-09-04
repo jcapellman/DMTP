@@ -54,7 +54,7 @@ namespace DMTP.REST.Controllers
         [Access(AccessSections.ROLES, AccessLevels.EDIT)]
         public IActionResult Create()
         {
-            var permissions = Enum.GetNames(typeof(AccessSections)).ToDictionary(section => Enum.Parse<AccessSections>(section), section => AccessLevels.EDIT);
+            var permissions = Enum.GetNames(typeof(AccessSections)).ToDictionary(Enum.Parse<AccessSections>, section => AccessLevels.EDIT);
 
             var model = new CreateUpdateRoleModel
             {

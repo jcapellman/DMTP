@@ -41,7 +41,7 @@ namespace DMTP.lib.Managers
                     Permissions = permissions
                 };
 
-                return _database.Insert<Roles>(item);
+                return _database.Insert(item);
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace DMTP.lib.Managers
                 dbRole.Name = name;
                 dbRole.Permissions = permissions;
 
-                _database.Update<Roles>(dbRole);
+                _database.Update(dbRole);
 
                 return true;
             }
@@ -90,7 +90,7 @@ namespace DMTP.lib.Managers
 
                 role.Active = false;
 
-                return _database.Update<Roles>(role);
+                return _database.Update(role);
             }
             catch (Exception ex)
             {

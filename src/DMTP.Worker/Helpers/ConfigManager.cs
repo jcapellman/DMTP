@@ -9,7 +9,7 @@ namespace DMTP.Worker.Helpers
 {
     public class ConfigManager
     {
-        private static NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
         public static Config ReadConfig(string configFilename)
         {

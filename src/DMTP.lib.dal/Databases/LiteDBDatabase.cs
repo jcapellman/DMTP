@@ -12,8 +12,6 @@ namespace DMTP.lib.dal.Databases
 {
     public class LiteDBDatabase : IDatabase
     {
-        private readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
-
         private const string DbFilename = "data.db";
 
         public Guid Insert<T>(T objectValue) where T : BaseTable

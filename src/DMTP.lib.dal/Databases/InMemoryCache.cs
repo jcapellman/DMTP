@@ -9,7 +9,7 @@ namespace DMTP.lib.dal.Databases
 {
     public class InMemoryCache : IDatabase
     {
-        private Dictionary<string, object> _cache;
+        private readonly Dictionary<string, object> _cache;
 
         public InMemoryCache()
         {

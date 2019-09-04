@@ -10,7 +10,7 @@ namespace DMTP.Worker
 {
     class Program
     {
-        private static Logger Log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         static void Main(string[] args)
         {

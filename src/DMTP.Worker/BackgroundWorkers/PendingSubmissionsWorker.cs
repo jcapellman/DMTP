@@ -21,7 +21,7 @@ namespace DMTP.Worker.BackgroundWorkers
     {
         private readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        private BackgroundWorker _bwCheckin;
+        private readonly BackgroundWorker _bwCheckin;
 
         private readonly LiteDBDatabase _db;
 
