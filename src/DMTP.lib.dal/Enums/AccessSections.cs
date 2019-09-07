@@ -1,4 +1,4 @@
-﻿namespace DMTP.lib.Enums
+﻿namespace DMTP.lib.dal.Enums
 {
     public enum AccessSections
     {

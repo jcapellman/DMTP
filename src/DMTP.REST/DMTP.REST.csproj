@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMTP.lib.dal\DMTP.lib.dal.csproj" />
+    <ProjectReference Include="..\DMTP.lib.security\DMTP.lib.security.csproj" />
     <ProjectReference Include="..\DMTP.lib\DMTP.lib.csproj" />
   </ItemGroup>
 </Project>

@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DMTP.lib\DMTP.lib.csproj" />
+    <Folder Include="Objects\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Objects\" />
+    <ProjectReference Include="..\DMTP.lib.ml\DMTP.lib.ml.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@
 using DMTP.lib.Example.Objects;
 using DMTP.lib.ML;
 using DMTP.lib.ML.Base;
-using DMTP.lib.Options;
+using DMTP.lib.ML.Options;
 
 using Microsoft.ML;
 using Microsoft.ML.Data;

@@ -2,7 +2,6 @@
 
 using DMTP.lib.dal.Databases.Tables.Base;
 using DMTP.lib.dal.Enums;
-using DMTP.lib.Enums;
 
 namespace DMTP.lib.dal.Databases.Tables
 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using DMTP.lib.dal.Enums;
-using DMTP.lib.Enums;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 

@@ -4,7 +4,6 @@ using System.Linq;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Enums;
 using DMTP.lib.dal.Manager;
-using DMTP.lib.Enums;
 using DMTP.lib.Managers;
 using DMTP.REST.Attributes;
 using DMTP.REST.Models.Roles;

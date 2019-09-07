@@ -26,6 +26,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DMTP.lib.dal\DMTP.lib.dal.csproj" />
+    <ProjectReference Include="..\DMTP.lib.ml\DMTP.lib.ml.csproj" />
+    <ProjectReference Include="..\DMTP.lib.security\DMTP.lib.security.csproj" />
   </ItemGroup>
 
   <ItemGroup>

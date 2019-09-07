@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using DMTP.lib.dal.Databases;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
-using DMTP.lib.Enums;
 using DMTP.lib.Handlers;
 using DMTP.lib.Managers;
 using DMTP.lib.ML.Base;
-using DMTP.lib.Options;
+using DMTP.lib.ML.Enums;
+using DMTP.lib.ML.Options;
 
 using DMTP.Worker.Common;
 using DMTP.Worker.Objects;
