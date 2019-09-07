@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using DMTP.lib.Enums;
+using DMTP.lib.ML.Enums;
 using DMTP.lib.Security;
 
 namespace DMTP.lib.ML

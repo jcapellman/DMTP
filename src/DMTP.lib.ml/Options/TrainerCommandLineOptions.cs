@@ -1,7 +1,6 @@
-﻿using DMTP.lib.Enums;
-using DMTP.lib.Options.Base;
+﻿using DMTP.lib.ML.Options.Base;
 
-namespace DMTP.lib.Options
+namespace DMTP.lib.ML.Options
 {
     public class TrainerCommandLineOptions : BaseCommandLineOptions
     {

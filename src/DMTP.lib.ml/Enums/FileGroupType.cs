@@ -1,4 +1,4 @@
-﻿namespace DMTP.lib.Enums
+﻿namespace DMTP.lib.ML.Enums
 {
     public enum FileGroupType
     {

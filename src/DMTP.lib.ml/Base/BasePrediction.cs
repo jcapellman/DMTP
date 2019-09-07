@@ -6,9 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-using DMTP.lib.Enums;
-using DMTP.lib.ML.Base.Objects;
-using DMTP.lib.Options;
+using DMTP.lib.ML.Enums;
+using DMTP.lib.ML.Options;
 
 using Microsoft.ML;
 
