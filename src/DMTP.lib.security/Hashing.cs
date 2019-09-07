@@ -10,7 +10,7 @@ namespace DMTP.lib.Security
         {
             if (data == null || data.Length == 0)
             {
-                return Common.Constants.RESPONSE_ERROR;
+                return null;
             }
 
             using (var sha = new SHA1Managed())
@@ -23,7 +23,7 @@ namespace DMTP.lib.Security
         {
             if (string.IsNullOrEmpty(data))
             {
-                return Common.Constants.RESPONSE_ERROR;
+                return null;
             }
 
             using (var sha = new SHA1Managed())

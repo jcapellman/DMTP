@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMTP.UnitTests", "DMTP.Unit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMTP.lib.dal", "DMTP.lib.dal\DMTP.lib.dal.csproj", "{E9E9E3DC-BA0E-4168-9988-F3B5BD738082}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMTP.lib.Example", "DMTP.lib.Example\DMTP.lib.Example.csproj", "{D5AA1C55-C1E7-476D-97FE-F468F3493B57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMTP.lib.Example", "DMTP.lib.Example\DMTP.lib.Example.csproj", "{D5AA1C55-C1E7-476D-97FE-F468F3493B57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMTP.lib.ml", "DMTP.lib.ml\DMTP.lib.ml.csproj", "{EECF5946-EA6E-4154-8AF1-EF4DAD2746D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMTP.lib.security", "DMTP.lib.security\DMTP.lib.security.csproj", "{951809C3-94AA-482B-B83F-D9D1E976F9F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{D5AA1C55-C1E7-476D-97FE-F468F3493B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5AA1C55-C1E7-476D-97FE-F468F3493B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5AA1C55-C1E7-476D-97FE-F468F3493B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EECF5946-EA6E-4154-8AF1-EF4DAD2746D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EECF5946-EA6E-4154-8AF1-EF4DAD2746D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EECF5946-EA6E-4154-8AF1-EF4DAD2746D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EECF5946-EA6E-4154-8AF1-EF4DAD2746D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{951809C3-94AA-482B-B83F-D9D1E976F9F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{951809C3-94AA-482B-B83F-D9D1E976F9F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{951809C3-94AA-482B-B83F-D9D1E976F9F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{951809C3-94AA-482B-B83F-D9D1E976F9F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
