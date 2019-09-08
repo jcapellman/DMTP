@@ -5,13 +5,12 @@ using DMTP.REST.Filters;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace DMTP.REST
 {
@@ -28,6 +27,8 @@ namespace DMTP.REST
         {
             services.AddOptions();
 
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+
             var dbManager = new DatabaseManager(new LiteDBDatabase(), new InMemoryCache());
             
             services.AddSingleton(dbManager);
@@ -42,7 +43,7 @@ namespace DMTP.REST
                 .AddCookie(a => a.LoginPath = "/Account");
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
