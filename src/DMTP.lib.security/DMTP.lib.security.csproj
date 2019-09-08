@@ -2,10 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>Jarred Capellman</Authors>
+    <Company>Jarred Capellman</Company>
+    <Description>Security Library in the DMTP Platform</Description>
+    <PackageProjectUrl>https://github.com/jcapellman/DMTP</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.6.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
