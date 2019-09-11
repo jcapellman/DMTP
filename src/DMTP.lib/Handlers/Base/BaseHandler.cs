@@ -17,15 +17,15 @@ namespace DMTP.lib.Handlers.Base
 
         private readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        private readonly string _rootURL;
+        private readonly string _rootUrl;
 
         private readonly string _registrationKey;
 
-        protected BaseHandler(string rootURL, string registrationKey)
+        protected BaseHandler(string rootUrl, string registrationKey)
         {
-            if (string.IsNullOrEmpty(rootURL))
+            if (string.IsNullOrEmpty(rootUrl))
             {
-                throw new ArgumentNullException(nameof(rootURL));
+                throw new ArgumentNullException(nameof(rootUrl));
             }
 
             if (string.IsNullOrEmpty(registrationKey))
@@ -33,7 +33,7 @@ namespace DMTP.lib.Handlers.Base
                 throw new ArgumentNullException(nameof(registrationKey));
             }
 
-            _rootURL = rootURL;
+            _rootUrl = rootUrl;
             _registrationKey = registrationKey;
         }
 
@@ -45,21 +45,25 @@ namespace DMTP.lib.Handlers.Base
             {
                 using (var httpClient = new HttpClient(GetHttpClientHandler()))
                 {
-                    httpClient.BaseAddress = new Uri(_rootURL);
+                    var fullUrl = $"{RootAPI}{url}";
+
+                    httpClient.BaseAddress = new Uri(_rootUrl);
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", _registrationKey);
 
-                    var response = httpClient.GetAsync($"{RootAPI}{url}").Result;
+                    var response = await httpClient.GetAsync(fullUrl);
+
+                    Log.Debug($"URL: {_rootUrl}{fullUrl} | Response: {response.StatusCode}");
 
                     var responseBody = await response.Content.ReadAsStringAsync();
 
-                    Log.Debug($"Url: {_rootURL}{RootAPI}{url} | Response: {responseBody}");
+                    Log.Debug($"Url: {_rootUrl}{fullUrl} | Response: {responseBody}");
 
                     return response.IsSuccessStatusCode ? JsonConvert.DeserializeObject<T>(responseBody) : default;
                 }
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Failed to get {_rootURL}{RootAPI}{url} due to {ex}");
+                Log.Error(ex, $"Failed to get {_rootUrl}{RootAPI}{url} due to {ex}");
 
                 return default;
             }
@@ -76,14 +80,18 @@ namespace DMTP.lib.Handlers.Base
             {
                 using (var httpClient = new HttpClient(GetHttpClientHandler()))
                 {
-                    httpClient.BaseAddress = new Uri(_rootURL);
+                    httpClient.BaseAddress = new Uri(_rootUrl);
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", _registrationKey);
 
                     var json = JsonConvert.SerializeObject(data);
 
                     var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    var response = httpClient.PostAsync(RootAPI, stringContent).Result;
+                    Log.Debug($"URL: {RootAPI} | JSON: {json}");
+
+                    var response = await httpClient.PostAsync(RootAPI, stringContent);
+
+                    Log.Debug($"URL: {RootAPI} | StatusCode: {response.StatusCode}");
 
                     var responseBody = await response.Content.ReadAsStringAsync();
 
