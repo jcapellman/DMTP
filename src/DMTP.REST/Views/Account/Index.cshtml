@@ -1,4 +1,8 @@
-﻿@model DMTP.REST.Models.LoginViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@model DMTP.REST.Models.LoginViewModel
 
 @{
     ViewData["Title"] = "Login";
@@ -11,33 +15,33 @@
             <h5 class="card-title text-center">DMTP</h5>
             <form method="post" asp-controller="Account" asp-action="AttemptLogin" class="form-signin">
                 <div class="form-label-group">
-                    <label>Email Address</label>
+                    <label>@Localizer["EmailAddressLabel"]</label>
                     <input class="form-control" type="email" asp-for="EmailAddress" required autofocus />
                 </div>
 
                 <div class="form-label-group">
-                    <label asp-for="Password"></label>
+                    <label>@Localizer["PasswordLabel"]</label>
                     <input class="form-control" type="password" asp-for="Password" />
                 </div>
 
-                <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block text-uppercase" />
-                
-                <br/>
-                
+                <input type="submit" value="@Localizer["LoginLabel"]" class="btn btn-lg btn-primary btn-block text-uppercase" />
+
+                <br />
+
                 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                 {
                     <div class="alert alert-danger">
                         @Model.ErrorMessage
                     </div>
                 }
-                
+
                 @if (Model.CurrentSettings.AllowNewUserCreation)
                 {
-                    <a href="~/Account/Create" class="btn btn-secondary btn-block" style="margin-top: 20px;">Create Account</a>
+                    <a href="~/Account/Create" class="btn btn-secondary btn-block" style="margin-top: 20px;">@Localizer["CreateAccountLabel"]</a>
                 }
 
                 <div class="container text-center" style="margin-top: 20px;">
-                    &copy; 2019 - <a href="http://www.jarredcapellman.com/">Jarred Capellman</a> <br/> source code on <a href="https://github.com/jcapellman/DMTP">GitHub</a>
+                    &copy; 2019 - <a href="http://www.jarredcapellman.com/">Jarred Capellman</a> <br /> source code on <a href="https://github.com/jcapellman/DMTP">GitHub</a>
                 </div>
             </form>
         </div>
