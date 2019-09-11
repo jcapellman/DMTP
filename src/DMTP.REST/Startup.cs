@@ -1,3 +1,4 @@
+using System.Globalization;
 using DMTP.lib.dal.Databases;
 using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
-
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -48,6 +49,19 @@ namespace DMTP.REST
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US")
+                // Add more cultures
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
             });
 
             app.UseDeveloperExceptionPage();
