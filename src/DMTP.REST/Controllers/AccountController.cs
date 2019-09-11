@@ -7,6 +7,7 @@ using DMTP.REST.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace DMTP.REST.Controllers
 {
@@ -15,9 +16,13 @@ namespace DMTP.REST.Controllers
     {
         private readonly UserManager _userManager;
 
-        public AccountController(DatabaseManager database, Settings settings) : base(database, settings)
+        private readonly IStringLocalizer<AccountController> _localizer;
+
+        public AccountController(DatabaseManager database, Settings settings, IStringLocalizer<AccountController> localizer) : base(database, settings)
         {
             _userManager = new UserManager(Database);
+
+            _localizer = localizer;
         }
 
         public IActionResult Index(string ReturnUrl = "")
@@ -55,7 +60,7 @@ namespace DMTP.REST.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.ErrorMessage = "Please try again";
+                model.ErrorMessage = _localizer["InvalidPostRequest"];
                 
                 return View("Create", model);
             }
@@ -69,7 +74,7 @@ namespace DMTP.REST.Controllers
 
             new LoginManager(Database).RecordLogin(null, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), false);
 
-            model.ErrorMessage = "EmailAddress already exists, try again";
+            model.ErrorMessage = _localizer["EmailExistsAlready"];
 
             model.Password = string.Empty;
             model.EmailAddress = string.Empty;
@@ -84,7 +89,7 @@ namespace DMTP.REST.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.ErrorMessage = "Please try again";
+                model.ErrorMessage = _localizer["InvalidPostRequest"];
 
                 model.CurrentSettings = CurrentSettings;
 
@@ -100,7 +105,7 @@ namespace DMTP.REST.Controllers
 
             new LoginManager(Database).RecordLogin(null, model.EmailAddress, Request.HttpContext.Connection.RemoteIpAddress.ToString(), false);
 
-            model.ErrorMessage = "Email Address and or Password are incorrect";
+            model.ErrorMessage = _localizer["InvalidLogin"];
             model.CurrentSettings = CurrentSettings;
 
             return View("Index", model);
