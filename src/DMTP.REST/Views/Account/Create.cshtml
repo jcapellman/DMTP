@@ -1,7 +1,11 @@
-﻿@model DMTP.REST.Models.CreateUserModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@model DMTP.REST.Models.CreateUserModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = Localizer["Title"];
     Layout = "~/Views/Shared/_LayoutUnauthenticated.cshtml";
 }
 
@@ -11,26 +15,26 @@
             <h5 class="card-title text-center">DMTP</h5>
             <form method="post" asp-controller="Account" asp-action="AttemptCreate" class="form-signin">
                 <div class="form-label-group">
+                    <label>@Localizer["EmailAddressLabel"]</label>
                     <input class="form-control" type="email" asp-for="EmailAddress" required autofocus />
-                    <label>Email Address</label>
                 </div>
 
                 <div class="form-label-group">
+                    <label>@Localizer["FirstNameLabel"]</label>
                     <input class="form-control" type="text" asp-for="FirstName" required />
-                    <label>First Name</label>
                 </div>
 
                 <div class="form-label-group">
+                    <label>@Localizer["LastNameLabel"]</label>
                     <input class="form-control" type="text" asp-for="LastName" required />
-                    <label>Last Name</label>
                 </div>
 
                 <div class="form-label-group">
+                    <label>@Localizer["PasswordLabel"]</label>
                     <input class="form-control" type="password" asp-for="Password" />
-                    <label asp-for="Password"></label>
                 </div>
 
-                <input type="submit" value="Create Account" class="btn btn-lg btn-primary btn-block text-uppercase" />
+                <input type="submit" value="@Localizer["CreateAccountButton"]" class="btn btn-lg btn-primary btn-block text-uppercase" />
 
                 <br />
 
