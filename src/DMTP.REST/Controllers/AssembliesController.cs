@@ -13,14 +13,18 @@ using DMTP.REST.Models.Assemblies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace DMTP.REST.Controllers
 {
     [Authorize]
     public class AssembliesController : BaseController
     {
-        public AssembliesController(DatabaseManager database, Settings settings) : base(database, settings)
+        private readonly IStringLocalizer<AssembliesController> _localizer;
+
+        public AssembliesController(DatabaseManager database, Settings settings, IStringLocalizer<AssembliesController> localizer) : base(database, settings)
         {
+            _localizer = localizer;
         }
 
         [HttpPost]
@@ -33,7 +37,7 @@ namespace DMTP.REST.Controllers
 
                 var result = new AssemblyManager(Database).UploadAssembly(ms.ToArray(), file.FileName);
 
-                return RedirectToAction("Index", !result ? new { actionMessage = $"Invalid assembly ({file.FileName})" } : new {actionMessage = $"Successfully upload {file.FileName}"});
+                return RedirectToAction("Index", !result ? new { actionMessage = $"{_localizer["InvalidAssembly"]} ({file.FileName})" } : new {actionMessage = $"{_localizer["SuccessfullyUpload"]} {file.FileName}"});
             }
         }
 
@@ -42,8 +46,8 @@ namespace DMTP.REST.Controllers
         public IActionResult DeleteAssembly(Guid id) =>
             RedirectToAction("Index",
                 new AssemblyManager(Database).DeleteAssembly(id)
-                    ? new {actionMessage = "Successfully deleted assembly"}
-                    : new {actionMessage = "Failed to delete assembly"});
+                    ? new {actionMessage = _localizer["SuccessfullyDeletedAssembly"] }
+                    : new {actionMessage = _localizer["FailedToDeleteAssembly"] });
 
         [Access(AccessSections.ASSEMBLIES, AccessLevels.VIEW_ONLY)]
         public IActionResult Index(string actionMessage = null)
