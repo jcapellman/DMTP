@@ -4,6 +4,10 @@
 
 @model DMTP.REST.Models.Assemblies.AssemblyDashboardModel
 
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
 @if (!string.IsNullOrEmpty(Model.ActionMessage))
 {
     <div class="alert alert-primary">
