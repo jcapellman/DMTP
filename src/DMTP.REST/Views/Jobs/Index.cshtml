@@ -1,8 +1,14 @@
 ﻿@model List<DMTP.lib.dal.Databases.Tables.Jobs>
 
-@using DMTP.lib.Common
+@inject IViewLocalizer Localizer
 
-<h3>Jobs</h3>
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<h3>@Localizer["JobsHeader"]</h3>
 
 @if (Model.Any())
 {
@@ -10,5 +16,5 @@
 }
 else
 {
-    <p class="text-white">There have been no jobs submitted</p>
+    <p class="text-white">@Localizer["NoJobsAvailable"]</p>
 }
