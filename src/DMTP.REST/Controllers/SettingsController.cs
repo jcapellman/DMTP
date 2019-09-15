@@ -7,6 +7,7 @@ using DMTP.REST.Models.Settings;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace DMTP.REST.Controllers
 {
@@ -15,9 +16,13 @@ namespace DMTP.REST.Controllers
     {
         private readonly SettingManager _settingManager;
 
-        public SettingsController(DatabaseManager database, Settings settings) : base(database, settings)
+        private readonly IStringLocalizer<SettingsController> _localizer;
+
+        public SettingsController(DatabaseManager database, Settings settings, IStringLocalizer<SettingsController> localizer) : base(database, settings)
         {
             _settingManager = new SettingManager(database);
+
+            _localizer = localizer;
         }
 
         public IActionResult Index(string actionMessage = null)
@@ -47,7 +52,7 @@ namespace DMTP.REST.Controllers
             }
 
             return RedirectToAction("Index",
-                new {actionMessage = result ? "Successfully updated settings" : "Failed to update settings"});
+                new {actionMessage = result ? _localizer["SuccessfullyUpdated"] : _localizer["FailedUpdated"]});
         }
     }
 }
