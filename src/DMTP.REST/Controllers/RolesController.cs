@@ -11,17 +11,22 @@ using DMTP.REST.Models.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Localization;
 
 namespace DMTP.REST.Controllers
 {
     [Authorize]
     public class RolesController : BaseController
     {
+        private readonly IStringLocalizer<RolesController> _localizer;
+
         private readonly RoleManager _roleManager;
 
-        public RolesController(DatabaseManager database, Settings settings) : base(database, settings)
+        public RolesController(DatabaseManager database, Settings settings, IStringLocalizer<RolesController> localizer) : base(database, settings)
         {
             _roleManager = new RoleManager(Database);
+
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -34,7 +39,7 @@ namespace DMTP.REST.Controllers
 
             if (currentRole == null || currentRole.BuiltIn)
             {
-                return RedirectToAction("Index", new { actionMessage = "Cannot modify a built-in role"});
+                return RedirectToAction("Index", new { actionMessage = _localizer["CantModifyBuiltInRole"] });
             }
 
             var model = new CreateUpdateRoleModel
@@ -72,7 +77,10 @@ namespace DMTP.REST.Controllers
         {
             var result = _roleManager.UpdateRole(model.ID.Value, model.Name, model.Permissions);
             
-            return RedirectToAction("Index", new { actionMessage = result ? "Successfully edited role" : "Failed to edit role" });
+            return RedirectToAction("Index", new
+            {
+                actionMessage = result ? _localizer["SuccessfullyEditedRole"] : _localizer["FailedToEditRole"]
+            });
         }
 
         [HttpPost]
@@ -81,7 +89,11 @@ namespace DMTP.REST.Controllers
         {
             var result = _roleManager.CreateRole(model.Name, false, model.Permissions);
         
-            return RedirectToAction("Index", new { actionMessage = result.HasValue ? "Successfully created role" : "Failed to create role" });
+            return RedirectToAction("Index", new
+            {
+                actionMessage = result.HasValue ? 
+                    _localizer["SuccessfullyCreatedRole"] : _localizer["FailedToCreateRole"]
+            });
         }
 
         [HttpGet]
@@ -90,7 +102,8 @@ namespace DMTP.REST.Controllers
         {
             var result = _roleManager.DeleteRole(id);
 
-            return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted role" : "Failed to delete role" });
+            return RedirectToAction("Index", new { actionMessage = result ? 
+                _localizer["SuccessfullyDeletedRole"] : _localizer["FailedToDeleteRole"] });
         }
 
         [Access(AccessSections.ROLES, AccessLevels.VIEW_ONLY)]
