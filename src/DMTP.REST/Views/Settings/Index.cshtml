@@ -1,8 +1,16 @@
-﻿@model DMTP.REST.Models.Settings.SettingsDashboardModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 
-<h3>Settings</h3>
+@inject IViewLocalizer Localizer
 
-<br/>
+@model DMTP.REST.Models.Settings.SettingsDashboardModel
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<h3>@Localizer["Header"]</h3>
+
+<br />
 
 @if (!string.IsNullOrEmpty(Model.ActionMessage))
 {
@@ -14,42 +22,42 @@
 <form method="post" asp-controller="Settings" asp-action="AttemptUpdate" class="form-signin form">
     <input type="hidden" asp-for="@Model.Setting.ID" />
 
-    <h5 class="text-white">SMTP Settings</h5>
+    <h5 class="text-white">@Localizer["SmtpSettingsHeader"]</h5>
     <div class="form-label-group">
-        <label>Host Name</label>
+        <label>@Localizer["HostNameLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.Setting.SMTPHostName" required />
     </div>
 
     <div class="form-label-group">
-        <label>Port Number</label>
+        <label>@Localizer["PortNumberLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.Setting.SMTPPortNumber" required />
     </div>
 
     <div class="form-label-group">
-        <label>User Name</label>
+        <label>@Localizer["UserNameLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.Setting.SMTPUsername" required />
     </div>
 
     <div class="form-label-group">
-        <label>Password</label>
+        <label>@Localizer["PasswordLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.Setting.SMTPPassword" required />
     </div>
 
     <br />
 
-    <h5 class="text-white">Misc Settings</h5>
+    <h5 class="text-white">@Localizer["MiscSettingsHeader"]</h5>
 
     <div class="form-label-group">
-        <label asp-for="Setting.AllowNewUserCreation">Allow New User Creation</label>
+        <label asp-for="Setting.AllowNewUserCreation">@Localizer["AllowNewUserCreationLabel"]</label>
         <input class="form-control" type="checkbox" asp-for="@Model.Setting.AllowNewUserCreation" />
     </div>
 
     <div class="form-label-group">
-        <label asp-for="GenerateNewRegistrationKey">Generate new Registration Key</label>
-        <input class="form-control" type="checkbox" asp-for="@Model.GenerateNewRegistrationKey"/>
+        <label asp-for="GenerateNewRegistrationKey">@Localizer["Generate new Registration Key"]</label>
+        <input class="form-control" type="checkbox" asp-for="@Model.GenerateNewRegistrationKey" />
     </div>
 
     <br />
 
-    <input type="submit" value="Update Settings" class="btn btn-lg btn-primary btn-block text-uppercase" />
+    <input type="submit" value="@Localizer["UpdateSettingsButton"]" class="btn btn-lg btn-primary btn-block text-uppercase" />
 </form>
