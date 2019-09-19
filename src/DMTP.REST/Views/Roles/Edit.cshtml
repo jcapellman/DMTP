@@ -1,17 +1,25 @@
-﻿@model DMTP.REST.Models.Roles.CreateUpdateRoleModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 
-<h3>Edit Role</h3>
+@inject IViewLocalizer Localizer
+
+@model DMTP.REST.Models.Roles.CreateUpdateRoleModel
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<h3>@Localizer["Header"]</h3>
 
 <form method="post" asp-controller="Roles" asp-action="AttemptUpdate" class="form-signin">
     <input type="hidden" asp-for="ID" />
 
     <div class="form-label-group">
-        <label>Name</label>
+        <label>@Localizer["NameLabel"]</label>
         <input class="form-control" type="text" asp-for="Name" required />
     </div>
 
     <div class="form-label-group">
-        <label>Permissions</label>
+        <label>@Localizer["PermissionsLabel"]</label>
 
         @foreach (var kvp in Model.Permissions)
         {
@@ -20,5 +28,5 @@
         }
     </div>
 
-    <input type="submit" value="Update" class="btn btn-lg btn-primary btn-block text-uppercase" />
+    <input type="submit" value="@Localizer["UpdateButtonLabel"]" class="btn btn-lg btn-primary btn-block text-uppercase" />
 </form>
