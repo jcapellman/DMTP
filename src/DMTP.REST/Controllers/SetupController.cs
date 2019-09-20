@@ -9,6 +9,7 @@ using DMTP.lib.Security;
 using DMTP.REST.Models.Setup;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace DMTP.REST.Controllers
 {
@@ -16,9 +17,13 @@ namespace DMTP.REST.Controllers
     {
         private readonly SetupManager _setupManager;
 
-        public SetupController(DatabaseManager database, Settings settings) : base(database, settings)
+        private IStringLocalizer<SetupController> _localizer;
+
+        public SetupController(DatabaseManager database, Settings settings, IStringLocalizer<SetupController> localizer) : base(database, settings)
         {
             _setupManager = new SetupManager(Database);
+
+            _localizer = localizer;
         }
 
         public IActionResult Index(SetupModel model = null)
@@ -37,7 +42,7 @@ namespace DMTP.REST.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.ActionMessage = "Ensure all fields are filled out";
+                model.ActionMessage = _localizer["EnsureAllFieldsAreFilledOut"];
 
                 return RedirectToAction("Index", new {model = model});
             }
@@ -56,7 +61,7 @@ namespace DMTP.REST.Controllers
 
             if (adminRole == null)
             {
-                model.ActionMessage = "Admin Role could not be found";
+                model.ActionMessage = _localizer["AdminRoleNotFound"];
 
                 return RedirectToAction("Index", model);
             }
@@ -68,7 +73,7 @@ namespace DMTP.REST.Controllers
                 return Login(user.Value, model.EmailAddress);
             }
 
-            model.ActionMessage = "Failed to create user";
+            model.ActionMessage = _localizer["FailedToCreateUser"];
 
             return RedirectToAction("Index", model);
         }
