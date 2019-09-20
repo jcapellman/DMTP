@@ -1,10 +1,15 @@
-﻿@model DMTP.REST.Models.Setup.SetupModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@model DMTP.REST.Models.Setup.SetupModel
 
 @{
     Layout = "~/Views/Shared/_LayoutUnauthenticated.cshtml";
+    ViewData["Title"] = Localizer["PageTitle"];
 }
 
-<h3>Setup DMTP</h3>
+<h3>@Localizer["Header"]</h3>
 
 @if (!string.IsNullOrEmpty(Model.ActionMessage))
 {
@@ -14,60 +19,60 @@
 }
 
 <form method="post" asp-controller="Setup" asp-action="AttemptSetup" class="form-signin form">
-    <h5 class="text-white">Administrator Account</h5>
+    <h5 class="text-white">@Localizer["AdministratorAccountHeader"]</h5>
     <div class="form-label-group">
-        <label>First Name</label>
+        <label>@Localizer["FirstNameLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.FirstName" required />
     </div>
 
     <div class="form-label-group">
-        <label>Last Name</label>
+        <label>@Localizer["LastNameLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.LastName" required />
     </div>
 
     <div class="form-label-group">
-        <label>Email Address</label>
+        <label>@Localizer["EmailAddressLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.EmailAddress" required />
     </div>
 
     <div class="form-label-group">
-        <label>Password</label>
+        <label>@Localizer["PasswordLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.Password" required />
     </div>
 
     <br />
 
-    <h5 class="text-white">SMTP Settings</h5>
+    <h5 class="text-white">@Localizer["SMTPSettingsHeader"]</h5>
     <div class="form-label-group">
-        <label>Host Name</label>
+        <label>@Localizer["HostNameLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.SMTPHostName" />
     </div>
 
     <div class="form-label-group">
-        <label>Port Number</label>
+        <label>@Localizer["PortNumberLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.SMTPPortNumber" />
     </div>
 
     <div class="form-label-group">
-        <label>User Name</label>
+        <label>@Localizer["UserNameLabel"]</label>
         <input class="form-control" type="text" asp-for="@Model.SMTPUsername" />
     </div>
 
     <div class="form-label-group">
-        <label>Password</label>
+        <label>@Localizer["PasswordLabel"]</label>
         <input class="form-control" type="password" asp-for="@Model.SMTPPassword" />
     </div>
 
     <br />
 
-    <h5 class="text-white">Misc Settings</h5>
+    <h5 class="text-white">@Localizer["MiscSettingsLabel"]</h5>
 
     <div class="form-label-group">
-        <label asp-for="AllowUserCreation">Allow New User Creation</label>
+        <label asp-for="AllowUserCreation">@Localizer["AllowNewUserCreationLabel"]</label>
         <input class="form-control" type="checkbox" asp-for="@Model.AllowUserCreation" />
     </div>
 
     <br />
 
-    <input type="submit" value="Complete Setup" class="btn btn-lg btn-primary btn-block text-uppercase" />
+    <input type="submit" value="@Localizer["CompleteSetupButton"]" class="btn btn-lg btn-primary btn-block text-uppercase" />
 </form>
