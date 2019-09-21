@@ -1,4 +1,13 @@
-﻿@model string
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 
-<h3>Error</h3>
+@inject IViewLocalizer Localizer
+
+@model string
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<h3>@Localizer["Header"]</h3>
+
 <p class="text-white">@Model</p>
