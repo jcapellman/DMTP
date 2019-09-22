@@ -1,21 +1,29 @@
-﻿@model DMTP.REST.Models.Workers.WorkerListingModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 
-<h3>Add a Worker</h3>
+@inject IViewLocalizer Localizer
+
+@model DMTP.REST.Models.Workers.WorkerListingModel
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<h3>@Localizer["AddWorkerHeader"]</h3>
 
 <div class="row text-white">
     <p class="text-white" style="margin-left: 15px">
         <div style="float: left;">
-            <label>Registration Key</label><br />
+            <label>@Localizer["RegistrationKeyLabel"]</label><br />
             <label class="label-value">@Model.RegistrationKey</label><br /><br />
         </div>
 
         <div style="float: left; margin-left: 50px">
-            <label>Web Service URL</label><br />
+            <label>@Localizer["WebServiceURLLabel"]</label><br />
             <label class="label-value">@Model.WebServiceURL</label>
         </div>
 
         <div style="float: left; margin-left: 50px">
-            <label>Download Worker</label><br />
+            <label>@Localizer["DownloadWorkerLabel"]</label><br />
             <i class="fab fa-linux download-workers"></i>
             <i class="fab fa-apple download-workers"></i>
             <i class="fab fa-windows download-workers"></i>
@@ -24,30 +32,30 @@
 </div>
 <div class="row text-white">
     <p style="margin-left: 15px">
-        <label>Usage Example</label><br />
+        <label>@Localizer["UsageExampleLabel"]</label><br />
         <input type="text" id="usageExample" class="form-control" style="width: 640px; float: left" value="./DMTP.Worker.exe @Model.WebServiceURL @Model.RegistrationKey" /><i class="fas fa-copy" style="margin-left: 10px; font-size: 32px" onclick="copyUsage()"></i>
     </p>
 </div>
 
-<h3>Current Workers</h3>
+<h3>@Localizer["CurrentWorkersHeader"]</h3>
 @if (Model.WorkersListing.Any())
 {
     <partial name="_WorkersListing" model="Model.WorkersListing" />
 }
 else
 {
-    <p class="text-white">There are currently no workers</p>
+    <p class="text-white">@Localizer["NoWorkersAvailable"]</p>
 }
 
 <script type="text/javascript">
     function copyUsage() {
         var copyText = document.getElementById("usageExample");
 
-        copyText.select(); 
+        copyText.select();
         copyText.setSelectionRange(0, 99999);
 
         document.execCommand("copy");
 
-        alert("Copied Usage Example");
+        alert(@Localizer["CopyUsagePrompt"]);
     }
 </script>
