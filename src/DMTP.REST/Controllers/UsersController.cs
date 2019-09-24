@@ -4,15 +4,18 @@ using System.Linq;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Enums;
 using DMTP.lib.dal.Manager;
-using DMTP.lib.ML.Enums;
+
 using DMTP.lib.Managers;
 using DMTP.lib.Security;
+
 using DMTP.REST.Attributes;
 using DMTP.REST.Models.Users;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
+using Microsoft.Extensions.Localization;
 
 namespace DMTP.REST.Controllers
 {
@@ -21,9 +24,13 @@ namespace DMTP.REST.Controllers
     {
         private readonly UserManager _userManager;
 
-        public UsersController(DatabaseManager database, Settings settings) : base(database, settings)
+        private readonly IStringLocalizer<UsersController> _localizer;
+
+        public UsersController(DatabaseManager database, Settings settings, IStringLocalizer<UsersController> localizer) : base(database, settings)
         {
             _userManager = new UserManager(Database);
+
+            _localizer = localizer;
         }
 
         [Access(AccessSections.USERS, AccessLevels.VIEW_ONLY)]
@@ -57,9 +64,9 @@ namespace DMTP.REST.Controllers
         [HttpGet]
         public IActionResult SendEmail(string email)
         {
-            SendEmail(email, "Welcome to DMTP", "Welcome");
+            SendEmail(email, _localizer["SendEmailSubject"], _localizer["SendEmailBody"]);
 
-            return RedirectToAction("Index", "Users", new {actionMessage = $"Email sent to {email}"});
+            return RedirectToAction("Index", "Users", new {actionMessage = $"{_localizer["EmailSentMessage"]}{email}"});
         }
 
         [HttpGet]
@@ -68,7 +75,7 @@ namespace DMTP.REST.Controllers
         {
             var result = _userManager.DeleteUser(id);
 
-            return RedirectToAction("Index", new { actionMessage = result ? "Successfully deleted user" : "Failed to delete user"});
+            return RedirectToAction("Index", new { actionMessage = result ? _localizer["SuccessfullyDeletedUser"] : _localizer["FailedToDeleteUser"]});
         }
 
         [HttpGet]
@@ -104,7 +111,7 @@ namespace DMTP.REST.Controllers
                 RoleID = Guid.Parse(model.SelectedRole)
             });
 
-            return RedirectToAction("Index", new { actionMessage = result ? "Successfully edited user" : "Failed to edit user"});
+            return RedirectToAction("Index", new { actionMessage = result ? _localizer["SuccessfullyEditedUser"] : _localizer["FailToEditUser"]});
         }
 
         [HttpGet]
@@ -121,7 +128,7 @@ namespace DMTP.REST.Controllers
             var result = _userManager.CreateUser(model.EmailAddress, model.FirstName, model.LastName,
                 model.Password.ToSHA1(), Guid.Parse(model.SelectedRole));
 
-            return RedirectToAction("Index", new { actionMessage = result.HasValue ? "Successfully created user" : "Failed to create user" });
+            return RedirectToAction("Index", new { actionMessage = result.HasValue ? _localizer["SuccessfullyCreatedUser"] : _localizer["FailToEditUser"]});
         }
     }
 }
