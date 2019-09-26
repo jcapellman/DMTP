@@ -1,24 +1,32 @@
-﻿@model DMTP.REST.Models.Users.CreateEditUserModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 
-<h3>Edit User</h3>
+@inject IViewLocalizer Localizer
+
+@model DMTP.REST.Models.Users.CreateEditUserModel
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<h3>@Localizer["Header"]</h3>
 
 <form method="post" asp-controller="Users" asp-action="AttemptUpdate" class="form-signin">
     <input type="hidden" asp-for="ID" />
 
     <div class="form-label-group">
-        <label>First Name</label>
+        <label>@Localizer["FirstNameLabel"]</label>
         <input class="form-control" type="text" asp-for="FirstName" required />
     </div>
 
     <div class="form-label-group">
-        <label>Last Name</label>
+        <label>@Localizer["LastNameLabel"]</label>
         <input class="form-control" type="text" asp-for="LastName" required />
     </div>
-    
+
     <div class="form-label-group">
-        <label>Role</Label>
+        <label>@Localizer["RoleLabel"]</label>
         <select asp-for="SelectedRole" class="form-control" asp-items="Model.Roles"></select>
     </div>
 
-    <input type="submit" value="Update" class="btn btn-lg btn-primary btn-block text-uppercase" />
+    <input type="submit" value="@Localizer["UpdateButtonLabel"]" class="btn btn-lg btn-primary btn-block text-uppercase" />
 </form>
