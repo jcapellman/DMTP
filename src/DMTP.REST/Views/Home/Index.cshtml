@@ -1,62 +1,70 @@
-﻿@model DMTP.REST.Models.HomeDashboardModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 
-<h3>Submit New Job</h3>
+@inject IViewLocalizer Localizer
+
+@model DMTP.REST.Models.HomeDashboardModel
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<h3>@Localizer["Header"]</h3>
 
 @if (Model.ModelTypes.Any() && Model.Workers.Any())
 {
-<form asp-action="AddJob" asp-controller="Home" method="get" class="form-inline">
-    <div class="form-group" style="margin-right: 10px">
-        <input type="text" placeholder="name" name="name" id="name" required class="form-control" style="max-width: 200px" />
-    </div>
+    <form asp-action="AddJob" asp-controller="Home" method="get" class="form-inline">
+        <div class="form-group" style="margin-right: 10px">
+            <input type="text" placeholder="name" name="name" id="name" required class="form-control" style="max-width: 200px" />
+        </div>
 
-    <div class="form-group" style="margin-right: 10px">
-        @Html.DropDownList("modelType", Model.ModelTypes, htmlAttributes: new { @class = "form-control" })
-    </div>
+        <div class="form-group" style="margin-right: 10px">
+            @Html.DropDownList("modelType", Model.ModelTypes, htmlAttributes: new { @class = "form-control" })
+        </div>
 
-    <div class="form-group" style="margin-right: 10px">
-        @Html.DropDownList("SelectedWorker", Model.AssignWorkers, htmlAttributes: new { @class = "form-control" })
-    </div>
+        <div class="form-group" style="margin-right: 10px">
+            @Html.DropDownList("SelectedWorker", Model.AssignWorkers, htmlAttributes: new { @class = "form-control" })
+        </div>
 
-    <div class="form-group" style="margin-right: 10px">
-        <input type="text" placeholder="training data path" required name="trainingDataPath" id="trainingDataPath" class="form-control" style="max-width: 200px" />
-    </div>
+        <div class="form-group" style="margin-right: 10px">
+            <input type="text" placeholder="training data path" required name="trainingDataPath" id="trainingDataPath" class="form-control" style="max-width: 200px" />
+        </div>
 
-    <button type="submit" class="btn btn-secondary">Add Job</button>
-</form>
+        <button type="submit" class="btn btn-secondary">@Localizer["AddJobButtonLabel"]</button>
+    </form>
 }
 else
 {
     <div class="text-white">
-    @if (!Model.Workers.Any())
-    {
-        <p>No workers found, please proceed to <a asp-action="Index" asp-controller="Workers">Workers</a> to add Workers to your cluster</p>
-    }
+        @if (!Model.Workers.Any())
+        {
+            <p>No workers found, please proceed to <a asp-action="Index" asp-controller="Workers">Workers</a> to add Workers to your cluster</p>
+        }
 
-    @if (!Model.ModelTypes.Any())
-    {
-        <p>No Predictors found, please proceed to <a asp-action="Index" asp-controller="Assemblies">Assemblies</a> to add Predictors to your cluster</p>
-    }
+        @if (!Model.ModelTypes.Any())
+        {
+            <p>No Predictors found, please proceed to <a asp-action="Index" asp-controller="Assemblies">Assemblies</a> to add Predictors to your cluster</p>
+        }
     </div>
 }
 
 <hr />
 
-<h3>Pending Jobs</h3>
+<h3>@Localizer["PendingJobsHeader"]</h3>
 @if (Model.Jobs.Any())
 {
     <partial name="_JobsListing" model="Model.Jobs" />
 }
 else
 {
-    <p class="text-white">There are no pending jobs</p>
+<p class="text-white">@Localizer["NoPendingJobs"]</p>
 }
 
-<h3>Busy Workers</h3>
+<h3>@Localizer["BusyWorkersHeader"]</h3>
 @if (Model.Workers.Any(a => Model.Jobs.Any(b => b.AssignedHost == a.Name)))
 {
     <partial name="_WorkersListing" model="Model.Workers" />
 }
 else
 {
-    <p class="text-white">There are no busy workers</p>
+<p class="text-white">@Localizer["NoBusyWorkers"]</p>
 }
