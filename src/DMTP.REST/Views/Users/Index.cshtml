@@ -1,4 +1,12 @@
-﻿@model DMTP.REST.Models.Users.UserDashboardModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@model DMTP.REST.Models.Users.UserDashboardModel
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
 
 @if (!string.IsNullOrEmpty(Model.ActionMessage))
 {
@@ -8,19 +16,19 @@
 }
 
 <h3>
-    Users
-    
-    <a class="btn btn-sm btn-primary" style="float: right; margin-right: 10px;margin-top:5px" asp-action="Create" asp-controller="Users">Create User</a>
+    @Localizer["Header"]
+
+    <a class="btn btn-sm btn-primary" style="float: right; margin-right: 10px;margin-top:5px" asp-action="Create" asp-controller="Users">@Localizer["CreateUserButtonLabel"]</a>
 </h3>
 
 <table class="table table-striped table-dark">
     <thead>
         <tr>
-            <th scope="col">Email Address</th>
-            <th scope="col">Name</th>
-            <th scope="col">Last Login</th>
-            <th scope="col">Jobs Submitted</th>
-            <th scope="col">Action</th>
+            <th scope="col">@Localizer["EmailAddressTableHeader"]</th>
+            <th scope="col">@Localizer["NameTableHeader"]</th>
+            <th scope="col">@Localizer["LastLoginTableHeader"]</th>
+            <th scope="col">@Localizer["JobsSubmittedTableHeader"]</th>
+            <th scope="col">@Localizer["ActionTableHeader"]</th>
         </tr>
     </thead>
     <tbody>
@@ -36,18 +44,18 @@
                     }
                     else
                     {
-                        <i>Never</i>
+                        <i>@Localizer["NeverLoggedIn"]</i>
                     }
                 </td>
                 <td>@user.NumJobs</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@user.ID" class="text-center fa fa-pencil-square-o" title="Edit User"></a>
+                    <a asp-action="Edit" asp-route-id="@user.ID" class="text-center fa fa-pencil-square-o" title="@Localizer["EditUserButtonLabel"]"></a>
 
                     @if (User.Identity.Name != @user.ID.ToString())
                     {
-                        <a asp-action="SendEmail" asp-route-id="@user.EmailAddress" class="text-center fa fa-envelope-o" title="Send Signup Email"></a>
+                        <a asp-action="SendEmail" asp-route-id="@user.EmailAddress" class="text-center fa fa-envelope-o" title="@Localizer["SendSignUpEmailButtonLabel"]"></a>
 
-                        <a asp-action="DeleteUser" asp-route-id="@user.ID" class="text-center fas fa-trash" title="Delete User"></a>
+                        <a asp-action="DeleteUser" asp-route-id="@user.ID" class="text-center fas fa-trash" title="@Localizer["DeleteUserButtonLabel"]"></a>
                     }
                 </td>
             </tr>
@@ -55,15 +63,15 @@
     </tbody>
 </table>
 
-<h3>User Logins</h3>
+<h3>@Localizer["UserLoginsHeader"]</h3>
 
 <table class="table table-striped table-dark">
     <thead>
         <tr>
-            <th scope="col">Email Address</th>
-            <th scope="col">Timestamp</th>
-            <th scope="col">IP Address</th>
-            <th scope="col">Successful</th>
+            <th scope="col">@Localizer["EmailAddressTableHeader"]</th>
+            <th scope="col">@Localizer["TimeStampTableHeader"]</th>
+            <th scope="col">@Localizer["IPAddressTableHeader"]</th>
+            <th scope="col">@Localizer["SuccessfulTableHeader"]</th>
         </tr>
     </thead>
     <tbody>
