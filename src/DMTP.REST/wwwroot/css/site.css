@@ -92,3 +92,7 @@ label {
     font-weight: normal;
     text-transform: none;
 }
+
+.inputControl {
+    max-width: 250px;
+}
