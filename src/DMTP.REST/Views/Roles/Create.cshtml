@@ -12,7 +12,7 @@
 <form method="post" asp-controller="Roles" asp-action="AttemptCreate" class="form-signin">
     <div class="form-label-group">
         <label>@Localizer["NameLabel"]</label>
-        <input class="form-control" type="text" asp-for="Name" required />
+        <input class="form-control inputControl" type="text" asp-for="Name" required />
     </div>
 
     <div class="form-label-group">
@@ -21,7 +21,7 @@
         @foreach (var kvp in Model.Permissions)
         {
             <Label>@kvp.Key</Label>
-            <select asp-for="@Model.Permissions[kvp.Key]" class="form-control" asp-items="Model.AccessLevels"></select>
+            <select asp-for="@Model.Permissions[kvp.Key]" class="form-control inputControl" asp-items="Model.AccessLevels"></select>
         }
     </div>
 

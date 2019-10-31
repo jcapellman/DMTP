@@ -30,7 +30,7 @@
 
     <div class="form-label-group">
         <label>@Localizer["PortNumberLabel"]</label>
-        <input class="form-control inputControl" type="text" asp-for="@Model.Setting.SMTPPortNumber" required />
+        <input class="form-control inputControl" type="text" maxlength="5" asp-for="@Model.Setting.SMTPPortNumber" required />
     </div>
 
     <div class="form-label-group">
