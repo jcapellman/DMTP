@@ -29,7 +29,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design">
       <Version>3.1.0-preview1-19509-03</Version>
     </PackageReference>
-    <PackageReference Include="NLog" Version="4.6.7" />
+    <PackageReference Include="NLog" Version="4.6.8" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMTP.lib.dal\DMTP.lib.dal.csproj" />
