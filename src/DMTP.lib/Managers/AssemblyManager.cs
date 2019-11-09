@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
+using DMTP.lib.Extensions;
 using DMTP.lib.Managers.Base;
 using DMTP.lib.ML.Base;
 
@@ -41,7 +41,7 @@ namespace DMTP.lib.Managers
                     throw new ArgumentNullException(nameof(assemblyBytes));
                 }
 
-                var assembly = Assembly.Load(assemblyBytes);
+                var assembly = assemblyBytes.ToAssembly();
 
                 if (assembly == null)
                 {

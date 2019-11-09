@@ -5,6 +5,7 @@ using System.Text;
 
 namespace DMTP.lib.Security
 {
+    // ReSharper disable once InconsistentNaming
     public static class AES
     {
         private const string Salt = "DMTPISAWESOMENO";
