@@ -4,6 +4,7 @@
     {
         public const string UNASSIGNED_JOB = "<UNASSIGNED>";
 
+        public const int DEFAULT_SMTP_PORT = 467;
 
         public const string MODEL_EXTENSION = "mdl";
 

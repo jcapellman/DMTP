@@ -1,5 +1,6 @@
 ﻿using System;
 
+using DMTP.lib.Common;
 using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Manager;
 using DMTP.lib.Managers.Base;
@@ -28,7 +29,7 @@ namespace DMTP.lib.Managers
                     AllowNewUserCreation = false,
                     SMTPHostName = string.Empty,
                     SMTPPassword = string.Empty,
-                    SMTPPortNumber = 467,
+                    SMTPPortNumber = Constants.DEFAULT_SMTP_PORT,
                     SMTPUsername = string.Empty,
                     IsInitialized = false
                 };

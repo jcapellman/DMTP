@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+
 using DMTP.lib.dal.Databases.Tables.Base;
 
 namespace DMTP.lib.dal.Databases.Tables
