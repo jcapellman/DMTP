@@ -17,26 +17,7 @@ namespace DMTP.lib.Managers
         {
             try
             {
-                var settings = _database.GetOne<Settings>(a => a != null);
-
-                if (settings != null)
-                {
-                    return settings;
-                }
-
-                settings = new Settings
-                {
-                    AllowNewUserCreation = false,
-                    SMTPHostName = string.Empty,
-                    SMTPPassword = string.Empty,
-                    SMTPPortNumber = Constants.DEFAULT_SMTP_PORT,
-                    SMTPUsername = string.Empty,
-                    IsInitialized = false
-                };
-
-                _database.Insert(settings);
-
-                return settings;
+                return _database.GetOne<Settings>(a => a != null) ?? ResetToDefaults();
             }
             catch (Exception ex)
             {
@@ -64,6 +45,32 @@ namespace DMTP.lib.Managers
                 Log.Error($"Failed to update settings {setting.ID} in the Settings Table to {ex}");
 
                 return false;
+            }
+        }
+
+        public Settings ResetToDefaults()
+        {
+            try
+            {
+                var settings = new Settings
+                {
+                    AllowNewUserCreation = false,
+                    SMTPHostName = string.Empty,
+                    SMTPPassword = string.Empty,
+                    SMTPPortNumber = Constants.DEFAULT_SMTP_PORT,
+                    SMTPUsername = string.Empty,
+                    IsInitialized = false
+                };
+
+                _database.Insert(settings);
+
+                return settings;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to get settings due to {ex}");
+
+                return null;
             }
         }
     }

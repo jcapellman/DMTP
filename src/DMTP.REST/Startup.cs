@@ -44,7 +44,10 @@ namespace DMTP.REST
             var dbManager = new DatabaseManager(new LiteDBDatabase(), new InMemoryCache());
             
             services.AddSingleton(dbManager);
-            services.AddSingleton(new SettingManager(dbManager).GetSettings());
+
+            var settingsManager = new SettingManager(dbManager);
+
+            services.AddSingleton(settingsManager.GetSettings());
             services.AddScoped<APIAuthorize>();
 
             services.AddMvc();

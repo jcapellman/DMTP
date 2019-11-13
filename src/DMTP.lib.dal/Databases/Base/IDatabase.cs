@@ -22,5 +22,7 @@ namespace DMTP.lib.dal.Databases.Base
         List<T> GetAll<T>() where T : BaseTable;
 
         bool Update<T>(T objectValue) where T : BaseTable;
+
+        void SanityCheck();
     }
 }

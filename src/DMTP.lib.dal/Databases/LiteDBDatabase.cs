@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 
 using DMTP.lib.dal.Databases.Base;
+using DMTP.lib.dal.Databases.Tables;
 using DMTP.lib.dal.Databases.Tables.Base;
 
 using LiteDB;
@@ -79,6 +81,22 @@ namespace DMTP.lib.dal.Databases
             using (var db = new LiteDatabase(DbFilename))
             {
                 return db.GetCollection<T>().Update(objectValue);
+            }
+        }
+
+        public void SanityCheck()
+        {
+            try
+            {
+                using var db = new LiteDatabase(DbFilename);
+
+                db.CollectionExists(nameof(Settings));
+            }
+            catch (Exception ex)
+            {
+                // LOG Error
+
+                File.Delete(DbFilename);
             }
         }
     }

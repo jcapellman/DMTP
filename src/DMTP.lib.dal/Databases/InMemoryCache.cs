@@ -64,5 +64,10 @@ namespace DMTP.lib.dal.Databases
         {
             throw new NotImplementedException();
         }
+
+        public void SanityCheck()
+        {
+            // Nothing to do here
+        }
     }
 }

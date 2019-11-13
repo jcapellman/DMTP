@@ -16,6 +16,8 @@ namespace DMTP.lib.dal.Manager
         {
             _database = database;
             _cache = cache;
+
+            _database.SanityCheck();
         }
 
         public Guid Insert<T>(T objectValue) where T : BaseTable
