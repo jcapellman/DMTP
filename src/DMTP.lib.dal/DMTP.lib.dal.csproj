@@ -11,10 +11,10 @@
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="5.0.0-beta" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.0-preview1.19506.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta2" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NLog" Version="4.6.8" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0-preview1.19504.10" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
